@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +37,20 @@ class Newspaper
      */
     private $releaseDate;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Advertisement", mappedBy="newspapers")
+     * @ORM\JoinTable(name="newspaper_advertisement_list",
+     * joinColumns={@ORM\JoinColumn(name="Newspapers", referencedColumnName="newspaper_id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="Advertisement", referencedColumnName="advertisement_id")}
+     * )
+     */
+    private $advertisements;
+
+    public function __construct()
+    {
+        $this->advertisements = new ArrayCollection();
+    }
+
     public function getNewspaperId(): ?int
     {
         return $this->newspaperId;
@@ -60,6 +76,32 @@ class Newspaper
     public function setReleaseDate(\DateTimeInterface $releaseDate): self
     {
         $this->releaseDate = $releaseDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Advertisement[]
+     */
+    public function getAdvertisements(): Collection
+    {
+        return $this->advertisements;
+    }
+
+    public function addAdvertisement(Advertisement $advertisement): self
+    {
+        if (!$this->advertisements->contains($advertisement)) {
+            $this->advertisements[] = $advertisement;
+        }
+
+        return $this;
+    }
+
+    public function removeAdvertisement(Advertisement $advertisement): self
+    {
+        if ($this->advertisements->contains($advertisement)) {
+            $this->advertisements->removeElement($advertisement);
+        }
 
         return $this;
     }
