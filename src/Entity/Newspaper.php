@@ -37,7 +37,6 @@ class Newspaper
      */
     private $releaseDate;
 
-
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -53,9 +52,34 @@ class Newspaper
      */
     private $advertisements;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Contest", mappedBy="newspaper")
+     */
+    private $contests;
+
+    /**
+     * @var \Player
+     *
+     * @ORM\ManyToOne(targetEntity="Player", inversedBy="newspapers")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="player", referencedColumnName="player_id", nullable=false)
+     * })
+     */
+    private $player;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="newspaper", orphanRemoval=true)
+     */
+    private $articles;
+
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        $this->advertisements = new ArrayCollection();
+        $this->advertisements = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contests = new ArrayCollection();
+        $this->articles = new ArrayCollection();
     }
 
     public function getNewspaperId(): ?int
@@ -113,5 +137,78 @@ class Newspaper
         return $this;
     }
 
+    /**
+     * @return Collection|Contest[]
+     */
+    public function getContests(): Collection
+    {
+        return $this->contests;
+    }
+
+    public function addContest(Contest $contest): self
+    {
+        if (!$this->contests->contains($contest)) {
+            $this->contests[] = $contest;
+            $contest->setNewspaper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContest(Contest $contest): self
+    {
+        if ($this->contests->contains($contest)) {
+            $this->contests->removeElement($contest);
+            // set the owning side to null (unless already changed)
+            if ($contest->getNewspaper() === $this) {
+                $contest->setNewspaper(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(?Player $player): self
+    {
+        $this->player = $player;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->setNewspaper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->articles->contains($article)) {
+            $this->articles->removeElement($article);
+            // set the owning side to null (unless already changed)
+            if ($article->getNewspaper() === $this) {
+                $article->setNewspaper(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

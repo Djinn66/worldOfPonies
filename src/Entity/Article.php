@@ -42,6 +42,16 @@ class Article
      */
     private $image;
 
+    /**
+     * @var \Newspaper
+     *
+     * @ORM\ManyToOne(targetEntity="Newspaper", inversedBy="articles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="newspaper", referencedColumnName="newspaper_id", nullable=false)
+     * })
+     */
+    private $newspaper;
+
     public function getArticleId(): ?int
     {
         return $this->articleId;
@@ -79,6 +89,18 @@ class Article
     public function setImage($image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getNewspaper(): ?Newspaper
+    {
+        return $this->newspaper;
+    }
+
+    public function setNewspaper(?Newspaper $newspaper): self
+    {
+        $this->newspaper = $newspaper;
 
         return $this;
     }

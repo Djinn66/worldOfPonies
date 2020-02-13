@@ -80,13 +80,39 @@ class Infrastructure
     private $infrastructureHorseCapacity;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="infrastructure")
+     * @var \EquestrianCenter
+     *
+     * @ORM\ManyToOne(targetEntity="EquestrianCenter", inversedBy="infrastructures")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="equestriancenter", referencedColumnName="equestrian_center_id")
+     * })
      */
-    private $items;
+    private $equestriancenter;
+
+
+    /**
+     * @var \HorseClub
+     *
+     * @ORM\ManyToOne(targetEntity="HorseClub", inversedBy="infrastructures")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="horseclub", referencedColumnName="horse_club_id")
+     * })
+     */
+    private $horseclub;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $infrastructureCleaninessDegree;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Contest", mappedBy="infrastructure", orphanRemoval=true)
+     */
+    private $contests;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->contests = new ArrayCollection();
     }
 
     public function getInfrastructureId(): ?int
@@ -190,31 +216,67 @@ class Infrastructure
         return $this;
     }
 
-    /**
-     * @return Collection|Item[]
-     */
-    public function getItems(): Collection
+    public function getEquestriancenter(): ?EquestrianCenter
     {
-        return $this->items;
+        return $this->equestriancenter;
     }
 
-    public function addItem(Item $item): self
+    public function setEquestriancenter(?EquestrianCenter $equestriancenter): self
     {
-        if (!$this->items->contains($item)) {
-            $this->items[] = $item;
-            $item->setInfrastructure($this);
+        $this->equestriancenter = $equestriancenter;
+
+        return $this;
+    }
+
+    public function getHorseclub(): ?HorseClub
+    {
+        return $this->horseclub;
+    }
+
+    public function setHorseclub(?HorseClub $horseclub): self
+    {
+        $this->horseclub = $horseclub;
+
+        return $this;
+    }
+
+    public function getInfrastructureCleaninessDegree(): ?int
+    {
+        return $this->infrastructureCleaninessDegree;
+    }
+
+    public function setInfrastructureCleaninessDegree(int $infrastructureCleaninessDegree): self
+    {
+        $this->infrastructureCleaninessDegree = $infrastructureCleaninessDegree;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contest[]
+     */
+    public function getContests(): Collection
+    {
+        return $this->contests;
+    }
+
+    public function addContest(Contest $contest): self
+    {
+        if (!$this->contests->contains($contest)) {
+            $this->contests[] = $contest;
+            $contest->setInfrastructure($this);
         }
 
         return $this;
     }
 
-    public function removeItem(Item $item): self
+    public function removeContest(Contest $contest): self
     {
-        if ($this->items->contains($item)) {
-            $this->items->removeElement($item);
+        if ($this->contests->contains($contest)) {
+            $this->contests->removeElement($contest);
             // set the owning side to null (unless already changed)
-            if ($item->getInfrastructure() === $this) {
-                $item->setInfrastructure(null);
+            if ($contest->getInfrastructure() === $this) {
+                $contest->setInfrastructure(null);
             }
         }
 

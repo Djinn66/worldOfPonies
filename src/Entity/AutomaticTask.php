@@ -35,6 +35,33 @@ class AutomaticTask
      */
     private $taskFrequency;
 
+    /**
+     * @var \Item
+     * @ORM\OneToOne(targetEntity="Item", inversedBy="automaticTask", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="item", referencedColumnName="item_id", nullable=false)
+     */
+    private $item;
+
+    /**
+     * @var \Player
+     *
+     * @ORM\ManyToOne(targetEntity="Player", inversedBy="automaticTasks")
+     * @ORM\JoinColumns({
+     * @ORM\JoinColumn(name="player", referencedColumnName="player_id", nullable=false)
+     * })
+     */
+    private $player;
+
+    /**
+     * @var \EquestrianCenter
+     *
+     * @ORM\ManyToOne(targetEntity="EquestrianCenter", inversedBy="automaticTasks")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="equestriancenter", referencedColumnName="equestrian_center_id", nullable=false)
+     * })
+     */
+    private $equestriancenter;
+
     public function getTaskId(): ?int
     {
         return $this->taskId;
@@ -60,6 +87,42 @@ class AutomaticTask
     public function setTaskFrequency(int $taskFrequency): self
     {
         $this->taskFrequency = $taskFrequency;
+
+        return $this;
+    }
+
+    public function getItem(): ?Item
+    {
+        return $this->item;
+    }
+
+    public function setItem(Item $item): self
+    {
+        $this->item = $item;
+
+        return $this;
+    }
+
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(?Player $player): self
+    {
+        $this->player = $player;
+
+        return $this;
+    }
+
+    public function getEquestriancenter(): ?EquestrianCenter
+    {
+        return $this->equestriancenter;
+    }
+
+    public function setEquestriancenter(?EquestrianCenter $equestriancenter): self
+    {
+        $this->equestriancenter = $equestriancenter;
 
         return $this;
     }

@@ -52,9 +52,34 @@ class Contest
     private $players;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Item", mappedBy="contest")
+     * @var \HorseClub
+     *
+     * @ORM\ManyToOne(targetEntity="HorseClub", inversedBy="contests")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="horseclub", referencedColumnName="horse_club_id", nullable=false)
+     * })
      */
-    private $items;
+    private $horseclub;
+
+    /**
+     * @var \Infrastructure
+     *
+     * @ORM\ManyToOne(targetEntity="Infrastructure", inversedBy="contests")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="infrastructure", referencedColumnName="infrastructure_id", nullable=false)
+     * })
+     */
+    private $infrastructure;
+
+    /**
+     * @var \Newspaper
+     *
+     * @ORM\ManyToOne(targetEntity="Newspaper", inversedBy="contests")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="newspaper", referencedColumnName="newspaper_id", nullable=false)
+     * })
+     */
+    private $newspaper;
 
     /**
      * Constructor
@@ -62,7 +87,6 @@ class Contest
     public function __construct()
     {
         $this->players = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->items = new ArrayCollection();
     }
 
     public function getContestId(): ?int
@@ -134,33 +158,38 @@ class Contest
         return $this;
     }
 
-    /**
-     * @return Collection|Item[]
-     */
-    public function getItems(): Collection
+    public function getHorseclub(): ?HorseClub
     {
-        return $this->items;
+        return $this->horseclub;
     }
 
-    public function addItem(Item $item): self
+    public function setHorseclub(?HorseClub $horseclub): self
     {
-        if (!$this->items->contains($item)) {
-            $this->items[] = $item;
-            $item->setContest($this);
-        }
+        $this->horseclub = $horseclub;
 
         return $this;
     }
 
-    public function removeItem(Item $item): self
+    public function getInfrastructure(): ?Infrastructure
     {
-        if ($this->items->contains($item)) {
-            $this->items->removeElement($item);
-            // set the owning side to null (unless already changed)
-            if ($item->getContest() === $this) {
-                $item->setContest(null);
-            }
-        }
+        return $this->infrastructure;
+    }
+
+    public function setInfrastructure(?Infrastructure $infrastructure): self
+    {
+        $this->infrastructure = $infrastructure;
+
+        return $this;
+    }
+
+    public function getNewspaper(): ?Newspaper
+    {
+        return $this->newspaper;
+    }
+
+    public function setNewspaper(?Newspaper $newspaper): self
+    {
+        $this->newspaper = $newspaper;
 
         return $this;
     }

@@ -30,7 +30,6 @@ class Advertisement
      */
     private $advertisementContent;
 
-    
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
@@ -38,9 +37,12 @@ class Advertisement
      */
     private $newspapers;
 
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        $this->newspapers = new ArrayCollection();
+        $this->newspapers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getAdvertisementId(): ?int
@@ -87,6 +89,5 @@ class Advertisement
 
         return $this;
     }
-
 
 }

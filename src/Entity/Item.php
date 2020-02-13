@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Item
  *
- * @ORM\Table(name="item")
+ * @ORM\Table(name="item", indexes={@ORM\Index(name="IDX_1F1B251E2D5D321", columns={"itemFamily"}), @ORM\Index(name="IDX_1F1B251E9D2207F6", columns={"infrastruture"}), @ORM\Index(name="IDX_1F1B251E1A95CB5", columns={"contest"})})
  * @ORM\Entity
  */
 class Item
@@ -43,37 +43,39 @@ class Item
     private $itemPrice;
 
     /**
-     * @var \Infrastructure
-     *
-     * @ORM\ManyToOne(targetEntity="Infrastructure", inversedBy="items")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="infrastruture", referencedColumnName="infrastructure_id")
-     * })
-     */
-    private $infrastructure;
-
-    /**
-     * @var \ItemFamily
-     *
-     * @ORM\ManyToOne(targetEntity="ItemFamily", inversedBy="items")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="itemFamily", referencedColumnName="item_family_id", nullable=false)
-     * })
-     */
-    private $itemFamily;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Contest", inversedBy="items")
-     */
-    /**
      * @var \Contest
      *
-     * @ORM\ManyToOne(targetEntity="Contest", inversedBy="items")
+     * @ORM\ManyToOne(targetEntity="Contest")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="contest", referencedColumnName="contest_id")
      * })
      */
     private $contest;
+
+    /**
+     * @var \ItemFamily
+     *
+     * @ORM\ManyToOne(targetEntity="ItemFamily")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="itemfamily", referencedColumnName="item_family_id")
+     * })
+     */
+    private $itemfamily;
+
+    /**
+     * @var \Infrastructure
+     *
+     * @ORM\ManyToOne(targetEntity="Infrastructure")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="infrastruture", referencedColumnName="infrastructure_id")
+     * })
+     */
+    private $infrastruture;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\AutomaticTask", mappedBy="item", cascade={"persist", "remove"})
+     */
+    private $automaticTask;
 
     public function getItemId(): ?int
     {
@@ -116,30 +118,6 @@ class Item
         return $this;
     }
 
-    public function getInfrastructure(): ?Infrastructure
-    {
-        return $this->infrastructure;
-    }
-
-    public function setInfrastructure(?Infrastructure $infrastructure): self
-    {
-        $this->infrastructure = $infrastructure;
-
-        return $this;
-    }
-
-    public function getItemFamily(): ?ItemFamily
-    {
-        return $this->itemFamily;
-    }
-
-    public function setItemFamily(?ItemFamily $itemFamily): self
-    {
-        $this->itemFamily = $itemFamily;
-
-        return $this;
-    }
-
     public function getContest(): ?Contest
     {
         return $this->contest;
@@ -148,6 +126,47 @@ class Item
     public function setContest(?Contest $contest): self
     {
         $this->contest = $contest;
+
+        return $this;
+    }
+
+    public function getItemfamily(): ?ItemFamily
+    {
+        return $this->itemfamily;
+    }
+
+    public function setItemfamily(?ItemFamily $itemfamily): self
+    {
+        $this->itemfamily = $itemfamily;
+
+        return $this;
+    }
+
+    public function getInfrastruture(): ?Infrastructure
+    {
+        return $this->infrastruture;
+    }
+
+    public function setInfrastruture(?Infrastructure $infrastruture): self
+    {
+        $this->infrastruture = $infrastruture;
+
+        return $this;
+    }
+
+    public function getAutomaticTask(): ?AutomaticTask
+    {
+        return $this->automaticTask;
+    }
+
+    public function setAutomaticTask(AutomaticTask $automaticTask): self
+    {
+        $this->automaticTask = $automaticTask;
+
+        // set the owning side of the relation if necessary
+        if ($automaticTask->getItem() !== $this) {
+            $automaticTask->setItem($this);
+        }
 
         return $this;
     }

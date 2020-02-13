@@ -68,7 +68,7 @@ class Player
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="player_birthdate", type="date", nullable=true)
+     * @ORM\Column(name="player_birth_date", type="date", nullable=true)
      */
     private $playerBirthdate;
 
@@ -124,14 +124,14 @@ class Player
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="player_inscription", type="date", nullable=false)
+     * @ORM\Column(name="player_inscription_date", type="date", nullable=false)
      */
     private $playerInscription;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="player_lastconnection", type="date", nullable=false)
+     * @ORM\Column(name="player_lastconnection_date", type="date", nullable=false)
      */
     private $playerLastconnection;
 
@@ -141,14 +141,49 @@ class Player
      * @ORM\ManyToMany(targetEntity="Contest", inversedBy="players")
      * @ORM\JoinTable(name="contest_player_list",
      *   joinColumns={
-     *     @ORM\JoinColumn(name="Players", referencedColumnName="player_id")
+     *     @ORM\JoinColumn(name="players", referencedColumnName="player_id")
      *   },
      *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="Contests", referencedColumnName="contest_id")
+     *     @ORM\JoinColumn(name="contests", referencedColumnName="contest_id")
      *   }
      * )
      */
     private $contests;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="HorseClub", inversedBy="members")
+     * @ORM\JoinTable(name="horse_club_member_list",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="members", referencedColumnName="player_id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="horseclubs", referencedColumnName="horse_club_id")
+     *   }
+     * )
+     */
+    private $horseclubs;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\EquestrianCenter", mappedBy="owner", orphanRemoval=true)
+     */
+    private $equestrianCenters;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\HorseClub", mappedBy="manager", orphanRemoval=true)
+     */
+    private $horseClubsToManage;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AutomaticTask", mappedBy="player", orphanRemoval=true)
+     */
+    private $automaticTasks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Newspaper", mappedBy="player", orphanRemoval=true)
+     */
+    private $newspapers;
 
     /**
      * Constructor
@@ -156,6 +191,11 @@ class Player
     public function __construct()
     {
         $this->contests = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->horseclubs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->equestrianCenters = new ArrayCollection();
+        $this->horseClubsToManage = new ArrayCollection();
+        $this->automaticTasks = new ArrayCollection();
+        $this->newspapers = new ArrayCollection();
     }
 
     public function getPlayerId(): ?int
@@ -376,6 +416,158 @@ class Player
     {
         if ($this->contests->contains($contest)) {
             $this->contests->removeElement($contest);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HorseClub[]
+     */
+    public function getHorseclubs(): Collection
+    {
+        return $this->horseclubs;
+    }
+
+    public function addHorseclub(HorseClub $horseclub): self
+    {
+        if (!$this->horseclubs->contains($horseclub)) {
+            $this->horseclubs[] = $horseclub;
+            $horseclub->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHorseclub(HorseClub $horseclub): self
+    {
+        if ($this->horseclubs->contains($horseclub)) {
+            $this->horseclubs->removeElement($horseclub);
+            $horseclub->removeMember($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EquestrianCenter[]
+     */
+    public function getEquestrianCenters(): Collection
+    {
+        return $this->equestrianCenters;
+    }
+
+    public function addEquestrianCenter(EquestrianCenter $equestrianCenter): self
+    {
+        if (!$this->equestrianCenters->contains($equestrianCenter)) {
+            $this->equestrianCenters[] = $equestrianCenter;
+            $equestrianCenter->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquestrianCenter(EquestrianCenter $equestrianCenter): self
+    {
+        if ($this->equestrianCenters->contains($equestrianCenter)) {
+            $this->equestrianCenters->removeElement($equestrianCenter);
+            // set the owning side to null (unless already changed)
+            if ($equestrianCenter->getOwner() === $this) {
+                $equestrianCenter->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|HorseClub[]
+     */
+    public function getHorseClubsToManage(): Collection
+    {
+        return $this->horseClubsToManage;
+    }
+
+    public function addHorseClubsToManage(HorseClub $horseClubsToManage): self
+    {
+        if (!$this->horseClubsToManage->contains($horseClubsToManage)) {
+            $this->horseClubsToManage[] = $horseClubsToManage;
+            $horseClubsToManage->setManager($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHorseClubsToManage(HorseClub $horseClubsToManage): self
+    {
+        if ($this->horseClubsToManage->contains($horseClubsToManage)) {
+            $this->horseClubsToManage->removeElement($horseClubsToManage);
+            // set the owning side to null (unless already changed)
+            if ($horseClubsToManage->getManager() === $this) {
+                $horseClubsToManage->setManager(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AutomaticTask[]
+     */
+    public function getAutomaticTasks(): Collection
+    {
+        return $this->automaticTasks;
+    }
+
+    public function addAutomaticTask(AutomaticTask $automaticTask): self
+    {
+        if (!$this->automaticTasks->contains($automaticTask)) {
+            $this->automaticTasks[] = $automaticTask;
+            $automaticTask->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAutomaticTask(AutomaticTask $automaticTask): self
+    {
+        if ($this->automaticTasks->contains($automaticTask)) {
+            $this->automaticTasks->removeElement($automaticTask);
+            // set the owning side to null (unless already changed)
+            if ($automaticTask->getPlayer() === $this) {
+                $automaticTask->setPlayer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Newspaper[]
+     */
+    public function getNewspapers(): Collection
+    {
+        return $this->newspapers;
+    }
+
+    public function addNewspaper(Newspaper $newspaper): self
+    {
+        if (!$this->newspapers->contains($newspaper)) {
+            $this->newspapers[] = $newspaper;
+            $newspaper->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNewspaper(Newspaper $newspaper): self
+    {
+        if ($this->newspapers->contains($newspaper)) {
+            $this->newspapers->removeElement($newspaper);
+            // set the owning side to null (unless already changed)
+            if ($newspaper->getPlayer() === $this) {
+                $newspaper->setPlayer(null);
+            }
         }
 
         return $this;
