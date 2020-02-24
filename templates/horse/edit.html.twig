@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Horse{% endblock %}
+
+{% block body %}
+    <h1>Edit Horse</h1>
+
+    {{ include('horse/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('horse_index') }}">back to list</a>
+
+    {{ include('horse/_delete_form.html.twig') }}
+{% endblock %}

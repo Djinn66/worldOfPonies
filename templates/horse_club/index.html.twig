@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}HorseClub index{% endblock %}
+
+{% block body %}
+    <h1>HorseClub index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>HorseClubId</th>
+                <th>HorseClubCapacity</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for horse_club in horse_clubs %}
+            <tr>
+                <td>{{ horse_club.horseClubId }}</td>
+                <td>{{ horse_club.horseClubCapacity }}</td>
+                <td>
+                    <a href="{{ path('horse_club_show', {'horseClubId': horse_club.horseClubId}) }}">show</a>
+                    <a href="{{ path('horse_club_edit', {'horseClubId': horse_club.horseClubId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('horse_club_new') }}">Create new</a>
+{% endblock %}

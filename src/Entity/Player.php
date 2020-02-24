@@ -108,16 +108,16 @@ class Player
     private $playerWebsite;
 
     /**
-     * @var string|null
+     * @var int
      *
-     * @ORM\Column(name="player_funds", type="string", length=31, nullable=true)
+     * @ORM\Column(name="player_funds", type="integer", nullable=false)
      */
     private $playerFunds;
 
     /**
-     * @var int
+     * @var string|null
      *
-     * @ORM\Column(name="player_ip", type="integer", nullable=false)
+     * @ORM\Column(name="player_ip", type="string", length=31, nullable=true)
      */
     private $playerIp;
 
@@ -323,24 +323,24 @@ class Player
         return $this;
     }
 
-    public function getPlayerFunds(): ?string
+    public function getPlayerFunds(): ?int
     {
         return $this->playerFunds;
     }
 
-    public function setPlayerFunds(?string $playerFunds): self
+    public function setPlayerFunds(int $playerFunds): self
     {
         $this->playerFunds = $playerFunds;
 
         return $this;
     }
 
-    public function getPlayerIp(): ?int
+    public function getPlayerIp(): ?string
     {
         return $this->playerIp;
     }
 
-    public function setPlayerIp(int $playerIp): self
+    public function setPlayerIp( ?string $playerIp): self
     {
         $this->playerIp = $playerIp;
 
