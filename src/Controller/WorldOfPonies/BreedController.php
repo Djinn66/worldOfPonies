@@ -38,7 +38,7 @@ class BreedController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->persist($breed);
             $entityManager->flush();
 
@@ -70,7 +70,7 @@ class BreedController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager('worldofponies')->flush();
 
             return $this->redirectToRoute('world_of_ponies_breed_index');
         }
@@ -87,7 +87,7 @@ class BreedController extends AbstractController
     public function delete(Request $request, Breed $breed): Response
     {
         if ($this->isCsrfTokenValid('delete'.$breed->getBreedId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->remove($breed);
             $entityManager->flush();
         }

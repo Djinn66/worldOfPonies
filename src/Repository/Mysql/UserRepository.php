@@ -29,6 +29,17 @@ class UserRepository extends ServiceEntityRepository
                 ;
     }
 
+    public function encodePassword($pw):string
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = 'SELECT PASSWORD(:pw) as result';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['pw' => $pw]);
+
+        return $stmt->fetch()['result'] ;
+    }
+
     public function findField($user, $host):array
     {
             return $this->createQueryBuilder('u')

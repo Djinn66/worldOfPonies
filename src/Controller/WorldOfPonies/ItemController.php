@@ -38,7 +38,7 @@ class ItemController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->persist($item);
             $entityManager->flush();
 
@@ -70,7 +70,7 @@ class ItemController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager('worldofponies')->flush();
 
             return $this->redirectToRoute('world_of_ponies_item_index');
         }
@@ -87,7 +87,7 @@ class ItemController extends AbstractController
     public function delete(Request $request, Item $item): Response
     {
         if ($this->isCsrfTokenValid('delete'.$item->getItemId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->remove($item);
             $entityManager->flush();
         }

@@ -38,7 +38,7 @@ class AutomaticTaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->persist($automaticTask);
             $entityManager->flush();
 
@@ -70,7 +70,7 @@ class AutomaticTaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager('worldofponies')->flush();
 
             return $this->redirectToRoute('world_of_ponies_automatic_task_index');
         }
@@ -87,7 +87,7 @@ class AutomaticTaskController extends AbstractController
     public function delete(Request $request, AutomaticTask $automaticTask): Response
     {
         if ($this->isCsrfTokenValid('delete'.$automaticTask->getTaskId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->remove($automaticTask);
             $entityManager->flush();
         }

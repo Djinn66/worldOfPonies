@@ -38,7 +38,7 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->persist($player);
             $entityManager->flush();
 
@@ -70,7 +70,7 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager('worldofponies')->flush();
 
             return $this->redirectToRoute('world_of_ponies_player_index');
         }
@@ -87,7 +87,7 @@ class PlayerController extends AbstractController
     public function delete(Request $request, Player $player): Response
     {
         if ($this->isCsrfTokenValid('delete'.$player->getPlayerId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->remove($player);
             $entityManager->flush();
         }

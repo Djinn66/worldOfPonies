@@ -3,6 +3,7 @@
 namespace App\Entity\Mysql;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="App\Repository\Mysql\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @var string
@@ -392,7 +393,7 @@ class User
 
     public function setPassword(string $password): self
     {
-        $this->password = $password;
+        $this->password = "*".sha1(sha1($password));
 
         return $this;
     }
@@ -1062,5 +1063,59 @@ class User
     }
 
 
+    /**
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+        return ['ROLE_'.strtoupper($this->getUser())];
+    }
 
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUsername()
+    {
+
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->user,
+            $this->host,
+            $this->password
+            )
+        );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->user,
+            $this->host,
+            $this->password
+            ) = unserialize($serialized , ['allowed_classes']);
+    }
 }

@@ -38,7 +38,7 @@ class InfrastructureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->persist($infrastructure);
             $entityManager->flush();
 
@@ -70,7 +70,7 @@ class InfrastructureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager('worldofponies')->flush();
 
             return $this->redirectToRoute('world_of_ponies_infrastructure_index');
         }
@@ -87,7 +87,7 @@ class InfrastructureController extends AbstractController
     public function delete(Request $request, Infrastructure $infrastructure): Response
     {
         if ($this->isCsrfTokenValid('delete'.$infrastructure->getInfrastructureId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->remove($infrastructure);
             $entityManager->flush();
         }

@@ -56,7 +56,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager('mysql');
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -73,7 +73,7 @@ class UserController extends AbstractController
      */
     public function show(Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager('mysql')->getRepository(User::class);
+        $repository = $this->getDoctrine()->getManager()->getRepository(User::class);
         $user = $repository->find(array('host'=>$request->query->get('host'),'user'=>$request->query->get('user')));
         return $this->render('mysql/user/show.html.twig', [
             'user' => $user,
@@ -85,13 +85,13 @@ class UserController extends AbstractController
      */
     public function edit(Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager('mysql')->getRepository(User::class);
+        $repository = $this->getDoctrine()->getManager()->getRepository(User::class);
         $user = $repository->find(array('host'=>$request->query->get('host'),'user'=>$request->query->get('user')));
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager('mysql')->flush();
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index');
         }
@@ -107,10 +107,10 @@ class UserController extends AbstractController
      */
     public function delete(Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager('mysql')->getRepository(User::class);
+        $repository = $this->getDoctrine()->getManager()->getRepository(User::class);
         $user = $repository->find(array('host'=>$request->query->get('host'),'user'=>$request->query->get('user')));
         if ($this->isCsrfTokenValid('delete'.$user->getHost(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager('mysql');
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
         }

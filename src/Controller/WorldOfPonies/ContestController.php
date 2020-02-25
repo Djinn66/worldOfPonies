@@ -38,7 +38,7 @@ class ContestController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->persist($contest);
             $entityManager->flush();
 
@@ -70,7 +70,7 @@ class ContestController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager('worldofponies')->flush();
 
             return $this->redirectToRoute('world_of_ponies_contest_index');
         }
@@ -87,7 +87,7 @@ class ContestController extends AbstractController
     public function delete(Request $request, Contest $contest): Response
     {
         if ($this->isCsrfTokenValid('delete'.$contest->getContestId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->remove($contest);
             $entityManager->flush();
         }

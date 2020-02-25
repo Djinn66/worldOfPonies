@@ -5,6 +5,7 @@ namespace App\Form\Mysql;
 use App\Entity\Mysql\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,7 +18,7 @@ class UserType extends AbstractType
         $builder
             ->add('host')
             ->add('user')
-            ->add('password')
+            ->add('password',PasswordType::class)
             ->add('allPrivileges',ChoiceType::class,[
                     'choices'=> $user->allPrivileges,
                     'multiple'=>true,

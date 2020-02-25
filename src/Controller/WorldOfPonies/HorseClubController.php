@@ -38,7 +38,7 @@ class HorseClubController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->persist($horseClub);
             $entityManager->flush();
 
@@ -70,7 +70,7 @@ class HorseClubController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager('worldofponies')->flush();
 
             return $this->redirectToRoute('world_of_ponies_horse_club_index');
         }
@@ -87,7 +87,7 @@ class HorseClubController extends AbstractController
     public function delete(Request $request, HorseClub $horseClub): Response
     {
         if ($this->isCsrfTokenValid('delete'.$horseClub->getHorseClubId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager('worldofponies');
             $entityManager->remove($horseClub);
             $entityManager->flush();
         }
