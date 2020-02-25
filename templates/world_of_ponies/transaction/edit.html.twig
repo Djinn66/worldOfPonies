@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Transaction{% endblock %}
+
+{% block body %}
+    <h1>Edit Transaction</h1>
+
+    {{ include('world_of_ponies_transaction/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('world_of_ponies_transaction_index') }}">back to list</a>
+
+    {{ include('world_of_ponies_transaction/_delete_form.html.twig') }}
+{% endblock %}

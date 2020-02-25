@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Advertisement{% endblock %}
+
+{% block body %}
+    <h1>Advertisement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>AdvertisementId</th>
+                <td>{{ advertisement.advertisementId }}</td>
+            </tr>
+            <tr>
+                <th>AdvertisementContent</th>
+                <td>{{ advertisement.advertisementContent }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('world_of_ponies_advertisement_index') }}">back to list</a>
+
+    <a href="{{ path('world_of_ponies_advertisement_edit', {'advertisementId': advertisement.advertisementId}) }}">edit</a>
+
+    {{ include('world_of_ponies_advertisement/_delete_form.html.twig') }}
+{% endblock %}

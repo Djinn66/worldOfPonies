@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contest index{% endblock %}
+
+{% block body %}
+    <h1>Contest index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ContestId</th>
+                <th>StartDate</th>
+                <th>EndDate</th>
+                <th>Price</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for contest in contests %}
+            <tr>
+                <td>{{ contest.contestId }}</td>
+                <td>{{ contest.startDate ? contest.startDate|date('Y-m-d') : '' }}</td>
+                <td>{{ contest.endDate ? contest.endDate|date('Y-m-d') : '' }}</td>
+                <td>{{ contest.price }}</td>
+                <td>
+                    <a href="{{ path('world_of_ponies_contest_show', {'contestId': contest.contestId}) }}">show</a>
+                    <a href="{{ path('world_of_ponies_contest_edit', {'contestId': contest.contestId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('world_of_ponies_contest_new') }}">Create new</a>
+{% endblock %}

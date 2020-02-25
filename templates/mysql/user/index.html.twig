@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+{% block body %}
+    <h1>User index</h1>
+
+    <form action="{{ path('user_index') }}"  method="get">
+        Host:
+        <input type="text" value="" name="host"><br>
+        User:
+        <input type="text" name="user" ><br>
+        <input type="submit" value="Rechercher">
+    </form>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Host</th>
+                <th><a href="{{ path('user_index', {'sortBy': 'user' }) }}">User</a></th>
+                <th>Password</th>
+                <th>SelectPriv</th>
+                <th>InsertPriv</th>
+                <th>UpdatePriv</th>
+                <th>DeletePriv</th>
+                <th>CreatePriv</th>
+                <th>DropPriv</th>
+                <th>ReloadPriv</th>
+                <th>ShutdownPriv</th>
+                <th>ProcessPriv</th>
+                <th>FilePriv</th>
+                <th>GrantPriv</th>
+                <th>ReferencesPriv</th>
+                <th>IndexPriv</th>
+                <th>AlterPriv</th>
+                <th>ShowDbPriv</th>
+                <th>SuperPriv</th>
+                <th>CreateTmpTablePriv</th>
+                <th>LockTablesPriv</th>
+                <th>ExecutePriv</th>
+                <th>ReplSlavePriv</th>
+                <th>ReplClientPriv</th>
+                <th>CreateViewPriv</th>
+                <th>ShowViewPriv</th>
+                <th>CreateRoutinePriv</th>
+                <th>AlterRoutinePriv</th>
+                <th>CreateUserPriv</th>
+                <th>EventPriv</th>
+                <th>TriggerPriv</th>
+                <th>CreateTablespacePriv</th>
+                <th>SslType</th>
+                <th>SslCipher</th>
+                <th>X509Issuer</th>
+                <th>X509Subject</th>
+                <th>MaxQuestions</th>
+                <th>MaxUpdates</th>
+                <th>MaxConnections</th>
+                <th>MaxUserConnections</th>
+                <th>Plugin</th>
+                <th>AuthenticationString</th>
+                <th>PasswordExpired</th>
+                <th>IsRole</th>
+                <th>DefaultRole</th>
+                <th>MaxStatementTime</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.host }}</td>
+                <td>{{ user.user }}</td>
+                <td>{{ user.password }}</td>
+
+                {% for privilege in user.getAllPrivileges() %}
+                    <td>{{ privilege }}</td>
+                {% endfor %}
+
+                <td>{{ user.sslType }}</td>
+                <td>{{ user.sslCipher }}</td>
+                <td>{{ user.x509Issuer }}</td>
+                <td>{{ user.x509Subject }}</td>
+                <td>{{ user.maxQuestions }}</td>
+                <td>{{ user.maxUpdates }}</td>
+                <td>{{ user.maxConnections }}</td>
+                <td>{{ user.maxUserConnections }}</td>
+                <td>{{ user.plugin }}</td>
+                <td>{{ user.authenticationString }}</td>
+                <td>{{ user.passwordExpired }}</td>
+                <td>{{ user.isRole }}</td>
+                <td>{{ user.defaultRole }}</td>
+                <td>{{ user.maxStatementTime }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'host': user.host,'user': user.user}) }}">show</a>
+                    <a href="{{ path('user_edit', {'host': user.host,'user': user.user}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="47">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_new') }}">Create new</a>
+{% endblock %}

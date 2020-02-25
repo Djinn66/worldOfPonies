@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transaction index{% endblock %}
+
+{% block body %}
+    <h1>Transaction index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>TransactionId</th>
+                <th>TransactionAmount</th>
+                <th>TransactionLabel</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.transactionId }}</td>
+                <td>{{ transaction.transactionAmount }}</td>
+                <td>{{ transaction.transactionLabel }}</td>
+                <td>
+                    <a href="{{ path('world_of_ponies_transaction_show', {'transactionId': transaction.transactionId}) }}">show</a>
+                    <a href="{{ path('world_of_ponies_transaction_edit', {'transactionId': transaction.transactionId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('world_of_ponies_transaction_new') }}">Create new</a>
+{% endblock %}

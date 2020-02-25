@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New EquestrianCenter{% endblock %}
+
+{% block body %}
+    <h1>Create new EquestrianCenter</h1>
+
+    {{ include('world_of_ponies_equestrian_center/_form.html.twig') }}
+
+    <a href="{{ path('world_of_ponies_equestrian_center_index') }}">back to list</a>
+{% endblock %}

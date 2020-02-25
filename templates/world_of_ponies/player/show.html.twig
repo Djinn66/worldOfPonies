@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Player{% endblock %}
+
+{% block body %}
+    <h1>Player</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>PlayerId</th>
+                <td>{{ player.playerId }}</td>
+            </tr>
+            <tr>
+                <th>PlayerUsername</th>
+                <td>{{ player.playerUsername }}</td>
+            </tr>
+            <tr>
+                <th>PlayerEmail</th>
+                <td>{{ player.playerEmail }}</td>
+            </tr>
+            <tr>
+                <th>PlayerPwd</th>
+                <td>{{ player.playerPwd }}</td>
+            </tr>
+            <tr>
+                <th>PlayerFirstname</th>
+                <td>{{ player.playerFirstname }}</td>
+            </tr>
+            <tr>
+                <th>PlayerLastname</th>
+                <td>{{ player.playerLastname }}</td>
+            </tr>
+            <tr>
+                <th>PlayerGender</th>
+                <td>{{ player.playerGender }}</td>
+            </tr>
+            <tr>
+                <th>PlayerBirthDate</th>
+                <td>{{ player.playerBirthDate ? player.playerBirthDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>PlayerPhonenumber</th>
+                <td>{{ player.playerPhonenumber }}</td>
+            </tr>
+            <tr>
+                <th>PlayerAddress</th>
+                <td>{{ player.playerAddress }}</td>
+            </tr>
+            <tr>
+                <th>PlayerAvatar</th>
+                <td>{{ player.playerAvatar }}</td>
+            </tr>
+            <tr>
+                <th>PlayerDescription</th>
+                <td>{{ player.playerDescription }}</td>
+            </tr>
+            <tr>
+                <th>PlayerWebsite</th>
+                <td>{{ player.playerWebsite }}</td>
+            </tr>
+            <tr>
+                <th>PlayerFunds</th>
+                <td>{{ player.playerFunds }}</td>
+            </tr>
+            <tr>
+                <th>PlayerIp</th>
+                <td>{{ player.playerIp }}</td>
+            </tr>
+            <tr>
+                <th>PlayerInscriptionDate</th>
+                <td>{{ player.playerInscriptionDate ? player.playerInscriptionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>PlayerLastconnectionDate</th>
+                <td>{{ player.playerLastconnectionDate ? player.playerLastconnectionDate|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('world_of_ponies_player_index') }}">back to list</a>
+
+    <a href="{{ path('world_of_ponies_player_edit', {'playerId': player.playerId}) }}">edit</a>
+
+    {{ include('world_of_ponies_player/_delete_form.html.twig') }}
+{% endblock %}

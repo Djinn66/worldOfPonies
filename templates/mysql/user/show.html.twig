@@ -1,0 +1,202 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Host</th>
+                <td>{{ user.host }}</td>
+            </tr>
+            <tr>
+                <th>User</th>
+                <td>{{ user.user }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ user.password }}</td>
+            </tr>
+            <tr>
+                <th>SelectPriv</th>
+                <td>{% if user.selectPriv == true %} yes {% else %} no {% endif %}  </td>
+            </tr>
+            <tr>
+                <th>InsertPriv</th>
+                <td>{{ user.insertPriv }}</td>
+            </tr>
+            <tr>
+                <th>UpdatePriv</th>
+                <td>{{ user.updatePriv }}</td>
+            </tr>
+            <tr>
+                <th>DeletePriv</th>
+                <td>{{ user.deletePriv }}</td>
+            </tr>
+            <tr>
+                <th>CreatePriv</th>
+                <td>{{ user.createPriv }}</td>
+            </tr>
+            <tr>
+                <th>DropPriv</th>
+                <td>{{ user.dropPriv }}</td>
+            </tr>
+            <tr>
+                <th>ReloadPriv</th>
+                <td>{{ user.reloadPriv }}</td>
+            </tr>
+            <tr>
+                <th>ShutdownPriv</th>
+                <td>{{ user.shutdownPriv }}</td>
+            </tr>
+            <tr>
+                <th>ProcessPriv</th>
+                <td>{{ user.processPriv }}</td>
+            </tr>
+            <tr>
+                <th>FilePriv</th>
+                <td>{{ user.filePriv }}</td>
+            </tr>
+            <tr>
+                <th>GrantPriv</th>
+                <td>{{ user.grantPriv }}</td>
+            </tr>
+            <tr>
+                <th>ReferencesPriv</th>
+                <td>{{ user.referencesPriv }}</td>
+            </tr>
+            <tr>
+                <th>IndexPriv</th>
+                <td>{{ user.indexPriv }}</td>
+            </tr>
+            <tr>
+                <th>AlterPriv</th>
+                <td>{{ user.alterPriv }}</td>
+            </tr>
+            <tr>
+                <th>ShowDbPriv</th>
+                <td>{{ user.showDbPriv }}</td>
+            </tr>
+            <tr>
+                <th>SuperPriv</th>
+                <td>{{ user.superPriv }}</td>
+            </tr>
+            <tr>
+                <th>CreateTmpTablePriv</th>
+                <td>{{ user.createTmpTablePriv }}</td>
+            </tr>
+            <tr>
+                <th>LockTablesPriv</th>
+                <td>{{ user.lockTablesPriv }}</td>
+            </tr>
+            <tr>
+                <th>ExecutePriv</th>
+                <td>{{ user.executePriv }}</td>
+            </tr>
+            <tr>
+                <th>ReplSlavePriv</th>
+                <td>{{ user.replSlavePriv }}</td>
+            </tr>
+            <tr>
+                <th>ReplClientPriv</th>
+                <td>{{ user.replClientPriv }}</td>
+            </tr>
+            <tr>
+                <th>CreateViewPriv</th>
+                <td>{{ user.createViewPriv }}</td>
+            </tr>
+            <tr>
+                <th>ShowViewPriv</th>
+                <td>{{ user.showViewPriv }}</td>
+            </tr>
+            <tr>
+                <th>CreateRoutinePriv</th>
+                <td>{{ user.createRoutinePriv }}</td>
+            </tr>
+            <tr>
+                <th>AlterRoutinePriv</th>
+                <td>{{ user.alterRoutinePriv }}</td>
+            </tr>
+            <tr>
+                <th>CreateUserPriv</th>
+                <td>{{ user.createUserPriv }}</td>
+            </tr>
+            <tr>
+                <th>EventPriv</th>
+                <td>{{ user.eventPriv }}</td>
+            </tr>
+            <tr>
+                <th>TriggerPriv</th>
+                <td>{{ user.triggerPriv }}</td>
+            </tr>
+            <tr>
+                <th>CreateTablespacePriv</th>
+                <td>{{ user.createTablespacePriv }}</td>
+            </tr>
+            <tr>
+                <th>SslType</th>
+                <td>{{ user.sslType }}</td>
+            </tr>
+            <tr>
+                <th>SslCipher</th>
+                <td>{{ user.sslCipher }}</td>
+            </tr>
+            <tr>
+                <th>X509Issuer</th>
+                <td>{{ user.x509Issuer }}</td>
+            </tr>
+            <tr>
+                <th>X509Subject</th>
+                <td>{{ user.x509Subject }}</td>
+            </tr>
+            <tr>
+                <th>MaxQuestions</th>
+                <td>{{ user.maxQuestions }}</td>
+            </tr>
+            <tr>
+                <th>MaxUpdates</th>
+                <td>{{ user.maxUpdates }}</td>
+            </tr>
+            <tr>
+                <th>MaxConnections</th>
+                <td>{{ user.maxConnections }}</td>
+            </tr>
+            <tr>
+                <th>MaxUserConnections</th>
+                <td>{{ user.maxUserConnections }}</td>
+            </tr>
+            <tr>
+                <th>Plugin</th>
+                <td>{{ user.plugin }}</td>
+            </tr>
+            <tr>
+                <th>AuthenticationString</th>
+                <td>{{ user.authenticationString }}</td>
+            </tr>
+            <tr>
+                <th>PasswordExpired</th>
+                <td>{{ user.passwordExpired }}</td>
+            </tr>
+            <tr>
+                <th>IsRole</th>
+                <td>{{ user.isRole }}</td>
+            </tr>
+            <tr>
+                <th>DefaultRole</th>
+                <td>{{ user.defaultRole }}</td>
+            </tr>
+            <tr>
+                <th>MaxStatementTime</th>
+                <td>{{ user.maxStatementTime }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('user_index') }}">back to list</a>
+
+    <a href="{{ path('user_edit', {'host': user.host,'user': user.user}) }}">edit</a>
+
+    {{ include('mysql/user/_delete_form.html.twig') }}
+{% endblock %}

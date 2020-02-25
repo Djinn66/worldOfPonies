@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Horse{% endblock %}
+
+{% block body %}
+    <h1>Horse</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>HorseId</th>
+                <td>{{ horse.horseId }}</td>
+            </tr>
+            <tr>
+                <th>HorseName</th>
+                <td>{{ horse.horseName }}</td>
+            </tr>
+            <tr>
+                <th>HorseDiseaseResistance</th>
+                <td>{{ horse.horseDiseaseResistance }}</td>
+            </tr>
+            <tr>
+                <th>HorseHygieneResistance</th>
+                <td>{{ horse.horseHygieneResistance }}</td>
+            </tr>
+            <tr>
+                <th>HorseRecovery</th>
+                <td>{{ horse.horseRecovery }}</td>
+            </tr>
+            <tr>
+                <th>HorseStamina</th>
+                <td>{{ horse.horseStamina }}</td>
+            </tr>
+            <tr>
+                <th>HorseJumpheight</th>
+                <td>{{ horse.horseJumpheight }}</td>
+            </tr>
+            <tr>
+                <th>HorseSpeed</th>
+                <td>{{ horse.horseSpeed }}</td>
+            </tr>
+            <tr>
+                <th>HorseSociability</th>
+                <td>{{ horse.horseSociability }}</td>
+            </tr>
+            <tr>
+                <th>HorseIntelligence</th>
+                <td>{{ horse.horseIntelligence }}</td>
+            </tr>
+            <tr>
+                <th>HorseTemper</th>
+                <td>{{ horse.horseTemper }}</td>
+            </tr>
+            <tr>
+                <th>HorseHealthState</th>
+                <td>{{ horse.horseHealthState }}</td>
+            </tr>
+            <tr>
+                <th>HorseMoralState</th>
+                <td>{{ horse.horseMoralState }}</td>
+            </tr>
+            <tr>
+                <th>HorseStressState</th>
+                <td>{{ horse.horseStressState }}</td>
+            </tr>
+            <tr>
+                <th>HorseTirednessState</th>
+                <td>{{ horse.horseTirednessState }}</td>
+            </tr>
+            <tr>
+                <th>HorseHungerState</th>
+                <td>{{ horse.horseHungerState }}</td>
+            </tr>
+            <tr>
+                <th>HorseCleaninessState</th>
+                <td>{{ horse.horseCleaninessState }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('world_of_ponies_horse_index') }}">back to list</a>
+
+    <a href="{{ path('world_of_ponies_horse_edit', {'horseId': horse.horseId}) }}">edit</a>
+
+    {{ include('world_of_ponies_horse/_delete_form.html.twig') }}
+{% endblock %}

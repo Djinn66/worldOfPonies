@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>User</h1>
+
+    <table class="table">
+        <form>
+            Host :<input type="text" value="{{ user.host }}">
+            User :<input type="text" value="{{ user.user }}">
+            Password :<input type="text" value="{{ user.password }}"><br>
+            Privilèges :
+            <select id="priv" multiple>
+                    <option value="select"
+                            {% if user.selectPriv == 'Y' %}
+                                selected
+                            {% endif %} >
+                        SelectPriv
+                    </option>
+                    <option value="insert"
+                            {% if user.insertPriv == 'Y' %}
+                                selected
+                            {% endif %} >
+                        InsertPriv
+                    </option>
+                    <option value="update"
+                            {% if user.updatePriv == 'Y' %}
+                                selected
+                            {% endif %} >
+                        UpdatePriv
+                    </option>
+                    <option value="create"
+                            {% if user.createPriv == 'Y' %}
+                                selected
+                            {% endif %} >
+                        CreatePriv
+                    </option>
+                </select>
+        </form>
+    </table>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Advertisement index{% endblock %}
+
+{% block body %}
+    <h1>Advertisement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>AdvertisementId</th>
+                <th>AdvertisementContent</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for advertisement in advertisements %}
+            <tr>
+                <td>{{ advertisement.advertisementId }}</td>
+                <td>{{ advertisement.advertisementContent }}</td>
+                <td>
+                    <a href="{{ path('world_of_ponies_advertisement_show', {'advertisementId': advertisement.advertisementId}) }}">show</a>
+                    <a href="{{ path('world_of_ponies_advertisement_edit', {'advertisementId': advertisement.advertisementId}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
+{% endblock %}
