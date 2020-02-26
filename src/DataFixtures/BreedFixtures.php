@@ -2,23 +2,24 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\WorldOfPonies\ItemFamily;
+use App\Entity\WorldOfPonies\Breed;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 
-class ItemFamilyFixtures extends Fixture
+class BreedFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        for($i = 0 ; $i<100; $i++ )
+        for($i = 0 ; $i < 100; ++$i)
         {
-            $itemFamily = new ItemFamily();
-            $itemFamily
-                ->setItemFamilyLabel($faker->word);
+            $breed = new Breed();
+            $breed
+                ->setBreedName($faker->word)
+                ->setBreedDescription($faker->text(35));
 
-            $manager->persist($itemFamily);
+            $manager->persist($breed);
         }
         $manager->flush();
     }

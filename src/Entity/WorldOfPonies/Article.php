@@ -22,16 +22,16 @@ class Article
     private $articleId;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="title", type="integer", nullable=false)
+     * @ORM\Column(name="title", type="string", length=255, nullable=false)
      */
     private $title;
 
     /**
-     * @var int
+     * @var string
      *
-     * @ORM\Column(name="description", type="integer", nullable=false)
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
     private $description;
 
@@ -62,7 +62,7 @@ class Article
         return $this->title;
     }
 
-    public function setTitle(int $title): self
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -74,7 +74,7 @@ class Article
         return $this->description;
     }
 
-    public function setDescription(int $description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 

@@ -1,0 +1,72 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    background: #283048;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    overflow: hidden;
+}
+
+.navigation {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 15%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(17, 17, 17, 0.95);
+    align-items: center;
+    justify-content: space-around;
+}
+
+.navigation > h2 {
+    color: #6E6E6E;
+    align-self: center;
+}
+
+.navigation > ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.navigation > ul > li a {
+    display: block;
+    color: #fff;
+    padding: 1rem 2rem;
+    text-decoration: none;
+}
+
+.navigation > ul > li a.active {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+.navigation > ul > li a:hover:not(.active) {
+    background-color: #555;
+    color: #fff;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    height: 95%;
+    margin: 2% 2% 2% 17%;
+    padding: 2%;
+    -webkit-box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
+    -moz-box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
+    box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
+    overflow-x: auto;
+    overflow-y: scroll;
+}
+
+main > h1 {
+    align-self: center;
+    padding-bottom: 1%;
+}
