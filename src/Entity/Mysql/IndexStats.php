@@ -55,5 +55,37 @@ class IndexStats
      */
     private $avgFrequency;
 
+    public function getDbName(): ?string
+    {
+        return $this->dbName;
+    }
+
+    public function getTableName(): ?string
+    {
+        return $this->tableName;
+    }
+
+    public function getIndexName(): ?string
+    {
+        return $this->indexName;
+    }
+
+    public function getPrefixArity(): ?int
+    {
+        return $this->prefixArity;
+    }
+
+    public function getAvgFrequency(): ?string
+    {
+        return $this->avgFrequency;
+    }
+
+    public function setAvgFrequency(?string $avgFrequency): self
+    {
+        $this->avgFrequency = $avgFrequency;
+
+        return $this;
+    }
+
 
 }

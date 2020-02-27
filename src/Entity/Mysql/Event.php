@@ -170,5 +170,255 @@ class Event
      */
     private $bodyUtf8;
 
+    public function getDb(): ?string
+    {
+        return $this->db;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    public function setBody($body): self
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    public function getDefiner(): ?string
+    {
+        return $this->definer;
+    }
+
+    public function setDefiner(string $definer): self
+    {
+        $this->definer = $definer;
+
+        return $this;
+    }
+
+    public function getExecuteAt(): ?\DateTimeInterface
+    {
+        return $this->executeAt;
+    }
+
+    public function setExecuteAt(?\DateTimeInterface $executeAt): self
+    {
+        $this->executeAt = $executeAt;
+
+        return $this;
+    }
+
+    public function getIntervalValue(): ?int
+    {
+        return $this->intervalValue;
+    }
+
+    public function setIntervalValue(?int $intervalValue): self
+    {
+        $this->intervalValue = $intervalValue;
+
+        return $this;
+    }
+
+    public function getIntervalField(): ?string
+    {
+        return $this->intervalField;
+    }
+
+    public function setIntervalField(?string $intervalField): self
+    {
+        $this->intervalField = $intervalField;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getModified(): ?\DateTimeInterface
+    {
+        return $this->modified;
+    }
+
+    public function setModified(\DateTimeInterface $modified): self
+    {
+        $this->modified = $modified;
+
+        return $this;
+    }
+
+    public function getLastExecuted(): ?\DateTimeInterface
+    {
+        return $this->lastExecuted;
+    }
+
+    public function setLastExecuted(?\DateTimeInterface $lastExecuted): self
+    {
+        $this->lastExecuted = $lastExecuted;
+
+        return $this;
+    }
+
+    public function getStarts(): ?\DateTimeInterface
+    {
+        return $this->starts;
+    }
+
+    public function setStarts(?\DateTimeInterface $starts): self
+    {
+        $this->starts = $starts;
+
+        return $this;
+    }
+
+    public function getEnds(): ?\DateTimeInterface
+    {
+        return $this->ends;
+    }
+
+    public function setEnds(?\DateTimeInterface $ends): self
+    {
+        $this->ends = $ends;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getOnCompletion(): ?string
+    {
+        return $this->onCompletion;
+    }
+
+    public function setOnCompletion(string $onCompletion): self
+    {
+        $this->onCompletion = $onCompletion;
+
+        return $this;
+    }
+
+    public function getSqlMode(): ?string
+    {
+        return $this->sqlMode;
+    }
+
+    public function setSqlMode(string $sqlMode): self
+    {
+        $this->sqlMode = $sqlMode;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(string $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getOriginator(): ?int
+    {
+        return $this->originator;
+    }
+
+    public function setOriginator(int $originator): self
+    {
+        $this->originator = $originator;
+
+        return $this;
+    }
+
+    public function getTimeZone(): ?string
+    {
+        return $this->timeZone;
+    }
+
+    public function setTimeZone(string $timeZone): self
+    {
+        $this->timeZone = $timeZone;
+
+        return $this;
+    }
+
+    public function getCharacterSetClient(): ?string
+    {
+        return $this->characterSetClient;
+    }
+
+    public function setCharacterSetClient(?string $characterSetClient): self
+    {
+        $this->characterSetClient = $characterSetClient;
+
+        return $this;
+    }
+
+    public function getCollationConnection(): ?string
+    {
+        return $this->collationConnection;
+    }
+
+    public function setCollationConnection(?string $collationConnection): self
+    {
+        $this->collationConnection = $collationConnection;
+
+        return $this;
+    }
+
+    public function getDbCollation(): ?string
+    {
+        return $this->dbCollation;
+    }
+
+    public function setDbCollation(?string $dbCollation): self
+    {
+        $this->dbCollation = $dbCollation;
+
+        return $this;
+    }
+
+    public function getBodyUtf8()
+    {
+        return $this->bodyUtf8;
+    }
+
+    public function setBodyUtf8($bodyUtf8): self
+    {
+        $this->bodyUtf8 = $bodyUtf8;
+
+        return $this;
+    }
+
 
 }

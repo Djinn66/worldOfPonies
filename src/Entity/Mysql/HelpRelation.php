@@ -30,5 +30,15 @@ class HelpRelation
      */
     private $helpKeywordId;
 
+    public function getHelpTopicId(): ?int
+    {
+        return $this->helpTopicId;
+    }
+
+    public function getHelpKeywordId(): ?int
+    {
+        return $this->helpKeywordId;
+    }
+
 
 }

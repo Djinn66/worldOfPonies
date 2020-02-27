@@ -76,5 +76,73 @@ class TablesPriv
      */
     private $columnPriv = '';
 
+    public function getHost(): ?string
+    {
+        return $this->host;
+    }
+
+    public function getDb(): ?string
+    {
+        return $this->db;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function getTableName(): ?string
+    {
+        return $this->tableName;
+    }
+
+    public function getGrantor(): ?string
+    {
+        return $this->grantor;
+    }
+
+    public function setGrantor(string $grantor): self
+    {
+        $this->grantor = $grantor;
+
+        return $this;
+    }
+
+    public function getTimestamp(): ?\DateTimeInterface
+    {
+        return $this->timestamp;
+    }
+
+    public function setTimestamp(\DateTimeInterface $timestamp): self
+    {
+        $this->timestamp = $timestamp;
+
+        return $this;
+    }
+
+    public function getTablePriv(): ?string
+    {
+        return $this->tablePriv;
+    }
+
+    public function setTablePriv(string $tablePriv): self
+    {
+        $this->tablePriv = $tablePriv;
+
+        return $this;
+    }
+
+    public function getColumnPriv(): ?string
+    {
+        return $this->columnPriv;
+    }
+
+    public function setColumnPriv(string $columnPriv): self
+    {
+        $this->columnPriv = $columnPriv;
+
+        return $this;
+    }
+
 
 }

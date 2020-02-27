@@ -42,5 +42,46 @@ class HelpCategory
      */
     private $url;
 
+    public function getHelpCategoryId(): ?int
+    {
+        return $this->helpCategoryId;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getParentCategoryId(): ?int
+    {
+        return $this->parentCategoryId;
+    }
+
+    public function setParentCategoryId(?int $parentCategoryId): self
+    {
+        $this->parentCategoryId = $parentCategoryId;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
 
 }

@@ -78,5 +78,66 @@ class ProcsPriv
      */
     private $timestamp = 'CURRENT_TIMESTAMP';
 
+    public function getHost(): ?string
+    {
+        return $this->host;
+    }
+
+    public function getDb(): ?string
+    {
+        return $this->db;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function getRoutineName(): ?string
+    {
+        return $this->routineName;
+    }
+
+    public function getRoutineType(): ?string
+    {
+        return $this->routineType;
+    }
+
+    public function getGrantor(): ?string
+    {
+        return $this->grantor;
+    }
+
+    public function setGrantor(string $grantor): self
+    {
+        $this->grantor = $grantor;
+
+        return $this;
+    }
+
+    public function getProcPriv(): ?string
+    {
+        return $this->procPriv;
+    }
+
+    public function setProcPriv(string $procPriv): self
+    {
+        $this->procPriv = $procPriv;
+
+        return $this;
+    }
+
+    public function getTimestamp(): ?\DateTimeInterface
+    {
+        return $this->timestamp;
+    }
+
+    public function setTimestamp(\DateTimeInterface $timestamp): self
+    {
+        $this->timestamp = $timestamp;
+
+        return $this;
+    }
+
 
 }

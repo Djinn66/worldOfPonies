@@ -28,5 +28,22 @@ class TimeZoneName
      */
     private $timeZoneId;
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getTimeZoneId(): ?int
+    {
+        return $this->timeZoneId;
+    }
+
+    public function setTimeZoneId(int $timeZoneId): self
+    {
+        $this->timeZoneId = $timeZoneId;
+
+        return $this;
+    }
+
 
 }

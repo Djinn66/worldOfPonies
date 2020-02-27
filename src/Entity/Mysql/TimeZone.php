@@ -28,5 +28,22 @@ class TimeZone
      */
     private $useLeapSeconds = 'N';
 
+    public function getTimeZoneId(): ?int
+    {
+        return $this->timeZoneId;
+    }
+
+    public function getUseLeapSeconds(): ?string
+    {
+        return $this->useLeapSeconds;
+    }
+
+    public function setUseLeapSeconds(string $useLeapSeconds): self
+    {
+        $this->useLeapSeconds = $useLeapSeconds;
+
+        return $this;
+    }
+
 
 }

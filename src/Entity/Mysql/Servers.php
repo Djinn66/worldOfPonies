@@ -77,5 +77,106 @@ class Servers
      */
     private $owner = '';
 
+    public function getServerName(): ?string
+    {
+        return $this->serverName;
+    }
+
+    public function getHost(): ?string
+    {
+        return $this->host;
+    }
+
+    public function setHost(string $host): self
+    {
+        $this->host = $host;
+
+        return $this;
+    }
+
+    public function getDb(): ?string
+    {
+        return $this->db;
+    }
+
+    public function setDb(string $db): self
+    {
+        $this->db = $db;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPort(): ?int
+    {
+        return $this->port;
+    }
+
+    public function setPort(int $port): self
+    {
+        $this->port = $port;
+
+        return $this;
+    }
+
+    public function getSocket(): ?string
+    {
+        return $this->socket;
+    }
+
+    public function setSocket(string $socket): self
+    {
+        $this->socket = $socket;
+
+        return $this;
+    }
+
+    public function getWrapper(): ?string
+    {
+        return $this->wrapper;
+    }
+
+    public function setWrapper(string $wrapper): self
+    {
+        $this->wrapper = $wrapper;
+
+        return $this;
+    }
+
+    public function getOwner(): ?string
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(string $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
 
 }

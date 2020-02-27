@@ -28,5 +28,22 @@ class TimeZoneLeapSecond
      */
     private $correction;
 
+    public function getTransitionTime(): ?string
+    {
+        return $this->transitionTime;
+    }
+
+    public function getCorrection(): ?int
+    {
+        return $this->correction;
+    }
+
+    public function setCorrection(int $correction): self
+    {
+        $this->correction = $correction;
+
+        return $this;
+    }
+
 
 }

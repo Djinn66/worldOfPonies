@@ -36,7 +36,7 @@ class Transaction
     private $transactionLabel;
 
     /**
-     * @var \Player
+     * @var Player
      *
      * @ORM\ManyToOne(targetEntity="Player")
      * @ORM\JoinColumns({
@@ -74,12 +74,12 @@ class Transaction
         return $this;
     }
 
-    public function getPlayer(): ?Player
+    public function getPlayer(): Player
     {
         return $this->player;
     }
 
-    public function setPlayer(?Player $player): self
+    public function setPlayer(Player $player): self
     {
         $this->player = $player;
 

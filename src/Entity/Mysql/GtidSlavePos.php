@@ -44,5 +44,39 @@ class GtidSlavePos
      */
     private $seqNo;
 
+    public function getDomainId(): ?int
+    {
+        return $this->domainId;
+    }
+
+    public function getSubId(): ?string
+    {
+        return $this->subId;
+    }
+
+    public function getServerId(): ?int
+    {
+        return $this->serverId;
+    }
+
+    public function setServerId(int $serverId): self
+    {
+        $this->serverId = $serverId;
+
+        return $this;
+    }
+
+    public function getSeqNo(): ?string
+    {
+        return $this->seqNo;
+    }
+
+    public function setSeqNo(string $seqNo): self
+    {
+        $this->seqNo = $seqNo;
+
+        return $this;
+    }
+
 
 }

@@ -71,5 +71,54 @@ class ColumnsPriv
      */
     private $columnPriv = '';
 
+    public function getHost(): ?string
+    {
+        return $this->host;
+    }
+
+    public function getDb(): ?string
+    {
+        return $this->db;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function getTableName(): ?string
+    {
+        return $this->tableName;
+    }
+
+    public function getColumnName(): ?string
+    {
+        return $this->columnName;
+    }
+
+    public function getTimestamp(): ?\DateTimeInterface
+    {
+        return $this->timestamp;
+    }
+
+    public function setTimestamp(\DateTimeInterface $timestamp): self
+    {
+        $this->timestamp = $timestamp;
+
+        return $this;
+    }
+
+    public function getColumnPriv(): ?string
+    {
+        return $this->columnPriv;
+    }
+
+    public function setColumnPriv(string $columnPriv): self
+    {
+        $this->columnPriv = $columnPriv;
+
+        return $this;
+    }
+
 
 }

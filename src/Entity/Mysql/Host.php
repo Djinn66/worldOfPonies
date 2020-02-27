@@ -156,5 +156,231 @@ class Host
      */
     private $triggerPriv = 'N';
 
+    public function getHost(): ?string
+    {
+        return $this->host;
+    }
+
+    public function getDb(): ?string
+    {
+        return $this->db;
+    }
+
+    public function getSelectPriv(): ?string
+    {
+        return $this->selectPriv;
+    }
+
+    public function setSelectPriv(string $selectPriv): self
+    {
+        $this->selectPriv = $selectPriv;
+
+        return $this;
+    }
+
+    public function getInsertPriv(): ?string
+    {
+        return $this->insertPriv;
+    }
+
+    public function setInsertPriv(string $insertPriv): self
+    {
+        $this->insertPriv = $insertPriv;
+
+        return $this;
+    }
+
+    public function getUpdatePriv(): ?string
+    {
+        return $this->updatePriv;
+    }
+
+    public function setUpdatePriv(string $updatePriv): self
+    {
+        $this->updatePriv = $updatePriv;
+
+        return $this;
+    }
+
+    public function getDeletePriv(): ?string
+    {
+        return $this->deletePriv;
+    }
+
+    public function setDeletePriv(string $deletePriv): self
+    {
+        $this->deletePriv = $deletePriv;
+
+        return $this;
+    }
+
+    public function getCreatePriv(): ?string
+    {
+        return $this->createPriv;
+    }
+
+    public function setCreatePriv(string $createPriv): self
+    {
+        $this->createPriv = $createPriv;
+
+        return $this;
+    }
+
+    public function getDropPriv(): ?string
+    {
+        return $this->dropPriv;
+    }
+
+    public function setDropPriv(string $dropPriv): self
+    {
+        $this->dropPriv = $dropPriv;
+
+        return $this;
+    }
+
+    public function getGrantPriv(): ?string
+    {
+        return $this->grantPriv;
+    }
+
+    public function setGrantPriv(string $grantPriv): self
+    {
+        $this->grantPriv = $grantPriv;
+
+        return $this;
+    }
+
+    public function getReferencesPriv(): ?string
+    {
+        return $this->referencesPriv;
+    }
+
+    public function setReferencesPriv(string $referencesPriv): self
+    {
+        $this->referencesPriv = $referencesPriv;
+
+        return $this;
+    }
+
+    public function getIndexPriv(): ?string
+    {
+        return $this->indexPriv;
+    }
+
+    public function setIndexPriv(string $indexPriv): self
+    {
+        $this->indexPriv = $indexPriv;
+
+        return $this;
+    }
+
+    public function getAlterPriv(): ?string
+    {
+        return $this->alterPriv;
+    }
+
+    public function setAlterPriv(string $alterPriv): self
+    {
+        $this->alterPriv = $alterPriv;
+
+        return $this;
+    }
+
+    public function getCreateTmpTablePriv(): ?string
+    {
+        return $this->createTmpTablePriv;
+    }
+
+    public function setCreateTmpTablePriv(string $createTmpTablePriv): self
+    {
+        $this->createTmpTablePriv = $createTmpTablePriv;
+
+        return $this;
+    }
+
+    public function getLockTablesPriv(): ?string
+    {
+        return $this->lockTablesPriv;
+    }
+
+    public function setLockTablesPriv(string $lockTablesPriv): self
+    {
+        $this->lockTablesPriv = $lockTablesPriv;
+
+        return $this;
+    }
+
+    public function getCreateViewPriv(): ?string
+    {
+        return $this->createViewPriv;
+    }
+
+    public function setCreateViewPriv(string $createViewPriv): self
+    {
+        $this->createViewPriv = $createViewPriv;
+
+        return $this;
+    }
+
+    public function getShowViewPriv(): ?string
+    {
+        return $this->showViewPriv;
+    }
+
+    public function setShowViewPriv(string $showViewPriv): self
+    {
+        $this->showViewPriv = $showViewPriv;
+
+        return $this;
+    }
+
+    public function getCreateRoutinePriv(): ?string
+    {
+        return $this->createRoutinePriv;
+    }
+
+    public function setCreateRoutinePriv(string $createRoutinePriv): self
+    {
+        $this->createRoutinePriv = $createRoutinePriv;
+
+        return $this;
+    }
+
+    public function getAlterRoutinePriv(): ?string
+    {
+        return $this->alterRoutinePriv;
+    }
+
+    public function setAlterRoutinePriv(string $alterRoutinePriv): self
+    {
+        $this->alterRoutinePriv = $alterRoutinePriv;
+
+        return $this;
+    }
+
+    public function getExecutePriv(): ?string
+    {
+        return $this->executePriv;
+    }
+
+    public function setExecutePriv(string $executePriv): self
+    {
+        $this->executePriv = $executePriv;
+
+        return $this;
+    }
+
+    public function getTriggerPriv(): ?string
+    {
+        return $this->triggerPriv;
+    }
+
+    public function setTriggerPriv(string $triggerPriv): self
+    {
+        $this->triggerPriv = $triggerPriv;
+
+        return $this;
+    }
+
 
 }

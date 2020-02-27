@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Player
  *
  * @ORM\Table(name="player", uniqueConstraints={@ORM\UniqueConstraint(name="player_index", columns={"player_username", "player_email"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\WorldOfPonies\PlayerRepository")
  */
 class Player
 {

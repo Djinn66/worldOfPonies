@@ -95,5 +95,116 @@ class ColumnStats
      */
     private $histogram;
 
+    public function getDbName(): ?string
+    {
+        return $this->dbName;
+    }
+
+    public function getTableName(): ?string
+    {
+        return $this->tableName;
+    }
+
+    public function getColumnName(): ?string
+    {
+        return $this->columnName;
+    }
+
+    public function getMinValue(): ?string
+    {
+        return $this->minValue;
+    }
+
+    public function setMinValue(?string $minValue): self
+    {
+        $this->minValue = $minValue;
+
+        return $this;
+    }
+
+    public function getMaxValue(): ?string
+    {
+        return $this->maxValue;
+    }
+
+    public function setMaxValue(?string $maxValue): self
+    {
+        $this->maxValue = $maxValue;
+
+        return $this;
+    }
+
+    public function getNullsRatio(): ?string
+    {
+        return $this->nullsRatio;
+    }
+
+    public function setNullsRatio(?string $nullsRatio): self
+    {
+        $this->nullsRatio = $nullsRatio;
+
+        return $this;
+    }
+
+    public function getAvgLength(): ?string
+    {
+        return $this->avgLength;
+    }
+
+    public function setAvgLength(?string $avgLength): self
+    {
+        $this->avgLength = $avgLength;
+
+        return $this;
+    }
+
+    public function getAvgFrequency(): ?string
+    {
+        return $this->avgFrequency;
+    }
+
+    public function setAvgFrequency(?string $avgFrequency): self
+    {
+        $this->avgFrequency = $avgFrequency;
+
+        return $this;
+    }
+
+    public function getHistSize(): ?bool
+    {
+        return $this->histSize;
+    }
+
+    public function setHistSize(?bool $histSize): self
+    {
+        $this->histSize = $histSize;
+
+        return $this;
+    }
+
+    public function getHistType(): ?string
+    {
+        return $this->histType;
+    }
+
+    public function setHistType(?string $histType): self
+    {
+        $this->histType = $histType;
+
+        return $this;
+    }
+
+    public function getHistogram(): ?string
+    {
+        return $this->histogram;
+    }
+
+    public function setHistogram(?string $histogram): self
+    {
+        $this->histogram = $histogram;
+
+        return $this;
+    }
+
 
 }

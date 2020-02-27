@@ -51,5 +51,51 @@ class TimeZoneTransitionType
      */
     private $abbreviation = '';
 
+    public function getTimeZoneId(): ?int
+    {
+        return $this->timeZoneId;
+    }
+
+    public function getTransitionTypeId(): ?int
+    {
+        return $this->transitionTypeId;
+    }
+
+    public function getOffset(): ?int
+    {
+        return $this->offset;
+    }
+
+    public function setOffset(int $offset): self
+    {
+        $this->offset = $offset;
+
+        return $this;
+    }
+
+    public function getIsDst(): ?bool
+    {
+        return $this->isDst;
+    }
+
+    public function setIsDst(bool $isDst): self
+    {
+        $this->isDst = $isDst;
+
+        return $this;
+    }
+
+    public function getAbbreviation(): ?string
+    {
+        return $this->abbreviation;
+    }
+
+    public function setAbbreviation(string $abbreviation): self
+    {
+        $this->abbreviation = $abbreviation;
+
+        return $this;
+    }
+
 
 }

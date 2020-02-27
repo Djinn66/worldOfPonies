@@ -37,5 +37,27 @@ class TableStats
      */
     private $cardinality;
 
+    public function getDbName(): ?string
+    {
+        return $this->dbName;
+    }
+
+    public function getTableName(): ?string
+    {
+        return $this->tableName;
+    }
+
+    public function getCardinality(): ?string
+    {
+        return $this->cardinality;
+    }
+
+    public function setCardinality(?string $cardinality): self
+    {
+        $this->cardinality = $cardinality;
+
+        return $this;
+    }
+
 
 }

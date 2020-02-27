@@ -28,5 +28,22 @@ class Plugin
      */
     private $dl = '';
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getDl(): ?string
+    {
+        return $this->dl;
+    }
+
+    public function setDl(string $dl): self
+    {
+        $this->dl = $dl;
+
+        return $this;
+    }
+
 
 }

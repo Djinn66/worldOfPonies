@@ -5,7 +5,6 @@
         "php": "^7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "fzaninotto/faker": "^1.9",
         "laminas/laminas-code": "^3.4",
         "laminas/laminas-eventmanager": "^3.2",
         "sensio/framework-extra-bundle": "^5.5",
@@ -24,6 +23,7 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "fzaninotto/faker": "^1.9",
         "symfony/maker-bundle": "^1.14"
     },
     "config": {

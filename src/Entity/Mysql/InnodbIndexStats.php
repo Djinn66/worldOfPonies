@@ -76,5 +76,73 @@ class InnodbIndexStats
      */
     private $statDescription;
 
+    public function getDatabaseName(): ?string
+    {
+        return $this->databaseName;
+    }
+
+    public function getTableName(): ?string
+    {
+        return $this->tableName;
+    }
+
+    public function getIndexName(): ?string
+    {
+        return $this->indexName;
+    }
+
+    public function getStatName(): ?string
+    {
+        return $this->statName;
+    }
+
+    public function getLastUpdate(): ?\DateTimeInterface
+    {
+        return $this->lastUpdate;
+    }
+
+    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
+    {
+        $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    public function getStatValue(): ?string
+    {
+        return $this->statValue;
+    }
+
+    public function setStatValue(string $statValue): self
+    {
+        $this->statValue = $statValue;
+
+        return $this;
+    }
+
+    public function getSampleSize(): ?string
+    {
+        return $this->sampleSize;
+    }
+
+    public function setSampleSize(?string $sampleSize): self
+    {
+        $this->sampleSize = $sampleSize;
+
+        return $this;
+    }
+
+    public function getStatDescription(): ?string
+    {
+        return $this->statDescription;
+    }
+
+    public function setStatDescription(string $statDescription): self
+    {
+        $this->statDescription = $statDescription;
+
+        return $this;
+    }
+
 
 }

@@ -56,5 +56,70 @@ class HelpTopic
      */
     private $url;
 
+    public function getHelpTopicId(): ?int
+    {
+        return $this->helpTopicId;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getHelpCategoryId(): ?int
+    {
+        return $this->helpCategoryId;
+    }
+
+    public function setHelpCategoryId(int $helpCategoryId): self
+    {
+        $this->helpCategoryId = $helpCategoryId;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getExample(): ?string
+    {
+        return $this->example;
+    }
+
+    public function setExample(string $example): self
+    {
+        $this->example = $example;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
 
 }

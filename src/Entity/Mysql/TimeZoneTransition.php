@@ -37,5 +37,27 @@ class TimeZoneTransition
      */
     private $transitionTypeId;
 
+    public function getTimeZoneId(): ?int
+    {
+        return $this->timeZoneId;
+    }
+
+    public function getTransitionTime(): ?string
+    {
+        return $this->transitionTime;
+    }
+
+    public function getTransitionTypeId(): ?int
+    {
+        return $this->transitionTypeId;
+    }
+
+    public function setTransitionTypeId(int $transitionTypeId): self
+    {
+        $this->transitionTypeId = $transitionTypeId;
+
+        return $this;
+    }
+
 
 }

@@ -69,5 +69,61 @@ class ProxiesPriv
      */
     private $timestamp = 'CURRENT_TIMESTAMP';
 
+    public function getHost(): ?string
+    {
+        return $this->host;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function getProxiedHost(): ?string
+    {
+        return $this->proxiedHost;
+    }
+
+    public function getProxiedUser(): ?string
+    {
+        return $this->proxiedUser;
+    }
+
+    public function getWithGrant(): ?bool
+    {
+        return $this->withGrant;
+    }
+
+    public function setWithGrant(bool $withGrant): self
+    {
+        $this->withGrant = $withGrant;
+
+        return $this;
+    }
+
+    public function getGrantor(): ?string
+    {
+        return $this->grantor;
+    }
+
+    public function setGrantor(string $grantor): self
+    {
+        $this->grantor = $grantor;
+
+        return $this;
+    }
+
+    public function getTimestamp(): ?\DateTimeInterface
+    {
+        return $this->timestamp;
+    }
+
+    public function setTimestamp(\DateTimeInterface $timestamp): self
+    {
+        $this->timestamp = $timestamp;
+
+        return $this;
+    }
+
 
 }

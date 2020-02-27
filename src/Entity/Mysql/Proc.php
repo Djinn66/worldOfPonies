@@ -158,5 +158,224 @@ class Proc
      */
     private $bodyUtf8;
 
+    public function getDb(): ?string
+    {
+        return $this->db;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function getSpecificName(): ?string
+    {
+        return $this->specificName;
+    }
+
+    public function setSpecificName(string $specificName): self
+    {
+        $this->specificName = $specificName;
+
+        return $this;
+    }
+
+    public function getLanguage(): ?string
+    {
+        return $this->language;
+    }
+
+    public function setLanguage(string $language): self
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    public function getSqlDataAccess(): ?string
+    {
+        return $this->sqlDataAccess;
+    }
+
+    public function setSqlDataAccess(string $sqlDataAccess): self
+    {
+        $this->sqlDataAccess = $sqlDataAccess;
+
+        return $this;
+    }
+
+    public function getIsDeterministic(): ?string
+    {
+        return $this->isDeterministic;
+    }
+
+    public function setIsDeterministic(string $isDeterministic): self
+    {
+        $this->isDeterministic = $isDeterministic;
+
+        return $this;
+    }
+
+    public function getSecurityType(): ?string
+    {
+        return $this->securityType;
+    }
+
+    public function setSecurityType(string $securityType): self
+    {
+        $this->securityType = $securityType;
+
+        return $this;
+    }
+
+    public function getParamList()
+    {
+        return $this->paramList;
+    }
+
+    public function setParamList($paramList): self
+    {
+        $this->paramList = $paramList;
+
+        return $this;
+    }
+
+    public function getReturns()
+    {
+        return $this->returns;
+    }
+
+    public function setReturns($returns): self
+    {
+        $this->returns = $returns;
+
+        return $this;
+    }
+
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    public function setBody($body): self
+    {
+        $this->body = $body;
+
+        return $this;
+    }
+
+    public function getDefiner(): ?string
+    {
+        return $this->definer;
+    }
+
+    public function setDefiner(string $definer): self
+    {
+        $this->definer = $definer;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getModified(): ?\DateTimeInterface
+    {
+        return $this->modified;
+    }
+
+    public function setModified(\DateTimeInterface $modified): self
+    {
+        $this->modified = $modified;
+
+        return $this;
+    }
+
+    public function getSqlMode(): ?string
+    {
+        return $this->sqlMode;
+    }
+
+    public function setSqlMode(string $sqlMode): self
+    {
+        $this->sqlMode = $sqlMode;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(string $comment): self
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getCharacterSetClient(): ?string
+    {
+        return $this->characterSetClient;
+    }
+
+    public function setCharacterSetClient(?string $characterSetClient): self
+    {
+        $this->characterSetClient = $characterSetClient;
+
+        return $this;
+    }
+
+    public function getCollationConnection(): ?string
+    {
+        return $this->collationConnection;
+    }
+
+    public function setCollationConnection(?string $collationConnection): self
+    {
+        $this->collationConnection = $collationConnection;
+
+        return $this;
+    }
+
+    public function getDbCollation(): ?string
+    {
+        return $this->dbCollation;
+    }
+
+    public function setDbCollation(?string $dbCollation): self
+    {
+        $this->dbCollation = $dbCollation;
+
+        return $this;
+    }
+
+    public function getBodyUtf8()
+    {
+        return $this->bodyUtf8;
+    }
+
+    public function setBodyUtf8($bodyUtf8): self
+    {
+        $this->bodyUtf8 = $bodyUtf8;
+
+        return $this;
+    }
+
 
 }

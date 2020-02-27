@@ -58,5 +58,63 @@ class InnodbTableStats
      */
     private $sumOfOtherIndexSizes;
 
+    public function getDatabaseName(): ?string
+    {
+        return $this->databaseName;
+    }
+
+    public function getTableName(): ?string
+    {
+        return $this->tableName;
+    }
+
+    public function getLastUpdate(): ?\DateTimeInterface
+    {
+        return $this->lastUpdate;
+    }
+
+    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
+    {
+        $this->lastUpdate = $lastUpdate;
+
+        return $this;
+    }
+
+    public function getNRows(): ?string
+    {
+        return $this->nRows;
+    }
+
+    public function setNRows(string $nRows): self
+    {
+        $this->nRows = $nRows;
+
+        return $this;
+    }
+
+    public function getClusteredIndexSize(): ?string
+    {
+        return $this->clusteredIndexSize;
+    }
+
+    public function setClusteredIndexSize(string $clusteredIndexSize): self
+    {
+        $this->clusteredIndexSize = $clusteredIndexSize;
+
+        return $this;
+    }
+
+    public function getSumOfOtherIndexSizes(): ?string
+    {
+        return $this->sumOfOtherIndexSizes;
+    }
+
+    public function setSumOfOtherIndexSizes(string $sumOfOtherIndexSizes): self
+    {
+        $this->sumOfOtherIndexSizes = $sumOfOtherIndexSizes;
+
+        return $this;
+    }
+
 
 }

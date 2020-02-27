@@ -42,5 +42,46 @@ class Func
      */
     private $type;
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getRet(): ?bool
+    {
+        return $this->ret;
+    }
+
+    public function setRet(bool $ret): self
+    {
+        $this->ret = $ret;
+
+        return $this;
+    }
+
+    public function getDl(): ?string
+    {
+        return $this->dl;
+    }
+
+    public function setDl(string $dl): self
+    {
+        $this->dl = $dl;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
 
 }
