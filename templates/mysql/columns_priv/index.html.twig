@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ColumnsPriv index{% endblock %}
+
+{% block body %}
+    <h1>ColumnsPriv index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Host</th>
+                <th>Db</th>
+                <th>User</th>
+                <th>TableName</th>
+                <th>ColumnName</th>
+                <th>Timestamp</th>
+                <th>ColumnPriv</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for columns_priv in columns_privs %}
+            <tr>
+                <td>{{ columns_priv.host }}</td>
+                <td>{{ columns_priv.db }}</td>
+                <td>{{ columns_priv.user }}</td>
+                <td>{{ columns_priv.tableName }}</td>
+                <td>{{ columns_priv.columnName }}</td>
+                <td>{{ columns_priv.timestamp ? columns_priv.timestamp|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ columns_priv.columnPriv }}</td>
+                <td>
+                    <a href="{{ path('mysql_columns_priv_show', {'host': columns_priv.host}) }}">show</a>
+                    <a href="{{ path('mysql_columns_priv_edit', {'host': columns_priv.host}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('mysql_columns_priv_new') }}">Create new</a>
+{% endblock %}

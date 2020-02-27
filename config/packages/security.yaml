@@ -36,8 +36,8 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         #- { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/mysql, roles: ROLE_ADMIN }
-        - { path: ^/worldofponies, roles: ROLE_ADMINER }
+        #- { path: ^/mysql, roles: ROLE_ADMIN }
+        #- { path: ^/worldofponies, roles: ROLE_ADMINER }
         # - { path: ^/profile, roles: ROLE_USER }
 
     encoders:

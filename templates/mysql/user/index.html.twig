@@ -5,11 +5,11 @@
 {% block body %}
     <h1>User index</h1>
 
-    <form action="{{ path('user_index') }}"  method="get">
+    <form action="{{ path('user_index', { 'host': 'host','user' : 'user' }) }}" >
         Host:
-        <input type="text" value="" name="host"><br>
+        <input type="text" value="{{ host }}" name="host"><br>
         User:
-        <input type="text" name="user" ><br>
+        <input type="text" name="user" value = "{{ user }}" ><br>
         <input type="submit" value="Rechercher">
     </form>
     
@@ -17,7 +17,13 @@
         <thead>
             <tr>
                 <th>Host</th>
-                <th><a href="{{ path('user_index', {'sortBy': 'user' }) }}">User</a></th>
+                <th><a href="{% if order == 'ASC' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('user_index', { 'sortBy': 'user', 'order' : order ,'host':  host   , 'user' :  user   }) }}"
+                    >User</a></th>
                 <th>Password</th>
                 <th>SelectPriv</th>
                 <th>InsertPriv</th>

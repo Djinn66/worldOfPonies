@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ColumnsPriv{% endblock %}
+
+{% block body %}
+    <h1>ColumnsPriv</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Host</th>
+                <td>{{ columns_priv.host }}</td>
+            </tr>
+            <tr>
+                <th>Db</th>
+                <td>{{ columns_priv.db }}</td>
+            </tr>
+            <tr>
+                <th>User</th>
+                <td>{{ columns_priv.user }}</td>
+            </tr>
+            <tr>
+                <th>TableName</th>
+                <td>{{ columns_priv.tableName }}</td>
+            </tr>
+            <tr>
+                <th>ColumnName</th>
+                <td>{{ columns_priv.columnName }}</td>
+            </tr>
+            <tr>
+                <th>Timestamp</th>
+                <td>{{ columns_priv.timestamp ? columns_priv.timestamp|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ColumnPriv</th>
+                <td>{{ columns_priv.columnPriv }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('mysql_columns_priv_index') }}">back to list</a>
+
+    <a href="{{ path('mysql_columns_priv_edit', {'host': columns_priv.host}) }}">edit</a>
+
+    {{ include('mysql/columns_priv/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Db index{% endblock %}
+
+{% block body %}
+    <h1>Db index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Host</th>
+                <th>Db</th>
+                <th>User</th>
+                <th>SelectPriv</th>
+                <th>InsertPriv</th>
+                <th>UpdatePriv</th>
+                <th>DeletePriv</th>
+                <th>CreatePriv</th>
+                <th>DropPriv</th>
+                <th>GrantPriv</th>
+                <th>ReferencesPriv</th>
+                <th>IndexPriv</th>
+                <th>AlterPriv</th>
+                <th>CreateTmpTablePriv</th>
+                <th>LockTablesPriv</th>
+                <th>CreateViewPriv</th>
+                <th>ShowViewPriv</th>
+                <th>CreateRoutinePriv</th>
+                <th>AlterRoutinePriv</th>
+                <th>ExecutePriv</th>
+                <th>EventPriv</th>
+                <th>TriggerPriv</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for db in dbs %}
+            <tr>
+                <td>{{ db.host }}</td>
+                <td>{{ db.db }}</td>
+                <td>{{ db.user }}</td>
+                <td>{{ db.selectPriv }}</td>
+                <td>{{ db.insertPriv }}</td>
+                <td>{{ db.updatePriv }}</td>
+                <td>{{ db.deletePriv }}</td>
+                <td>{{ db.createPriv }}</td>
+                <td>{{ db.dropPriv }}</td>
+                <td>{{ db.grantPriv }}</td>
+                <td>{{ db.referencesPriv }}</td>
+                <td>{{ db.indexPriv }}</td>
+                <td>{{ db.alterPriv }}</td>
+                <td>{{ db.createTmpTablePriv }}</td>
+                <td>{{ db.lockTablesPriv }}</td>
+                <td>{{ db.createViewPriv }}</td>
+                <td>{{ db.showViewPriv }}</td>
+                <td>{{ db.createRoutinePriv }}</td>
+                <td>{{ db.alterRoutinePriv }}</td>
+                <td>{{ db.executePriv }}</td>
+                <td>{{ db.eventPriv }}</td>
+                <td>{{ db.triggerPriv }}</td>
+                <td>
+                    <a href="{{ path('mysql_db_show', {'host': db.host}) }}">show</a>
+                    <a href="{{ path('mysql_db_edit', {'host': db.host}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="23">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('mysql_db_new') }}">Create new</a>
+{% endblock %}

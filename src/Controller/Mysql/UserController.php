@@ -23,23 +23,46 @@ class UserController extends AbstractController
         $host = $request->query->get('host');
         $user = $request->query->get('user');
         $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
 
-            if($sortBy!="")
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+                $orderBy = [$sortBy=> $order];
+
+
+        if($user !="")
+                $criteria += ['user' => $user];
+        if($host !="")
+                $criteria += ['host' => $host];
+
+
+
+            if($sortBy!="" || $user!= "" ||$host!= "")
             {
                 return $this->render('mysql/user/index.html.twig', [
-                    'users' => $userRepository
-                        ->findSortedField($sortBy)
+                    'user' => $user,
+                    'host' => $host,
+                    'order' => $order,
+                    'sortBy' => $sortBy,
+                    'users' => $userRepository->findBy($criteria,$orderBy),
                 ]);
-            } else if ($host != "" || $user != "")
-            {
-                return $this->render('mysql/user/index.html.twig', [
-                    'users' => $userRepository
-                        ->findField($user,$host)
-                ]);
-            } else
+            }/* else if ($host != "" || $user != "")
+                {
+                    return $this->render('mysql/user/index.html.twig', [
+                        'users' => $userRepository
+                            ->findField($user,$host),
+
+                    ]);
+                } */else
                 {
                 return  $this->render('mysql/user/index.html.twig', [
-                    'users' =>$userRepository->findAll()
+                    'users' =>$userRepository->findAll(),
+                    'user' => $user,
+                    'host' => $host,
+                    'order' => 'DESC',
+                    'sortBy' => $sortBy,
                 ]);
             }
 

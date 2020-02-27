@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit ColumnsPriv{% endblock %}
+
+{% block body %}
+    <h1>Edit ColumnsPriv</h1>
+
+    {{ include('mysql/columns_priv/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('mysql_columns_priv_index') }}">back to list</a>
+
+    {{ include('mysql/columns_priv/_delete_form.html.twig') }}
+{% endblock %}

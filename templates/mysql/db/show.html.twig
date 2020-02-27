@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Db{% endblock %}
+
+{% block body %}
+    <h1>Db</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Host</th>
+                <td>{{ db.host }}</td>
+            </tr>
+            <tr>
+                <th>Db</th>
+                <td>{{ db.db }}</td>
+            </tr>
+            <tr>
+                <th>User</th>
+                <td>{{ db.user }}</td>
+            </tr>
+            <tr>
+                <th>SelectPriv</th>
+                <td>{{ db.selectPriv }}</td>
+            </tr>
+            <tr>
+                <th>InsertPriv</th>
+                <td>{{ db.insertPriv }}</td>
+            </tr>
+            <tr>
+                <th>UpdatePriv</th>
+                <td>{{ db.updatePriv }}</td>
+            </tr>
+            <tr>
+                <th>DeletePriv</th>
+                <td>{{ db.deletePriv }}</td>
+            </tr>
+            <tr>
+                <th>CreatePriv</th>
+                <td>{{ db.createPriv }}</td>
+            </tr>
+            <tr>
+                <th>DropPriv</th>
+                <td>{{ db.dropPriv }}</td>
+            </tr>
+            <tr>
+                <th>GrantPriv</th>
+                <td>{{ db.grantPriv }}</td>
+            </tr>
+            <tr>
+                <th>ReferencesPriv</th>
+                <td>{{ db.referencesPriv }}</td>
+            </tr>
+            <tr>
+                <th>IndexPriv</th>
+                <td>{{ db.indexPriv }}</td>
+            </tr>
+            <tr>
+                <th>AlterPriv</th>
+                <td>{{ db.alterPriv }}</td>
+            </tr>
+            <tr>
+                <th>CreateTmpTablePriv</th>
+                <td>{{ db.createTmpTablePriv }}</td>
+            </tr>
+            <tr>
+                <th>LockTablesPriv</th>
+                <td>{{ db.lockTablesPriv }}</td>
+            </tr>
+            <tr>
+                <th>CreateViewPriv</th>
+                <td>{{ db.createViewPriv }}</td>
+            </tr>
+            <tr>
+                <th>ShowViewPriv</th>
+                <td>{{ db.showViewPriv }}</td>
+            </tr>
+            <tr>
+                <th>CreateRoutinePriv</th>
+                <td>{{ db.createRoutinePriv }}</td>
+            </tr>
+            <tr>
+                <th>AlterRoutinePriv</th>
+                <td>{{ db.alterRoutinePriv }}</td>
+            </tr>
+            <tr>
+                <th>ExecutePriv</th>
+                <td>{{ db.executePriv }}</td>
+            </tr>
+            <tr>
+                <th>EventPriv</th>
+                <td>{{ db.eventPriv }}</td>
+            </tr>
+            <tr>
+                <th>TriggerPriv</th>
+                <td>{{ db.triggerPriv }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('mysql_db_index') }}">back to list</a>
+
+    <a href="{{ path('mysql_db_edit', {'host': db.host}) }}">edit</a>
+
+    {{ include('mysql_db/_delete_form.html.twig') }}
+{% endblock %}

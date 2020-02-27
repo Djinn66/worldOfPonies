@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Db{% endblock %}
+
+{% block body %}
+    <h1>Create new Db</h1>
+
+    {{ include('mysql_db/_form.html.twig') }}
+
+    <a href="{{ path('mysql_db_index') }}">back to list</a>
+{% endblock %}
