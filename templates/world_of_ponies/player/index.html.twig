@@ -4,7 +4,7 @@
 
 {% block body %}
     <h1>Player index</h1>
-
+    <a href="{{ path('world_of_ponies_player_new') }}">Create new</a>
     <table class="table">
         <thead>
             <tr>
@@ -60,6 +60,8 @@
         {% endfor %}
         </tbody>
     </table>
+    <div class="d-flex justify-content-center pagination">
+        {{ knp_pagination_render(players) }}
+    </div>
 
-    <a href="{{ path('world_of_ponies_player_new') }}">Create new</a>
 {% endblock %}

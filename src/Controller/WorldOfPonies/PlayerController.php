@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Player;
 use App\Form\WorldOfPonies\PlayerType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +18,18 @@ class PlayerController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_player_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator,Request $resquest): Response
     {
         $players = $this->getDoctrine()
             ->getRepository(Player::class)
             ->findAll();
-
+        $pagination = $paginator->paginate(
+            $players,
+            $resquest->query->getInt('page',1),
+            6
+        );
         return $this->render('world_of_ponies/player/index.html.twig', [
-            'players' => $players,
+            'players' => $pagination,
         ]);
     }
 

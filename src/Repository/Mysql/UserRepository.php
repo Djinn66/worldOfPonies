@@ -19,16 +19,6 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-
-    public function findSortedField($sortBy):array
-    {
-            return $this->createQueryBuilder('u')
-                ->orderBy('u.'.$sortBy, 'ASC')
-                ->getQuery()
-                ->getResult()
-                ;
-    }
-
     public function encodePassword($pw):string
     {
         $conn = $this->getEntityManager()->getConnection();
@@ -40,7 +30,18 @@ class UserRepository extends ServiceEntityRepository
         return $stmt->fetch()['result'] ;
     }
 
-    public function findField($user, $host):array
+   /* public function findSortedField($sortBy):array
+    {
+            return $this->createQueryBuilder('u')
+                ->orderBy('u.'.$sortBy, 'ASC')
+                ->getQuery()
+                ->getResult()
+                ;
+    }*/
+
+
+
+    /*public function findField($user, $host):array
     {
             return $this->createQueryBuilder('u')
                 ->andWhere('u.user LIKE :user')
@@ -50,7 +51,7 @@ class UserRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->getResult()
                 ;
-    }
+    }*/
 
     // /**
     //  * @return User[] Returns an array of User objects
