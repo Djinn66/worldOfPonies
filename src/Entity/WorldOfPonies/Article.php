@@ -24,7 +24,7 @@ class Article
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
+     * @ORM\Column(name="title", type="string", length=31, nullable=false)
      */
     private $title;
 
@@ -57,7 +57,7 @@ class Article
         return $this->articleId;
     }
 
-    public function getTitle(): ?int
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -69,7 +69,7 @@ class Article
         return $this;
     }
 
-    public function getDescription(): ?int
+    public function getDescription(): string
     {
         return $this->description;
     }

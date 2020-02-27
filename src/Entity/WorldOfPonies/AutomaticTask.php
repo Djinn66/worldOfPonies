@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * AutomaticTask
  *
- * @ORM\Table(name="automatic_task", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_9DFEADD61F1B251E", columns={"item"})}, indexes={@ORM\Index(name="IDX_9DFEADD698197A65", columns={"player"}), @ORM\Index(name="IDX_9DFEADD644BD63D0", columns={"equestriancenter"})})
+ * @ORM\Table(name="automatic_task", indexes={@ORM\Index(name="IDX_9DFEADD61F1B251E", columns={"item"}), @ORM\Index(name="IDX_9DFEADD698197A65", columns={"player"}), @ORM\Index(name="IDX_9DFEADD644BD63D0", columns={"equestriancenter"})})
  * @ORM\Entity
  */
 class AutomaticTask

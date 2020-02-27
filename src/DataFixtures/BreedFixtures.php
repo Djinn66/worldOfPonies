@@ -16,7 +16,7 @@ class BreedFixtures extends Fixture
         {
             $breed = new Breed();
             $breed
-                ->setBreedName($faker->word)
+                ->setBreedName($faker->unique()->word)
                 ->setBreedDescription($faker->text(35));
 
             $manager->persist($breed);

@@ -4,20 +4,20 @@ namespace App\DataFixtures;
 
 use App\Entity\WorldOfPonies\Player;
 use App\Entity\WorldOfPonies\Transaction;
-use App\Repository\WorldOfPonies\PlayerRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class TransactionFixtures extends Fixture
+class TransactionFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
+        $players = $manager->getRepository(Player::class)->findAll();
+
         for($i = 0 ; $i<100; $i++ )
         {
-            $players = $manager->getRepository(Player::class)->findAll();
-
             $transaction = new Transaction();
             $transaction
                 ->setTransactionAmount($faker->randomNumber($nbDigits = 7, $strict = false))
@@ -29,5 +29,15 @@ class TransactionFixtures extends Fixture
 
 
         $manager->flush();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getDependencies()
+    {
+        return array(
+            PlayerFixtures::class,
+        );
     }
 }
