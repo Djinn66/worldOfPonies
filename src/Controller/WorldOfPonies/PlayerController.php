@@ -18,19 +18,45 @@ class PlayerController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_player_index", methods={"GET"})
      */
-    public function index(PaginatorInterface $paginator,Request $resquest): Response
+    public function index(PaginatorInterface $paginator,Request $request): Response
     {
-        $players = $this->getDoctrine()
+        $playerUsername = $request->query->get('playerUsername');
+        $playerFirstname = $request->query->get('playerFirstname');
+        $playerLastname = $request->query->get('playerLastname');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($playerUsername !="")
+            $criteria += ['playerUsername' => $playerUsername];
+        if($playerFirstname !="")
+            $criteria += ['playerFirstname' => $playerFirstname];
+        if($playerLastname !="")
+            $criteria += ['playerLastname' => $playerLastname];
+
+        $players =  $this->getDoctrine()
             ->getRepository(Player::class)
-            ->findAll();
+            ->findBy($criteria,$orderBy);
+
         $pagination = $paginator->paginate(
             $players,
-            $resquest->query->getInt('page',1),
+            $request->query->getInt('page',1),
             6
         );
+
         return $this->render('world_of_ponies/player/index.html.twig', [
+            'playerUsername' => $playerUsername,
+            'playerFirstname' => $playerFirstname,
+            'playerLastname' => $playerLastname,
+            'order' => $order,
+            'sortBy' => $sortBy,
             'players' => $pagination,
         ]);
+
     }
 
     /**

@@ -4,27 +4,20 @@
 
 {% block body %}
     <h1>Advertisement index</h1>
-
-    <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
-
-    <form action="{{ path('advertisement_index', { 'advertisement' : 'advertisement' }) }}" >
-        <label>
-            Advertisement
-            <input type="text" name="advertisement" value = "{{ advertisement }}" >
-        </label>
-        <input type="submit" value="Search">
+    <form action="{{ path('world_of_ponies_advertisement_index', { 'advertisementId': 'advertisementId' }) }}" >
+        Advertisement Id :
+        <input type="number" value = "{{ advertisementId }}" name="advertisementId">
+        <input type="submit" value="Rechercher">
     </form>
-
     <table class="table">
         <thead>
             <tr>
-                <th>
-                    <a href="{% if order == 'ASC' %}
+                <th> <a href="{% if order == 'ASC' %}
                                     {% set order = 'DESC' %}
                              {% else %}
                                     {% set order = 'ASC' %}
                              {% endif %}
-                             {{ path('user_index', { 'sortBy': 'advertisement', 'order' : order , 'advertisement' : advertisement }) }}"
+                             {{ path('world_of_ponies_advertisement_index', { 'sortBy': 'advertisementId', 'order' : order }) }}"
                     >
                         AdvertisementId
                     </a>
@@ -41,7 +34,6 @@
                 <td>
                     <a href="{{ path('world_of_ponies_advertisement_show', {'advertisementId': advertisement.advertisementId}) }}">show</a>
                     <a href="{{ path('world_of_ponies_advertisement_edit', {'advertisementId': advertisement.advertisementId}) }}">edit</a>
-                    {{ include('world_of_ponies/advertisement/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -52,4 +44,5 @@
         </tbody>
     </table>
 
+    <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
 {% endblock %}

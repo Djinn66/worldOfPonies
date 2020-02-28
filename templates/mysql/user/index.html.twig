@@ -9,9 +9,9 @@
 
     <form action="{{ path('user_index', { 'host': 'host','user' : 'user' }) }}" >
         Host:
-        <input type="text" value="{{ host }}" name="host"><br>
+        <input type="text" value = "{{ host }}" name="host"><br>
         User:
-        <input type="text" name="user" value = "{{ user }}" ><br>
+        <input type="text" value = "{{ user }}" name="user" ><br>
         <input type="submit" value="Rechercher">
     </form>
     
