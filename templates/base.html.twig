@@ -3,7 +3,6 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <link rel="stylesheet" href="../public/css/styles.css">
 
         <style>
 
@@ -72,7 +71,8 @@
                 -moz-box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
                 box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
                 overflow-x: auto;
-                overflow-y: scroll;
+                overflow-y: auto;
+                background-color: #6E6E6E;
             }
 
             main > h1 {
@@ -110,7 +110,9 @@
         </style>
 
         <title>{% block title %}Welcome!{% endblock %}</title>
+
         {% block stylesheets %}{% endblock %}
+
     </head>
 
     <body>

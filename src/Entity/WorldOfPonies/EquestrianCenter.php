@@ -67,5 +67,9 @@ class EquestrianCenter
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return $this->getOwner()->getPlayerUsername() . '('. $this->getEquestrianCenterId() .')';
+    }
 
 }

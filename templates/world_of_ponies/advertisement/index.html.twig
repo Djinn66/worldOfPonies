@@ -5,10 +5,30 @@
 {% block body %}
     <h1>Advertisement index</h1>
 
+    <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
+
+    <form action="{{ path('advertisement_index', { 'advertisement' : 'advertisement' }) }}" >
+        <label>
+            Advertisement
+            <input type="text" name="advertisement" value = "{{ advertisement }}" >
+        </label>
+        <input type="submit" value="Search">
+    </form>
+
     <table class="table">
         <thead>
             <tr>
-                <th>AdvertisementId</th>
+                <th>
+                    <a href="{% if order == 'ASC' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('user_index', { 'sortBy': 'advertisement', 'order' : order , 'advertisement' : advertisement }) }}"
+                    >
+                        AdvertisementId
+                    </a>
+                </th>
                 <th>AdvertisementContent</th>
                 <th>actions</th>
             </tr>
@@ -21,6 +41,7 @@
                 <td>
                     <a href="{{ path('world_of_ponies_advertisement_show', {'advertisementId': advertisement.advertisementId}) }}">show</a>
                     <a href="{{ path('world_of_ponies_advertisement_edit', {'advertisementId': advertisement.advertisementId}) }}">edit</a>
+                    {{ include('world_of_ponies/advertisement/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -31,5 +52,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
 {% endblock %}

@@ -5,7 +5,7 @@
 {% block body %}
     <h1>HorseClub index</h1>
 
-    <table class="table">
+    <table class="table table-hover table-dark">
         <thead>
             <tr>
                 <th>HorseClubId</th>
@@ -21,6 +21,7 @@
                 <td>
                     <a href="{{ path('world_of_ponies_horse_club_show', {'horseClubId': horse_club.horseClubId}) }}">show</a>
                     <a href="{{ path('world_of_ponies_horse_club_edit', {'horseClubId': horse_club.horseClubId}) }}">edit</a>
+                    {{ include('world_of_ponies/horse_club/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

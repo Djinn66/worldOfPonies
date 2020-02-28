@@ -4,8 +4,10 @@
 
 {% block body %}
     <h1>Player index</h1>
+
     <a href="{{ path('world_of_ponies_player_new') }}">Create new</a>
-    <table class="table">
+
+    <table class="table table-hover table-dark">
         <thead>
             <tr>
                 <th>PlayerId</th>
@@ -51,6 +53,7 @@
                 <td>
                     <a href="{{ path('world_of_ponies_player_show', {'playerId': player.playerId}) }}">show</a>
                     <a href="{{ path('world_of_ponies_player_edit', {'playerId': player.playerId}) }}">edit</a>
+                    {{ include('world_of_ponies/player/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}

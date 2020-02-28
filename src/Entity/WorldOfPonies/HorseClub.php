@@ -112,4 +112,9 @@ class HorseClub
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return $this->getManager()->getPlayerUsername() . '('. $this->getHorseClubId() .')';
+    }
+
 }

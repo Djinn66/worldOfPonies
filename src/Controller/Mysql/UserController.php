@@ -30,43 +30,37 @@ class UserController extends AbstractController
 
         if($sortBy != "")
                 $orderBy = [$sortBy=> $order];
-
-
         if($user !="")
                 $criteria += ['user' => $user];
         if($host !="")
                 $criteria += ['host' => $host];
 
-
-
-            if($sortBy!="" || $user!= "" ||$host!= "")
+        if($sortBy!="" || $user!= "" || $host!= "")
+        {
+            return $this->render('mysql/user/index.html.twig', [
+                'user' => $user,
+                'host' => $host,
+                'order' => $order,
+                'sortBy' => $sortBy,
+                'users' => $userRepository->findBy($criteria,$orderBy),
+            ]);
+        }/* else if ($host != "" || $user != "")
             {
                 return $this->render('mysql/user/index.html.twig', [
-                    'user' => $user,
-                    'host' => $host,
-                    'order' => $order,
-                    'sortBy' => $sortBy,
-                    'users' => $userRepository->findBy($criteria,$orderBy),
+                    'users' => $userRepository
+                        ->findField($user,$host),
+
                 ]);
-            }/* else if ($host != "" || $user != "")
-                {
-                    return $this->render('mysql/user/index.html.twig', [
-                        'users' => $userRepository
-                            ->findField($user,$host),
-
-                    ]);
-                } */else
-                {
-                return  $this->render('mysql/user/index.html.twig', [
-                    'users' =>$userRepository->findAll(),
-                    'user' => $user,
-                    'host' => $host,
-                    'order' => 'DESC',
-                    'sortBy' => $sortBy,
-                ]);
-            }
-
-
+            } */else
+            {
+            return  $this->render('mysql/user/index.html.twig', [
+                'users' =>$userRepository->findAll(),
+                'user' => $user,
+                'host' => $host,
+                'order' => 'DESC',
+                'sortBy' => $sortBy,
+            ]);
+        }
     }
 
     /**

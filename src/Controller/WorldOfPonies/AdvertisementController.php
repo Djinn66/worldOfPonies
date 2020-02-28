@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Advertisement;
 use App\Form\WorldOfPonies\AdvertisementType;
+use App\Repository\WorldOfPonies\AdvertisementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,16 +17,42 @@ class AdvertisementController extends AbstractController
 {
     /**
      * @Route("/", name="world_of_ponies_advertisement_index", methods={"GET"})
+     * @param AdvertisementRepository $advertisementRepository
+     * @param Request $request
+     * @return Response
      */
-    public function index(): Response
+    public function index(AdvertisementRepository $advertisementRepository, Request $request): Response
     {
-        $advertisements = $this->getDoctrine()
-            ->getRepository(Advertisement::class)
-            ->findAll();
+        $advertisement = $request->query->get('advertisement');
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
 
-        return $this->render('world_of_ponies/advertisement/index.html.twig', [
-            'advertisements' => $advertisements,
-        ]);
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($advertisement !="")
+            $criteria += ['user' => $advertisement];
+
+        if($sortBy!="" || $advertisement!= "")
+        {
+            return $this->render('mysql/user/index.html.twig', [
+                'advertisement' => $advertisement,
+                'order' => $order,
+                'sortBy' => $sortBy,
+                '$advertisements' => $advertisementRepository->findBy($criteria, $orderBy),
+            ]);
+        }
+        else
+        {
+            return  $this->render('mysql/user/index.html.twig', [
+                'advertisements' =>$advertisementRepository->findAll(),
+                'advertisement' => $advertisement,
+                'order' => 'DESC',
+                'sortBy' => $sortBy,
+            ]);
+        }
     }
 
     /**

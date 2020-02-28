@@ -396,5 +396,9 @@ class Horse
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return ($this->getHorseName());
+    }
 
 }

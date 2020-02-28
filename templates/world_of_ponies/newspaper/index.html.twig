@@ -5,7 +5,9 @@
 {% block body %}
     <h1>Newspaper index</h1>
 
-    <table class="table">
+    <a href="{{ path('world_of_ponies_newspaper_new') }}">Create new</a>
+
+    <table class="table table-hover table-dark">
         <thead>
             <tr>
                 <th>NewspaperId</th>
@@ -23,6 +25,7 @@
                 <td>
                     <a href="{{ path('world_of_ponies_newspaper_show', {'newspaperId': newspaper.newspaperId}) }}">show</a>
                     <a href="{{ path('world_of_ponies_newspaper_edit', {'newspaperId': newspaper.newspaperId}) }}">edit</a>
+                    {{ include('world_of_ponies_newspaper/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -33,5 +36,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('world_of_ponies_newspaper_new') }}">Create new</a>
 {% endblock %}

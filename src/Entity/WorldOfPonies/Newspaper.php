@@ -137,4 +137,9 @@ class Newspaper
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return $this->getReleaseDate()->format('Y-m-d');
+    }
+
 }

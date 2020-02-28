@@ -241,5 +241,9 @@ class Infrastructure
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return ($this->getInfrastructureFamily());
+    }
 
 }

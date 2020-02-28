@@ -5,7 +5,9 @@
 {% block body %}
     <h1>Horse index</h1>
 
-    <table class="table">
+    <a href="{{ path('world_of_ponies_horse_new') }}">Create new</a>
+
+    <table class="table table-hover table-dark">
         <thead>
             <tr>
                 <th>HorseId</th>
@@ -51,6 +53,7 @@
                 <td>
                     <a href="{{ path('world_of_ponies_horse_show', {'horseId': horse.horseId}) }}">show</a>
                     <a href="{{ path('world_of_ponies_horse_edit', {'horseId': horse.horseId}) }}">edit</a>
+                    {{ include('world_of_ponies/horse/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -61,5 +64,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('world_of_ponies_horse_new') }}">Create new</a>
 {% endblock %}
