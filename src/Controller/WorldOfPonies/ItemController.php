@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Item;
 use App\Form\WorldOfPonies\ItemType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,37 @@ class ItemController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_item_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $items = $this->getDoctrine()
+        $itemDescription = $request->query->get('itemDescription');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($itemDescription !="")
+            $criteria += ['itemDescription' => $itemDescription];
+
+        $items =  $this->getDoctrine()
             ->getRepository(Item::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $items,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/item/index.html.twig', [
-            'items' => $items,
+            'itemDescription' => $itemDescription,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'items' => $pagination,
         ]);
+
     }
 
     /**

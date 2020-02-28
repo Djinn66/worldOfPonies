@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Breed;
 use App\Form\WorldOfPonies\BreedType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,41 @@ class BreedController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_breed_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $breeds = $this->getDoctrine()
+        $breedId = $request->query->get('breedId');
+        $breedName = $request->query->get('breedName');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($breedId !="")
+            $criteria += ['breedId' => $breedId];
+        if($breedName !="")
+            $criteria += ['breedName' => $breedName];
+
+        $breeds =  $this->getDoctrine()
             ->getRepository(Breed::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $breeds,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/breed/index.html.twig', [
-            'breeds' => $breeds,
+            'breedId' => $breedId,
+            'breedName' => $breedName,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'breeds' => $pagination,
         ]);
+
     }
 
     /**

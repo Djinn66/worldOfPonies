@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\EquestrianCenter;
 use App\Form\WorldOfPonies\EquestrianCenterType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,41 @@ class EquestrianCenterController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_equestrian_center_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $equestrianCenters = $this->getDoctrine()
+        $equestrianCenterId = $request->query->get('equestrianCenterId');
+        $equestrianCenterCapacity = $request->query->get('equestrianCenterCapacity');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($equestrianCenterId !="")
+            $criteria += ['equestrianCenterId' => $equestrianCenterId];
+        if($equestrianCenterCapacity !="")
+            $criteria += ['equestrianCenterCapacity' => $equestrianCenterCapacity];
+
+        $equestrian_centers =  $this->getDoctrine()
             ->getRepository(EquestrianCenter::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $equestrian_centers,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/equestrian_center/index.html.twig', [
-            'equestrian_centers' => $equestrianCenters,
+            'equestrianCenterId' => $equestrianCenterId,
+            'equestrianCenterCapacity' => $equestrianCenterCapacity,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'equestrian_centers' => $pagination,
         ]);
+
     }
 
     /**

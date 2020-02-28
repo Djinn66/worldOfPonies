@@ -5,14 +5,46 @@
 {% block body %}
     <h1>Item index</h1>
 
+    <form action="{{ path('world_of_ponies_item_index', { 'itemDescription': 'itemDescription' }) }}" >
+        Item Description :
+        <input type="text" value = "{{ itemDescription }}" name="itemDescription">
+        <input type="submit" value="Rechercher">
+    </form>
+
     <a href="{{ path('world_of_ponies_item_new') }}">Create new</a>
 
     <table class="table table-hover table-dark">
         <thead>
             <tr>
-                <th>ItemId</th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'itemId' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_item_index', {
+                        'sortBy'                 : 'itemId',
+                        'order'                  : order ,
+                        'itemDescription'        : itemDescription ,
+                    }) }}"
+                    >
+                        ItemId
+                    </a>
+                </th>
                 <th>ItemLvl</th>
-                <th>ItemDescription</th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'itemDescription' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_item_index', {
+                        'sortBy'                 : 'itemDescription',
+                        'order'                  : order ,
+                        'itemDescription'        : itemDescription ,
+                    }) }}"
+                    >
+                        ItemDescription
+                    </a>
+                </th>
                 <th>ItemPrice</th>
                 <th>actions</th>
             </tr>
@@ -37,5 +69,9 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-center pagination">
+        {{ knp_pagination_render(items) }}
+    </div>
 
 {% endblock %}

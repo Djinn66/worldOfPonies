@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Newspaper;
 use App\Form\WorldOfPonies\NewspaperType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,37 @@ class NewspaperController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_newspaper_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $newspapers = $this->getDoctrine()
+        $newspaperId = $request->query->get('newspaperId');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($newspaperId !="")
+            $criteria += ['newspaperId' => $newspaperId];
+
+        $newspapers =  $this->getDoctrine()
             ->getRepository(Newspaper::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $newspapers,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/newspaper/index.html.twig', [
-            'newspapers' => $newspapers,
+            'newspaperId' => $newspaperId,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'newspapers' => $pagination,
         ]);
+
     }
 
     /**

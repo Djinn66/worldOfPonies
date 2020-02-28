@@ -5,12 +5,31 @@
 {% block body %}
     <h1>ItemFamily index</h1>
 
+    <form action="{{ path('world_of_ponies_item_family_index', { 'itemFamilyLabel': 'itemFamilyLabel' }) }}" >
+        Item Family Label :
+        <input type="text" value = "{{ itemFamilyLabel }}" name="itemFamilyLabel">
+        <input type="submit" value="Rechercher">
+    </form>
+    
     <a href="{{ path('world_of_ponies_item_family_new') }}">Create new</a>
 
     <table class="table table-hover table-dark">
         <thead>
             <tr>
-                <th>ItemFamilyId</th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'itemFamilyId' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_item_family_index', {
+                        'sortBy'                 : 'itemFamilyId',
+                        'order'                  : order ,
+                        'itemFamilyLabel'        : itemFamilyLabel ,
+                    }) }}"
+                    >
+                        ItemFamilyId
+                    </a>
+                </th>
                 <th>ItemFamilyLabel</th>
                 <th>actions</th>
             </tr>
@@ -34,4 +53,8 @@
         </tbody>
     </table>
 
+    <div class="d-flex justify-content-center pagination">
+        {{ knp_pagination_render(item_families) }}
+    </div>
+    
 {% endblock %}

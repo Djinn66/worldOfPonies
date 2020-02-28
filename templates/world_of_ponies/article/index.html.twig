@@ -5,13 +5,47 @@
 {% block body %}
     <h1>Article index</h1>
 
+    <form action="{{ path('world_of_ponies_article_index', { 'title': 'title' }) }}" >
+        Title :
+        <input type="text" value = "{{ title | capitalize }}" name="title">
+        <input type="submit" value="Rechercher">
+    </form>
+
     <a href="{{ path('world_of_ponies_article_new') }}">Create new</a>
 
     <table class="table table-hover table-dark">
         <thead>
             <tr>
-                <th>ArticleId</th>
-                <th>Title</th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'articleId' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_article_index', {
+                        'sortBy'            : 'articleId',
+                        'order'             : order ,
+                        'articleId'         : articleId ,
+                        'title'             : title ,
+                    }) }}"
+                    >
+                        ArticleId
+                    </a>
+                </th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'title' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_article_index', {
+                        'sortBy'            : 'title',
+                        'order'             : order ,
+                        'articleId'         : articleId ,
+                        'title'             : title ,
+                    }) }}"
+                    >
+                        Title
+                    </a>
+                </th>
                 <th>Description</th>
                 <th>Image</th>
                 <th>actions</th>
@@ -37,5 +71,9 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-center pagination">
+        {{ knp_pagination_render(articles) }}
+    </div>
 
 {% endblock %}

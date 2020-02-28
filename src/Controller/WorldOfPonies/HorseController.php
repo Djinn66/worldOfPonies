@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Horse;
 use App\Form\WorldOfPonies\HorseType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,37 @@ class HorseController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_horse_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $horses = $this->getDoctrine()
+        $horseName = $request->query->get('horseName');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($horseName !="")
+            $criteria += ['horseName' => $horseName];
+
+        $horses =  $this->getDoctrine()
             ->getRepository(Horse::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $horses,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/horse/index.html.twig', [
-            'horses' => $horses,
+            'horseName' => $horseName,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'horses' => $pagination,
         ]);
+
     }
 
     /**

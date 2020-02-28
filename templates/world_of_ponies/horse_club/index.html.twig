@@ -5,11 +5,47 @@
 {% block body %}
     <h1>HorseClub index</h1>
 
+    <a href="{{ path('world_of_ponies_horse_club_new') }}">Create new</a>
+
+    <form action="{{ path('world_of_ponies_horse_club_index', { 'horseClubId': 'horseClubId' }) }}" >
+        Horse Club ID :
+        <input type="number" value = "{{ horseClubId }}" name="horseClubId">
+        <input type="submit" value="Rechercher">
+    </form>
+    
     <table class="table table-hover table-dark">
         <thead>
             <tr>
-                <th>HorseClubId</th>
-                <th>HorseClubCapacity</th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'horseClubId' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_horse_club_index', {
+                        'sortBy'                 : 'horseClubId',
+                        'order'                  : order ,
+                        'horseClubId'            : horseClubId ,
+                        'horseClubCapacity'      : horseClubCapacity ,
+                    }) }}"
+                    >
+                        HorseClubId
+                    </a>
+                </th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'horseClubCapacity' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_horse_club_index', {
+                        'sortBy'                 : 'horseClubCapacity',
+                        'order'                  : order ,
+                        'horseClubId'            : horseClubId ,
+                        'horseClubCapacity'      : horseClubCapacity ,
+                    }) }}"
+                    >
+                        HorseClubCapacity
+                    </a>
+                </th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -32,5 +68,8 @@
         </tbody>
     </table>
 
-    <a href="{{ path('world_of_ponies_horse_club_new') }}">Create new</a>
+    <div class="d-flex justify-content-center pagination">
+        {{ knp_pagination_render(horse_clubs) }}
+    </div>
+    
 {% endblock %}

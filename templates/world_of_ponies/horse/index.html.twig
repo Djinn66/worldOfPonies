@@ -5,13 +5,45 @@
 {% block body %}
     <h1>Horse index</h1>
 
+    <form action="{{ path('world_of_ponies_horse_index', { 'horseName': 'horseName' }) }}" >
+        Horse Name :
+        <input type="text" value = "{{ horseName }}" name="horseName">
+        <input type="submit" value="Rechercher">
+    </form>
+
     <a href="{{ path('world_of_ponies_horse_new') }}">Create new</a>
 
     <table class="table table-hover table-dark">
         <thead>
             <tr>
-                <th>HorseId</th>
-                <th>HorseName</th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'horseId' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_horse_index', {
+                        'sortBy'                 : 'horseId',
+                        'order'                  : order ,
+                        'horseName'              : horseName ,
+                    }) }}"
+                    >
+                        HorseId
+                    </a>
+                </th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'horseName' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_horse_index', {
+                        'sortBy'                 : 'horseName',
+                        'order'                  : order ,
+                        'horseName'              : horseName ,
+                    }) }}"
+                    >
+                        HorseName
+                    </a>
+                </th>
                 <th>HorseDiseaseResistance</th>
                 <th>HorseHygieneResistance</th>
                 <th>HorseRecovery</th>
@@ -64,4 +96,8 @@
         </tbody>
     </table>
 
+    <div class="d-flex justify-content-center pagination">
+        {{ knp_pagination_render(horses) }}
+    </div>
+    
 {% endblock %}
