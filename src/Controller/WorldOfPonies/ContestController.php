@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Contest;
 use App\Form\WorldOfPonies\ContestType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,41 @@ class ContestController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_contest_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $contests = $this->getDoctrine()
+        $contestId = $request->query->get('contestId');
+        $price = $request->query->get('price');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($contestId !="")
+            $criteria += ['contestId' => $contestId];
+        if($price !="")
+            $criteria += ['price' => $price];
+
+        $contests =  $this->getDoctrine()
             ->getRepository(Contest::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $contests,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/contest/index.html.twig', [
-            'contests' => $contests,
+            'contestId' => $contestId,
+            'price' => $price,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'contests' => $pagination,
         ]);
+
     }
 
     /**

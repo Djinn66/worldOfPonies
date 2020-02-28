@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\HorseClub;
 use App\Form\WorldOfPonies\HorseClubType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,41 @@ class HorseClubController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_horse_club_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $horseClubs = $this->getDoctrine()
+        $horseClubId = $request->query->get('horseClubId');
+        $horseClubCapacity = $request->query->get('horseClubCapacity');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($horseClubId !="")
+            $criteria += ['horseClubId' => $horseClubId];
+        if($horseClubCapacity !="")
+            $criteria += ['horseClubCapacity' => $horseClubCapacity];
+
+        $horse_clubs =  $this->getDoctrine()
             ->getRepository(HorseClub::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $horse_clubs,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/horse_club/index.html.twig', [
-            'horse_clubs' => $horseClubs,
+            'horseClubId' => $horseClubId,
+            'horseClubCapacity' => $horseClubCapacity,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'horse_clubs' => $pagination,
         ]);
+
     }
 
     /**
@@ -52,7 +79,7 @@ class HorseClubController extends AbstractController
     }
 
     /**
-     * @Route("/{horseClubId}", name="world_of_ponies_horse_club_show", methods={"GET"})
+     * @Route("/{$horseClubId}", name="world_of_ponies_horse_club_show", methods={"GET"})
      */
     public function show(HorseClub $horseClub): Response
     {
@@ -62,7 +89,7 @@ class HorseClubController extends AbstractController
     }
 
     /**
-     * @Route("/{horseClubId}/edit", name="world_of_ponies_horse_club_edit", methods={"GET","POST"})
+     * @Route("/{$horseClubId}/edit", name="world_of_ponies_horse_club_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, HorseClub $horseClub): Response
     {
@@ -82,7 +109,7 @@ class HorseClubController extends AbstractController
     }
 
     /**
-     * @Route("/{horseClubId}", name="world_of_ponies_horse_club_delete", methods={"DELETE"})
+     * @Route("/{$horseClubId}", name="world_of_ponies_horse_club_delete", methods={"DELETE"})
      */
     public function delete(Request $request, HorseClub $horseClub): Response
     {

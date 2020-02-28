@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\ItemFamily;
 use App\Form\WorldOfPonies\ItemFamilyType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,37 @@ class ItemFamilyController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_item_family_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $itemFamilies = $this->getDoctrine()
+        $itemFamilyLabel = $request->query->get('itemFamilyLabel');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($itemFamilyLabel !="")
+            $criteria += ['itemFamilyLabel' => $itemFamilyLabel];
+
+        $item_families =  $this->getDoctrine()
             ->getRepository(ItemFamily::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $item_families,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/item_family/index.html.twig', [
-            'item_families' => $itemFamilies,
+            'itemFamilyLabel' => $itemFamilyLabel,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'item_families' => $pagination,
         ]);
+
     }
 
     /**

@@ -5,13 +5,45 @@
 {% block body %}
     <h1>Infrastructure index</h1>
 
+    <form action="{{ path('world_of_ponies_infrastructure_index', { 'infrastructureName': 'infrastructureName' }) }}" >
+        Infrastructure Type :
+        <input type="text" value = "{{ infrastructureType }}" name="infrastructureType">
+        <input type="submit" value="Rechercher">
+    </form>
+    
     <a href="{{ path('world_of_ponies_infrastructure_new') }}">Create new</a>
 
     <table class="table table-hover table-dark">
         <thead>
             <tr>
-                <th>InfrastructureId</th>
-                <th>InfrastructureType</th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'infrastructureId' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_infrastructure_index', {
+                        'sortBy'                 : 'infrastructureId',
+                        'order'                  : order ,
+                        'infrastructureType'     : infrastructureType ,
+                    }) }}"
+                    >
+                        InfrastructureId
+                    </a>
+                </th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'infrastructureType' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_infrastructure_index', {
+                        'sortBy'                 : 'infrastructureType',
+                        'order'                  : order ,
+                        'infrastructureType'     : infrastructureType ,
+                    }) }}"
+                    >
+                        InfrastructureType
+                    </a>
+                </th>
                 <th>InfrastructureLvl</th>
                 <th>InfrastructureDescription</th>
                 <th>InfrastructureFamily</th>
@@ -50,4 +82,8 @@
         </tbody>
     </table>
 
+    <div class="d-flex justify-content-center pagination">
+        {{ knp_pagination_render(infrastructures) }}
+    </div>
+    
 {% endblock %}

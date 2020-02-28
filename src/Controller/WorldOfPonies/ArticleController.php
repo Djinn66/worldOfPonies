@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Article;
 use App\Form\WorldOfPonies\ArticleType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +18,39 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_article_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $articles = $this->getDoctrine()
+        $title = $request->query->get('title');
+        $articleId = $request->query->get('articleId');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($articleId != "")
+            $criteria += ['articleId' => $articleId];
+        if($title != "")
+            $criteria += ['title' => $title];
+
+        $articles =  $this->getDoctrine()
             ->getRepository(Article::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $articles,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/article/index.html.twig', [
-            'articles' => $articles,
+            'articleId' => $articleId,
+            'title' => $title,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'articles' => $pagination,
         ]);
     }
 

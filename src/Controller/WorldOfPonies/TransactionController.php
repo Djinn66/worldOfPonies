@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Transaction;
 use App\Form\WorldOfPonies\TransactionType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,37 @@ class TransactionController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_transaction_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $transactions = $this->getDoctrine()
+        $transactionLabel = $request->query->get('transactionLabel');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($transactionLabel !="")
+            $criteria += ['transactionLabel' => $transactionLabel];
+
+        $transactions =  $this->getDoctrine()
             ->getRepository(Transaction::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $transactions,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/transaction/index.html.twig', [
-            'transactions' => $transactions,
+            'transactionLabel' => $transactionLabel,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'transactions' => $pagination,
         ]);
+
     }
 
     /**

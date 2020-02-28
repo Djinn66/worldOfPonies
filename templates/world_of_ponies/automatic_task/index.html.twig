@@ -5,13 +5,47 @@
 {% block body %}
     <h1>AutomaticTask index</h1>
 
+    <form action="{{ path('world_of_ponies_automatic_task_index', { 'taskToDo': 'taskToDo' }) }}" >
+        TaskToDo :
+        <input type="text" value = "{{ taskToDo }}" name="taskToDo">
+        <input type="submit" value="Rechercher">
+    </form>
+
     <a href="{{ path('world_of_ponies_automatic_task_new') }}">Create new</a>
 
     <table class="table table-hover table-dark">
         <thead>
             <tr>
-                <th>TaskId</th>
-                <th>TaskToDo</th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'taskId' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_automatic_task_index', {
+                        'sortBy'            : 'taskId',
+                        'order'             : order ,
+                        'taskId'            : taskId ,
+                        'taskToDo'          : taskToDo ,
+                    }) }}"
+                    >
+                        TaskId
+                    </a>
+                </th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'taskToDo' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_automatic_task_index', {
+                        'sortBy'            : 'taskToDo',
+                        'order'             : order ,
+                        'taskId'            : taskId ,
+                        'taskToDo'          : taskToDo ,
+                    }) }}"
+                    >
+                        TaskToDo
+                    </a>
+                </th>
                 <th>TaskFrequency</th>
                 <th>actions</th>
             </tr>
@@ -35,5 +69,9 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-center pagination">
+        {{ knp_pagination_render(automatic_tasks) }}
+    </div>
 
 {% endblock %}

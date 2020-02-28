@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\AutomaticTask;
 use App\Form\WorldOfPonies\AutomaticTaskType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,41 @@ class AutomaticTaskController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_automatic_task_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $automaticTasks = $this->getDoctrine()
+        $taskId = $request->query->get('taskId');
+        $taskToDo = $request->query->get('taskToDo');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($taskId !="")
+            $criteria += ['taskId' => $taskId];
+        if($taskToDo !="")
+            $criteria += ['taskToDo' => $taskToDo];
+
+        $automaticTasks =  $this->getDoctrine()
             ->getRepository(AutomaticTask::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $automaticTasks,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/automatic_task/index.html.twig', [
-            'automatic_tasks' => $automaticTasks,
+            'taskId' => $taskId,
+            'taskToDo' => $taskToDo,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'automatic_tasks' => $pagination,
         ]);
+
     }
 
     /**

@@ -5,13 +5,45 @@
 {% block body %}
     <h1>Transaction index</h1>
 
+    <form action="{{ path('world_of_ponies_transaction_index', { 'transactionLabel': 'transactionLabel' }) }}" >
+        Transaction Label :
+        <input type="text" value = "{{ transactionLabel }}" name="transactionLabel">
+        <input type="submit" value="Rechercher">
+    </form>
+    
     <a href="{{ path('world_of_ponies_transaction_new') }}">Create new</a>
 
     <table class="table table-hover table-dark">
         <thead>
             <tr>
-                <th>TransactionId</th>
-                <th>TransactionAmount</th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'transactionId' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_transaction_index', {
+                        'sortBy'                 : 'transactionId',
+                        'order'                  : order ,
+                        'transactionLabel'       : transactionLabel ,
+                    }) }}"
+                    >
+                        TransactionId
+                    </a>
+                </th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'transactionLabel' %}
+                                    {% set order = 'DESC' %}
+                             {% else %}
+                                    {% set order = 'ASC' %}
+                             {% endif %}
+                             {{ path('world_of_ponies_transaction_index', {
+                        'sortBy'                 : 'transactionLabel',
+                        'order'                  : order ,
+                        'transactionLabel'       : transactionLabel ,
+                    }) }}"
+                    >
+                        TransactionAmount
+                    </a>
+                </th>
                 <th>TransactionLabel</th>
                 <th>actions</th>
             </tr>
@@ -36,4 +68,8 @@
         </tbody>
     </table>
 
+    <div class="d-flex justify-content-center pagination">
+        {{ knp_pagination_render(transactions) }}
+    </div>
+    
 {% endblock %}

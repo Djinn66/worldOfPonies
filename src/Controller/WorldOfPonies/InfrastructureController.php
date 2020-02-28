@@ -4,6 +4,7 @@ namespace App\Controller\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Infrastructure;
 use App\Form\WorldOfPonies\InfrastructureType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,37 @@ class InfrastructureController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_infrastructure_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $infrastructures = $this->getDoctrine()
+        $infrastructureType = $request->query->get('infrastructureType');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($infrastructureType !="")
+            $criteria += ['infrastructureType' => $infrastructureType];
+
+        $infrastructure =  $this->getDoctrine()
             ->getRepository(Infrastructure::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $infrastructure,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('world_of_ponies/infrastructure/index.html.twig', [
-            'infrastructures' => $infrastructures,
+            'infrastructureType' => $infrastructureType,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'infrastructures' => $pagination,
         ]);
+
     }
 
     /**
