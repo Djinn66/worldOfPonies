@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('mysql_tables_priv_delete', {'host': tables_priv.host}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ tables_priv.host) }}">
+    <button class="btn">Delete</button>
+</form>

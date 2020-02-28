@@ -31,6 +31,7 @@ class User implements UserInterface, \Serializable
      */
     private $user = '';
 
+
     /**
      * @var string
      *
@@ -1084,7 +1085,7 @@ class User implements UserInterface, \Serializable
      */
     public function getUsername()
     {
-
+        return $this->user.'@'.$this->host;
     }
 
     /**

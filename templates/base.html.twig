@@ -72,7 +72,7 @@
                 box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
                 overflow-x: auto;
                 overflow-y: auto;
-                background-color: #6E6E6E;
+                background-color: #fff;
             }
 
             main > h1 {
@@ -120,7 +120,8 @@
             <nav class="navigation">
                 <h2>Navigation</h2>
                 <ul>
-                    <li><a href={{ path('user_index') }}>Users</a></li>
+                    <li><a href={{ path('mysql_tables_priv_index') }}>Privilèges (tables)</a></li>
+                    <li><a href={{ path('mysql_db_index') }}>Privilèges (DB)</a></li>
                     <li><a href={{ path('world_of_ponies_advertisement_index') }}>Advertisement</a></li>
                     <li><a href={{ path('world_of_ponies_article_index') }}>Article</a></li>
                     <li><a href={{ path('world_of_ponies_automatic_task_index') }}>Automatic Task</a></li>
