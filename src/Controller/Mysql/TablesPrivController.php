@@ -4,6 +4,7 @@ namespace App\Controller\Mysql;
 
 use App\Entity\Mysql\TablesPriv;
 use App\Form\Mysql\TablesPrivType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,45 @@ class TablesPrivController extends AbstractController
     /**
      * @Route("/", name="mysql_tables_priv_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $tablesPrivs = $this->getDoctrine()
+        $host = $request->query->get('host');
+        $db = $request->query->get('db');
+        $user = $request->query->get('user');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($host !="")
+            $criteria += ['host' => $host];
+        if($db !="")
+            $criteria += ['db' => $db];
+        if($user !="")
+            $criteria += ['user' => $user];
+
+        $tables_privs =  $this->getDoctrine()
             ->getRepository(TablesPriv::class)
-            ->findAll();
+            ->findBy($criteria, $orderBy);
+
+        $pagination = $paginator->paginate(
+            $tables_privs,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('mysql/tables_priv/index.html.twig', [
-            'tables_privs' => $tablesPrivs,
+            'host' => $host,
+            'db' => $db,
+            'user' => $user,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'tables_privs' => $pagination,
         ]);
+
     }
 
     /**

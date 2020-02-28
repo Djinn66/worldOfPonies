@@ -5,9 +5,9 @@
 {% block body %}
     <h1>Edit Db</h1>
 
-    {{ include('mysql_db/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('mysql/db/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('mysql_db_index') }}">back to list</a>
 
-    {{ include('mysql_db/_delete_form.html.twig') }}
+    {{ include('mysql/db/_delete_form.html.twig') }}
 {% endblock %}

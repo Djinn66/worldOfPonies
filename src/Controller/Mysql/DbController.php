@@ -4,6 +4,7 @@ namespace App\Controller\Mysql;
 
 use App\Entity\Mysql\Db;
 use App\Form\Mysql\DbType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +18,45 @@ class DbController extends AbstractController
     /**
      * @Route("/", name="mysql_db_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $dbs = $this->getDoctrine()
+        $host = $request->query->get('host');
+        $db = $request->query->get('db');
+        $user = $request->query->get('user');
+
+        $sortBy = $request->query->get('sortBy');
+        $order = $request->query->get('order');
+        $orderBy = [];
+        $criteria = [];
+
+        if($sortBy != "")
+            $orderBy = [$sortBy=> $order];
+        if($host !="")
+            $criteria += ['host' => $host];
+        if($db !="")
+            $criteria += ['db' => $db];
+        if($user !="")
+            $criteria += ['user' => $user];
+
+        $dbs =  $this->getDoctrine()
             ->getRepository(Db::class)
-            ->findAll();
+            ->findBy($criteria,$orderBy);
+
+        $pagination = $paginator->paginate(
+            $dbs,
+            $request->query->getInt('page',1),
+            6
+        );
 
         return $this->render('mysql/db/index.html.twig', [
-            'dbs' => $dbs,
+            'host' => $host,
+            'db' => $db,
+            'user' => $user,
+            'order' => $order,
+            'sortBy' => $sortBy,
+            'dbs' => $pagination,
         ]);
+
     }
 
     /**
