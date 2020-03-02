@@ -38,7 +38,7 @@ class Transaction
     /**
      * @var Player
      *
-     * @ORM\ManyToOne(targetEntity="Player")
+     * @ORM\ManyToOne(targetEntity="Player", cascade={"remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="player", referencedColumnName="player_id")
      * })

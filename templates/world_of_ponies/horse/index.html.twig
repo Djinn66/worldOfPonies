@@ -10,6 +10,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th>HorseId</th>
                 <th>HorseName</th>
                 <th>HorseDiseaseResistance</th>
@@ -33,6 +34,9 @@
         <tbody>
         {% for horse in horses %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{  horse.horseId  }}" type="checkbox">
+                </td>
                 <td>{{ horse.horseId }}</td>
                 <td>{{ horse.horseName }}</td>
                 <td>{{ horse.horseDiseaseResistance }}</td>
@@ -63,5 +67,6 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
 {% endblock %}

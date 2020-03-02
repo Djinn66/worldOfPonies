@@ -10,6 +10,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th>NewspaperId</th>
                 <th>Weatherforecast</th>
                 <th>ReleaseDate</th>
@@ -19,13 +20,16 @@
         <tbody>
         {% for newspaper in newspapers %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ newspaper.newspaperId }}" type="checkbox">
+                </td>
                 <td>{{ newspaper.newspaperId }}</td>
                 <td>{{ newspaper.weatherforecast }}</td>
                 <td>{{ newspaper.releaseDate ? newspaper.releaseDate|date('Y-m-d') : '' }}</td>
                 <td>
                     <a href="{{ path('world_of_ponies_newspaper_show', {'newspaperId': newspaper.newspaperId}) }}">show</a>
                     <a href="{{ path('world_of_ponies_newspaper_edit', {'newspaperId': newspaper.newspaperId}) }}">edit</a>
-                    {{ include('world_of_ponies_newspaper/_delete_form.html.twig') }}
+                    {{ include('world_of_ponies/newspaper/_delete_form.html.twig') }}
                 </td>
             </tr>
         {% else %}
@@ -35,5 +39,6 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
 {% endblock %}

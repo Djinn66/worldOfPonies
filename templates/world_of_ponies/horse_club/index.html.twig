@@ -8,6 +8,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th>HorseClubId</th>
                 <th>HorseClubCapacity</th>
                 <th>actions</th>
@@ -16,6 +17,9 @@
         <tbody>
         {% for horse_club in horse_clubs %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ horse_club.horseClubId }}" type="checkbox">
+                </td>
                 <td>{{ horse_club.horseClubId }}</td>
                 <td>{{ horse_club.horseClubCapacity }}</td>
                 <td>
@@ -31,6 +35,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
     <a href="{{ path('world_of_ponies_horse_club_new') }}">Create new</a>
 {% endblock %}

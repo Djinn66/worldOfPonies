@@ -10,6 +10,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th>ItemFamilyId</th>
                 <th>ItemFamilyLabel</th>
                 <th>actions</th>
@@ -18,6 +19,9 @@
         <tbody>
         {% for item_family in item_families %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ item_family.itemFamilyId }}" type="checkbox">
+                </td>
                 <td>{{ item_family.itemFamilyId }}</td>
                 <td>{{ item_family.itemFamilyLabel }}</td>
                 <td>
@@ -33,5 +37,6 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
 {% endblock %}

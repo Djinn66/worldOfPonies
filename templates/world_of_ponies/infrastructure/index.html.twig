@@ -10,6 +10,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th>InfrastructureId</th>
                 <th>InfrastructureType</th>
                 <th>InfrastructureLvl</th>
@@ -26,6 +27,9 @@
         <tbody>
         {% for infrastructure in infrastructures %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ infrastructure.infrastructureId }}" type="checkbox">
+                </td>
                 <td>{{ infrastructure.infrastructureId }}</td>
                 <td>{{ infrastructure.infrastructureType }}</td>
                 <td>{{ infrastructure.infrastructureLvl }}</td>
@@ -49,5 +53,6 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
 {% endblock %}

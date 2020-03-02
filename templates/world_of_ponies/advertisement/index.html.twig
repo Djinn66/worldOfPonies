@@ -12,6 +12,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th> <a href="{% if order == 'ASC' %}
                                     {% set order = 'DESC' %}
                              {% else %}
@@ -29,6 +30,9 @@
         <tbody>
         {% for advertisement in advertisements %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ advertisement.advertisementId }}" type="checkbox">
+                </td>
                 <td>{{ advertisement.advertisementId }}</td>
                 <td>{{ advertisement.advertisementContent }}</td>
                 <td>
@@ -43,6 +47,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
     <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
 {% endblock %}

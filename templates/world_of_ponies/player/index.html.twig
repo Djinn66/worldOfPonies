@@ -92,7 +92,7 @@
         <tbody>
         {% for player in players %}
             <tr><td>
-                    <input class="checkBoxDelete" id="{{ player.playerId }}" type="checkbox" name="check[{{ player.playerId }}]" value="1">
+                    <input class="checkBoxDelete" id="{{ player.playerId }}" type="checkbox">
                 </td>
                 <td>{{ player.playerUsername }}</td>
                 <td>{{ player.playerEmail }}</td>
