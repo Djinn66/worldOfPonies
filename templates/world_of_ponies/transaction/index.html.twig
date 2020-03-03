@@ -16,6 +16,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th><a href="{% if order == 'ASC' and sortBy == 'transactionId' %}
                                     {% set order = 'DESC' %}
                              {% else %}
@@ -51,6 +52,9 @@
         <tbody>
         {% for transaction in transactions %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ transaction.transactionId }}" type="checkbox">
+                </td>
                 <td>{{ transaction.transactionId }}</td>
                 <td>{{ transaction.transactionAmount }}</td>
                 <td>{{ transaction.transactionLabel }}</td>
@@ -67,6 +71,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
     <div class="d-flex justify-content-center pagination">
         {{ knp_pagination_render(transactions) }}

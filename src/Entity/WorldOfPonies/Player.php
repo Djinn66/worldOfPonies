@@ -137,7 +137,7 @@ class Player
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Contest", inversedBy="players")
+     * @ORM\ManyToMany(targetEntity="Contest",cascade={"persist"}, inversedBy="players")
      * @ORM\JoinTable(name="contest_player_list",
      *   joinColumns={
      *     @ORM\JoinColumn(name="players", referencedColumnName="player_id")

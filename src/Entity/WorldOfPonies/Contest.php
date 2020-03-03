@@ -57,7 +57,7 @@ class Contest
     /**
      * @var \Newspaper
      *
-     * @ORM\ManyToOne(targetEntity="Newspaper")
+     * @ORM\ManyToOne(targetEntity="Newspaper",cascade={"remove"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="newspaper", referencedColumnName="newspaper_id")
      * })

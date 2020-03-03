@@ -16,6 +16,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th><a href="{% if order == 'ASC' and sortBy == 'equestrianCenterId' %}
                                     {% set order = 'DESC' %}
                              {% else %}
@@ -52,6 +53,9 @@
         <tbody>
         {% for equestrian_center in equestrian_centers %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ equestrian_center.equestrianCenterId }}" type="checkbox">
+                </td>
                 <td>{{ equestrian_center.equestrianCenterId }}</td>
                 <td>{{ equestrian_center.equestrianCenterCapacity }}</td>
                 <td>
@@ -67,6 +71,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
     <div class="d-flex justify-content-center pagination">
         {{ knp_pagination_render(equestrian_centers) }}

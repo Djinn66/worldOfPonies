@@ -16,6 +16,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th><a href="{% if order == 'ASC' and sortBy == 'newspaperId' %}
                                     {% set order = 'DESC' %}
                              {% else %}
@@ -38,6 +39,9 @@
         <tbody>
         {% for newspaper in newspapers %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ newspaper.newspaperId }}" type="checkbox">
+                </td>
                 <td>{{ newspaper.newspaperId }}</td>
                 <td>{{ newspaper.weatherforecast }}</td>
                 <td>{{ newspaper.releaseDate ? newspaper.releaseDate|date('Y-m-d') : '' }}</td>
@@ -54,6 +58,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
     <div class="d-flex justify-content-center pagination">
         {{ knp_pagination_render(newspapers) }}

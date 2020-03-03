@@ -117,4 +117,26 @@ class HorseController extends AbstractController
 
         return $this->redirectToRoute('world_of_ponies_horse_index');
     }
+
+    /**
+     * @Route("/", name="world_of_ponies_horse_delete_selected", methods={"DELETE"})
+     */
+    public function deleteSelected(Request $request): Response
+    {
+        //return $this->json($request->request->get('_token'));
+        $ids = $request->request->get('tab');
+        foreach($ids as $id){
+            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
+            $player = $this->getDoctrine()->getRepository(Horse::class)->find($id);
+            if(isset($player)){
+                $entityManager = $this->getDoctrine()->getManager('worldofponies');
+                $entityManager->remove($player);
+                $entityManager->flush();
+            } else return $this->json( "already");
+
+        }
+
+        //return $this->redirectToRoute('world_of_ponies_player_index');
+        return $this->json( "deleted");
+    }
 }

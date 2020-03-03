@@ -16,6 +16,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th><a href="{% if order == 'ASC' and sortBy == 'contestId' %}
                                     {% set order = 'DESC' %}
                              {% else %}
@@ -54,6 +55,9 @@
         <tbody>
         {% for contest in contests %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ contest.contestId }}" type="checkbox">
+                </td>
                 <td>{{ contest.contestId }}</td>
                 <td>{{ contest.startDate ? contest.startDate|date('Y-m-d') : '' }}</td>
                 <td>{{ contest.endDate ? contest.endDate|date('Y-m-d') : '' }}</td>
@@ -71,6 +75,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
     <div class="d-flex justify-content-center pagination">
         {{ knp_pagination_render(contests) }}

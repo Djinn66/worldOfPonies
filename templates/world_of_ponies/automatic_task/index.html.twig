@@ -16,6 +16,7 @@
     <table class="table table-hover table-dark">
         <thead>
             <tr>
+                <th>Selected</th>
                 <th><a href="{% if order == 'ASC' and sortBy == 'taskId' %}
                                     {% set order = 'DESC' %}
                              {% else %}
@@ -53,6 +54,9 @@
         <tbody>
         {% for automatic_task in automatic_tasks %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ automatic_task.taskId }}" type="checkbox">
+                </td>
                 <td>{{ automatic_task.taskId }}</td>
                 <td>{{ automatic_task.taskToDo }}</td>
                 <td>{{ automatic_task.taskFrequency }}</td>
@@ -74,4 +78,5 @@
         {{ knp_pagination_render(automatic_tasks) }}
     </div>
 
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 {% endblock %}
