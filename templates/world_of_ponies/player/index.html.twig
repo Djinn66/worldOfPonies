@@ -92,7 +92,7 @@
         <tbody>
         {% for player in players %}
             <tr><td>
-                    <input type="checkbox" name="check[{{ player.playerId }}]" value="1">
+                    <input class="checkBoxDelete" id="{{ player.playerId }}" type="checkbox" name="check[{{ player.playerId }}]" value="1">
                 </td>
                 <td>{{ player.playerUsername }}</td>
                 <td>{{ player.playerEmail }}</td>
@@ -123,7 +123,7 @@
         {% endfor %}
         </tbody>
     </table>
-
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
     <div class="d-flex justify-content-center pagination">
         {{ knp_pagination_render(players) }}
     </div>
