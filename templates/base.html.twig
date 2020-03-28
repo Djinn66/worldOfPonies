@@ -3,155 +3,57 @@
     <head>
         <meta charset="UTF-8">
 
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <style>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+            <link rel="stylesheet" href={{ asset('css/bootstrap.css') }}>
+            <link rel="stylesheet" href={{ asset('css/styles.css') }}>
+        {% endblock %}
 
-            html, body {
-                margin: 0;
-                height: 100%;
-                background: #283048;  /* fallback for old browsers */
-                background: -webkit-linear-gradient(to right, #859398, #283048);  /* Chrome 10-25, Safari 5.1-6 */
-                background: linear-gradient(to right, #859398, #283048); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-                overflow: hidden;
-            }
-
-            .navigation {
-                display: flex;
-                flex-direction: column;
-                position: fixed;
-                top: 0;
-                bottom: 0;
-                right: 0;
-                left: 0;
-                margin: 0;
-                padding: 0;
-                width: 15%;
-                height: 100%;
-                overflow: auto;
-                background-color: rgba(17, 17, 17, 0.95);
-                align-items: center;
-                justify-content: space-around;
-            }
-
-            .navigation > h2 {
-                color: #6E6E6E;
-                align-self: center;
-            }
-
-            .navigation > ul {
-                list-style-type: none;
-                padding: 0;
-                width: 100%;
-            }
-
-            .navigation > ul > li a {
-                display: block;
-                color: #fff;
-                padding: 1rem 2rem;
-                text-decoration: none;
-            }
-
-            .navigation > ul > li a.active {
-                background-color: #4CAF50;
-                color: #fff;
-            }
-
-            .navigation > ul > li a:hover:not(.active) {
-                background-color: #555;
-                color: #fff;
-            }
-
-            main {
-                display: flex;
-                flex-direction: column;
-                height: 95%;
-                margin: 2% 2% 2% 17%;
-                padding: 2%;
-                -webkit-box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
-                -moz-box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
-                box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
-                overflow-x: auto;
-                overflow-y: auto;
-                background-color: #fff;
-            }
-
-            main > h1 {
-                align-self: center;
-                padding-bottom: 1%;
-            }
-
-            main > a {
-                align-self: center;
-                padding: 10px;
-                border: 1px;
-                border-radius: 10px;
-                background-color: #222222;
-            }
-
-            main > a:hover {
-                text-decoration: none;
-                color: #218BC3;
-            }
-
-            main > table > tbody > tr > td > a {
-                align-self: center;
-                margin: 1%;
-                padding: 1px 5px;
-                border-radius: 5px;
-                background-color: #222222;
-                color: #fff;
-            }
-
-            main > table > tbody > tr > td > a:hover, main > a:hover {
-                text-decoration: none;
-                color: #218BC3;
-            }
-
-        </style>
-        {% block stylesheets %}{% endblock %}
         <title>{% block title %}Welcome!{% endblock %}</title>
-
-
-
     </head>
 
     <body>
-        <header>
-            <nav class="navigation">
-                <h2>Navigation</h2>
-                <ul>
-                    <li><a href={{ path('mysql_tables_priv_index') }}>Privilèges (tables)</a></li>
-                    <li><a href={{ path('mysql_db_index') }}>Privilèges (DB)</a></li>
-                    <li><a href={{ path('world_of_ponies_advertisement_index') }}>Advertisement</a></li>
-                    <li><a href={{ path('world_of_ponies_article_index') }}>Article</a></li>
-                    <li><a href={{ path('world_of_ponies_automatic_task_index') }}>Automatic Task</a></li>
-                    <li><a href={{ path('world_of_ponies_breed_index') }}>Breed</a></li>
-                    <li><a href={{ path('world_of_ponies_contest_index') }}>Contest</a></li>
-                    <li><a href={{ path('world_of_ponies_equestrian_center_index') }}>Equestrian Center</a></li>
-                    <li><a href={{ path('world_of_ponies_horse_club_index') }}>Horse Club</a></li>
-                    <li><a href={{ path('world_of_ponies_horse_index') }}>Horse</a></li>
-                    <li><a href={{ path('world_of_ponies_infrastructure_index') }}>Infrastructure</a></li>
-                    <li><a href={{ path('world_of_ponies_item_index') }}>Item</a></li>
-                    <li><a href={{ path('world_of_ponies_item_family_index') }}>Item Family</a></li>
-                    <li><a href={{ path('world_of_ponies_newspaper_index') }}>Newspaper</a></li>
-                    <li><a href={{ path('world_of_ponies_player_index') }}>Player</a></li>
-                    <li><a href={{ path('world_of_ponies_transaction_index') }}>Transaction</a></li>
-                </ul>
-            </nav>
-        </header>
 
+    <nav id="mySidenav" class="navigation sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <h2>Navigation</h2>
+        <ul>
+            <li><a href={{ path('mysql_tables_priv_index') }}>Privilèges (tables)</a></li>
+            <li><a href={{ path('mysql_db_index') }}>Privilèges (DB)</a></li>
+            <li><a href={{ path('world_of_ponies_advertisement_index') }}>Advertisement</a></li>
+            <li><a href={{ path('world_of_ponies_article_index') }}>Article</a></li>
+            <li><a href={{ path('world_of_ponies_automatic_task_index') }}>Automatic Task</a></li>
+            <li><a href={{ path('world_of_ponies_breed_index') }}>Breed</a></li>
+            <li><a href={{ path('world_of_ponies_contest_index') }}>Contest</a></li>
+            <li><a href={{ path('world_of_ponies_equestrian_center_index') }}>Equestrian Center</a></li>
+            <li><a href={{ path('world_of_ponies_horse_club_index') }}>Horse Club</a></li>
+            <li><a href={{ path('world_of_ponies_horse_index') }}>Horse</a></li>
+            <li><a href={{ path('world_of_ponies_infrastructure_index') }}>Infrastructure</a></li>
+            <li><a href={{ path('world_of_ponies_item_index') }}>Item</a></li>
+            <li><a href={{ path('world_of_ponies_item_family_index') }}>Item Family</a></li>
+            <li><a href={{ path('world_of_ponies_newspaper_index') }}>Newspaper</a></li>
+            <li><a href={{ path('world_of_ponies_player_index') }}>Player</a></li>
+            <li><a href={{ path('world_of_ponies_transaction_index') }}>Transaction</a></li>
+        </ul>
+    </nav>
 
-        <main>
+    <!-- Use any element to open the sidenav -->
+        <span class="btn btn-action btn-info customButton" onclick="openNav()">Menu</span>
+
+        <main id="main">
             {% block body %}{% endblock %}
-
         </main>
+
     </body>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="{{ asset('js/my.js') }}"></script>
     {% block javascripts %}
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{{ asset('js/my.js') }}"></script>
     {% endblock %}
 </html>

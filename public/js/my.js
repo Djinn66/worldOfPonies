@@ -1,13 +1,12 @@
-var idToDelete = [];
-
+let idToDelete = [];
 
 $(function () {
 
     $(".checkBoxDelete").click(function () {
-        var id = $(this).attr('id');
-        var index = idToDelete.indexOf(id);
+        let id = $(this).attr('id');
+        let index = idToDelete.indexOf(id);
 
-        if($(this).is(':checked') && index == -1){
+        if ($(this).is(':checked') && index == -1) {
             idToDelete.push(id);
         } else idToDelete.splice(index,1);
 
@@ -16,17 +15,17 @@ $(function () {
     });
 
     $(".btn_delete_selected").click(function () {
-        if(idToDelete.length != 0){
-            var url = document.location.href;
+        if(idToDelete.length != 0) {
+            let url = document.location.href;
 
             if (confirm('Attention! Vous allez définitivement supprimer les élements sélectionnés ')) {
-                //console.log(url);
-               //idToDelete.forEach(element => console.log("{{ url('delete') }}");
+                // console.log(url);
+                // idToDelete.forEach(element => console.log("{{ url('delete') }}");
                    $.ajax({
-                       url:url ,
+                       url: url,
                        method: "delete",
-                       data:{ "tab" : idToDelete},
-                       success: window.location.href= url
+                       data:{"tab": idToDelete},
+                       success: window.location.href = url
 
                    }
                );
@@ -35,15 +34,19 @@ $(function () {
                         method: "delete",
                     */
                 //});
-
-
             } else {
                 console.log('Annulé !');
             }
         }
-
     });
 });
 
+/* Set the width of the side navigation to 250px */
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
 
-
+/* Set the width of the side navigation to 0 */
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}

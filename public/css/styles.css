@@ -7,6 +7,13 @@ html, body {
     overflow: hidden;
 }
 
+.customButton {
+    position: absolute;
+    width: 5%;
+    top: 5%;
+    left: 3%;
+}
+
 .navigation {
     display: flex;
     flex-direction: column;
@@ -16,7 +23,7 @@ html, body {
     right: 0;
     left: 0;
     margin: 0;
-    padding: 0;
+    padding: 0 0 1rem 0;
     width: 15%;
     height: 100%;
     overflow: auto;
@@ -39,7 +46,6 @@ html, body {
 .navigation > ul > li a {
     display: block;
     color: #fff;
-    padding: 1rem 2rem;
     text-decoration: none;
 }
 
@@ -57,16 +63,140 @@ main {
     display: flex;
     flex-direction: column;
     height: 95%;
-    margin: 2% 2% 2% 17%;
-    padding: 2%;
+    margin: 2%;
+    padding: 1%;
     -webkit-box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
     -moz-box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
     box-shadow: -5px -9px 40px 16px rgba(0,0,0,0.75);
     overflow-x: auto;
-    overflow-y: scroll;
+    overflow-y: auto;
+    background-color: #fff;
 }
 
 main > h1 {
     align-self: center;
     padding-bottom: 1%;
+}
+
+main > a {
+    align-self: center;
+    padding: 10px;
+    border: 1px;
+    border-radius: 10px;
+    background-color: #222222;
+}
+
+main > a:hover {
+    text-decoration: none;
+    color: #218BC3;
+}
+
+main > table > tbody > tr > td > a {
+    align-self: center;
+    margin: 1%;
+    padding: 1px 5px;
+    border-radius: 5px;
+    background-color: #222222;
+    color: #fff;
+}
+
+main > table > tbody > tr > td > a:hover, main > a:hover {
+    text-decoration: none;
+    color: #218BC3;
+}
+
+/* The side navigation menu */
+.sidenav {
+   height: 100%; /* 100% Full-height */
+   width: 0; /* 0 width - change this with JavaScript */
+   position: fixed; /* Stay in place */
+   z-index: 1; /* Stay on top */
+   top: 0; /* Stay at the top */
+   left: 0;
+   background-color: #111; /* Black*/
+   overflow-x: hidden; /* Disable horizontal scroll */
+   padding-top: 40px; /* Place content 60px from the top */
+   transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 2rem 8px 2rem;
+    text-decoration: none;
+    font-size: 22px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: -2vh;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    left: 2rem;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+/* Form */
+form:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+form > input {
+    border-radius: 5px;
+}
+
+form > div {
+    align-self: center;
+}
+
+form > div > div {
+    display: flex;
+    flex-direction: column;
+    margin: 0 10rem 0 10rem;
+}
+
+form > div > div > label {
+    justify-content: center;
+    align-self: center;
+}
+
+form > div > div > input {
+    border-radius: 5px;
+}
+
+/* Delete button on list */
+.btn_delete_selected {
+    width: 10%;
+    align-self: center;
+    background: #ff8c80;
+    border-radius: 5px;
+    margin: 2rem;
+}
+
+/* Button to create new element */
+main > a {
+    margin: 1rem;
 }
