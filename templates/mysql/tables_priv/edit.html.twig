@@ -3,11 +3,13 @@
 {% block title %}Edit TablesPriv{% endblock %}
 
 {% block body %}
-    <h1>Edit TablesPriv</h1>
+    {% if is_granted('ROLE_USERADMIN') %}
+        <h1>Edit TablesPriv</h1>
 
-    {{ include('mysql/tables_priv/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('mysql/tables_priv/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('mysql_tables_priv_index') }}">back to list</a>
+        <a href="{{ path('mysql_tables_priv_index') }}">back to list</a>
 
-    {{ include('mysql/tables_priv/_delete_form.html.twig') }}
+        {{ include('mysql/tables_priv/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

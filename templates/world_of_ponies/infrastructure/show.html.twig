@@ -3,56 +3,60 @@
 {% block title %}Infrastructure{% endblock %}
 
 {% block body %}
-    <h1>Infrastructure</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>InfrastructureId</th>
-                <td>{{ infrastructure.infrastructureId }}</td>
-            </tr>
-            <tr>
-                <th>InfrastructureType</th>
-                <td>{{ infrastructure.infrastructureType }}</td>
-            </tr>
-            <tr>
-                <th>InfrastructureLvl</th>
-                <td>{{ infrastructure.infrastructureLvl }}</td>
-            </tr>
-            <tr>
-                <th>InfrastructureDescription</th>
-                <td>{{ infrastructure.infrastructureDescription }}</td>
-            </tr>
-            <tr>
-                <th>InfrastructureFamily</th>
-                <td>{{ infrastructure.infrastructureFamily }}</td>
-            </tr>
-            <tr>
-                <th>InfrastructurePrice</th>
-                <td>{{ infrastructure.infrastructurePrice }}</td>
-            </tr>
-            <tr>
-                <th>InfrastructureRessource</th>
-                <td>{{ infrastructure.infrastructureRessource }}</td>
-            </tr>
-            <tr>
-                <th>InfrastructureItemCapacity</th>
-                <td>{{ infrastructure.infrastructureItemCapacity }}</td>
-            </tr>
-            <tr>
-                <th>InfrastructureHorseCapacity</th>
-                <td>{{ infrastructure.infrastructureHorseCapacity }}</td>
-            </tr>
-            <tr>
-                <th>InfrastructureCleaninessDegree</th>
-                <td>{{ infrastructure.infrastructureCleaninessDegree }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <h1>Infrastructure</h1>
 
-    <a href="{{ path('world_of_ponies_infrastructure_index') }}">back to list</a>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>InfrastructureId</th>
+                    <td>{{ infrastructure.infrastructureId }}</td>
+                </tr>
+                <tr>
+                    <th>InfrastructureType</th>
+                    <td>{{ infrastructure.infrastructureType }}</td>
+                </tr>
+                <tr>
+                    <th>InfrastructureLvl</th>
+                    <td>{{ infrastructure.infrastructureLvl }}</td>
+                </tr>
+                <tr>
+                    <th>InfrastructureDescription</th>
+                    <td>{{ infrastructure.infrastructureDescription }}</td>
+                </tr>
+                <tr>
+                    <th>InfrastructureFamily</th>
+                    <td>{{ infrastructure.infrastructureFamily }}</td>
+                </tr>
+                <tr>
+                    <th>InfrastructurePrice</th>
+                    <td>{{ infrastructure.infrastructurePrice }}</td>
+                </tr>
+                <tr>
+                    <th>InfrastructureRessource</th>
+                    <td>{{ infrastructure.infrastructureRessource }}</td>
+                </tr>
+                <tr>
+                    <th>InfrastructureItemCapacity</th>
+                    <td>{{ infrastructure.infrastructureItemCapacity }}</td>
+                </tr>
+                <tr>
+                    <th>InfrastructureHorseCapacity</th>
+                    <td>{{ infrastructure.infrastructureHorseCapacity }}</td>
+                </tr>
+                <tr>
+                    <th>InfrastructureCleaninessDegree</th>
+                    <td>{{ infrastructure.infrastructureCleaninessDegree }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('world_of_ponies_infrastructure_edit', {'infrastructureId': infrastructure.infrastructureId}) }}">edit</a>
+        <a href="{{ path('world_of_ponies_infrastructure_index') }}">back to list</a>
 
-    {{ include('world_of_ponies/infrastructure/_delete_form.html.twig') }}
+        <a href="{{ path('world_of_ponies_infrastructure_edit', {'infrastructureId': infrastructure.infrastructureId}) }}">edit</a>
+
+        {{ include('world_of_ponies/infrastructure/_delete_form.html.twig') }}
+
+    {% endif %}
 {% endblock %}

@@ -3,80 +3,84 @@
 {% block title %}AutomaticTask index{% endblock %}
 
 {% block body %}
-    <h1>AutomaticTask index</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    <form action="{{ path('world_of_ponies_automatic_task_index', { 'taskToDo': 'taskToDo' }) }}" >
-        TaskToDo :
-        <input type="text" value = "{{ taskToDo }}" name="taskToDo">
-        <input type="submit" value="Rechercher">
-    </form>
+        <h1>AutomaticTask index</h1>
 
-    <a href="{{ path('world_of_ponies_automatic_task_new') }}">Create new</a>
+        <form action="{{ path('world_of_ponies_automatic_task_index', { 'taskToDo': 'taskToDo' }) }}" >
+            TaskToDo :
+            <input type="text" value = "{{ taskToDo }}" name="taskToDo">
+            <input type="submit" value="Rechercher">
+        </form>
 
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'taskId' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_automatic_task_index', {
-                        'sortBy'            : 'taskId',
-                        'order'             : order ,
-                        'taskId'            : taskId ,
-                        'taskToDo'          : taskToDo ,
-                    }) }}"
-                    >
-                        TaskId
-                    </a>
-                </th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'taskToDo' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_automatic_task_index', {
-                        'sortBy'            : 'taskToDo',
-                        'order'             : order ,
-                        'taskId'            : taskId ,
-                        'taskToDo'          : taskToDo ,
-                    }) }}"
-                    >
-                        TaskToDo
-                    </a>
-                </th>
-                <th>TaskFrequency</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for automatic_task in automatic_tasks %}
-            <tr>
-                <td>
-                    <input class="checkBoxDelete" id="{{ automatic_task.taskId }}" type="checkbox">
-                </td>
-                <td>{{ automatic_task.taskId }}</td>
-                <td>{{ automatic_task.taskToDo }}</td>
-                <td>{{ automatic_task.taskFrequency }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_automatic_task_show', {'taskId': automatic_task.taskId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_automatic_task_edit', {'taskId': automatic_task.taskId}) }}">edit</a>
-                    {{ include('world_of_ponies/automatic_task/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <a href="{{ path('world_of_ponies_automatic_task_new') }}">Create new</a>
 
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(automatic_tasks) }}
-    </div>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Selected</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'taskId' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_automatic_task_index', {
+                            'sortBy'            : 'taskId',
+                            'order'             : order ,
+                            'taskId'            : taskId ,
+                            'taskToDo'          : taskToDo ,
+                        }) }}"
+                        >
+                            TaskId
+                        </a>
+                    </th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'taskToDo' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_automatic_task_index', {
+                            'sortBy'            : 'taskToDo',
+                            'order'             : order ,
+                            'taskId'            : taskId ,
+                            'taskToDo'          : taskToDo ,
+                        }) }}"
+                        >
+                            TaskToDo
+                        </a>
+                    </th>
+                    <th>TaskFrequency</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for automatic_task in automatic_tasks %}
+                <tr>
+                    <td>
+                        <input class="checkBoxDelete" id="{{ automatic_task.taskId }}" type="checkbox">
+                    </td>
+                    <td>{{ automatic_task.taskId }}</td>
+                    <td>{{ automatic_task.taskToDo }}</td>
+                    <td>{{ automatic_task.taskFrequency }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_automatic_task_show', {'taskId': automatic_task.taskId}) }}">show</a>
+                        <a href="{{ path('world_of_ponies_automatic_task_edit', {'taskId': automatic_task.taskId}) }}">edit</a>
+                        {{ include('world_of_ponies/automatic_task/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(automatic_tasks) }}
+        </div>
+
+        <input type="button" class="btn_delete_selected" value="Delete Selected">
+
+    {% endif %}
 {% endblock %}

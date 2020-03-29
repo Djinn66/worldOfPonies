@@ -3,11 +3,13 @@
 {% block title %}Edit ColumnsPriv{% endblock %}
 
 {% block body %}
-    <h1>Edit ColumnsPriv</h1>
+    {% if is_granted('ROLE_USERADMIN') %}
+        <h1>Edit ColumnsPriv</h1>
 
-    {{ include('mysql/columns_priv/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('mysql/columns_priv/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('mysql_columns_priv_index') }}">back to list</a>
+        <a href="{{ path('mysql_columns_priv_index') }}">back to list</a>
 
-    {{ include('mysql/columns_priv/_delete_form.html.twig') }}
+        {{ include('mysql/columns_priv/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

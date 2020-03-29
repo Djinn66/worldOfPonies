@@ -3,24 +3,28 @@
 {% block title %}EquestrianCenter{% endblock %}
 
 {% block body %}
-    <h1>EquestrianCenter</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>EquestrianCenterId</th>
-                <td>{{ equestrian_center.equestrianCenterId }}</td>
-            </tr>
-            <tr>
-                <th>EquestrianCenterCapacity</th>
-                <td>{{ equestrian_center.equestrianCenterCapacity }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <h1>EquestrianCenter</h1>
 
-    <a href="{{ path('world_of_ponies_equestrian_center_index') }}">back to list</a>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>EquestrianCenterId</th>
+                    <td>{{ equestrian_center.equestrianCenterId }}</td>
+                </tr>
+                <tr>
+                    <th>EquestrianCenterCapacity</th>
+                    <td>{{ equestrian_center.equestrianCenterCapacity }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('world_of_ponies_equestrian_center_edit', {'equestrianCenterId': equestrian_center.equestrianCenterId}) }}">edit</a>
+        <a href="{{ path('world_of_ponies_equestrian_center_index') }}">back to list</a>
 
-    {{ include('world_of_ponies/equestrian_center/_delete_form.html.twig') }}
+        <a href="{{ path('world_of_ponies_equestrian_center_edit', {'equestrianCenterId': equestrian_center.equestrianCenterId}) }}">edit</a>
+
+        {{ include('world_of_ponies/equestrian_center/_delete_form.html.twig') }}
+
+    {% endif %}
 {% endblock %}

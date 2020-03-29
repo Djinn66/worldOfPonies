@@ -3,78 +3,81 @@
 {% block title %}EquestrianCenter index{% endblock %}
 
 {% block body %}
-    <h1>EquestrianCenter index</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    <form action="{{ path('world_of_ponies_equestrian_center_index', { 'equestrianCenterId': 'equestrianCenterId' }) }}" >
-        Equestrian Center ID :
-        <input type="number" value = "{{ equestrianCenterId }}" name="equestrianCenterId">
-        <input type="submit" value="Rechercher">
-    </form>
+        <h1>EquestrianCenter index</h1>
 
-    <a href="{{ path('world_of_ponies_equestrian_center_new') }}">Create new</a>
+        <form action="{{ path('world_of_ponies_equestrian_center_index', { 'equestrianCenterId': 'equestrianCenterId' }) }}" >
+            Equestrian Center ID :
+            <input type="number" value = "{{ equestrianCenterId }}" name="equestrianCenterId">
+            <input type="submit" value="Rechercher">
+        </form>
 
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'equestrianCenterId' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_equestrian_center_index', {
-                        'sortBy'                        : 'equestrianCenterId',
-                        'order'                         : order ,
-                        'equestrianCenterId'            : equestrianCenterId ,
-                        'equestrianCenterCapacity'      : equestrianCenterCapacity ,
-                    }) }}"
-                    >
-                        EquestrianCenterId
-                    </a>
-                </th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'equestrianCenterCapacity' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_equestrian_center_index', {
-                        'sortBy'                        : 'equestrianCenterCapacity',
-                        'order'                         : order ,
-                        'equestrianCenterId'            : equestrianCenterId ,
-                        'equestrianCenterCapacity'      : equestrianCenterCapacity ,
-                    }) }}"
-                    >
-                        EquestrianCenterCapacity
-                    </a>
-                </th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for equestrian_center in equestrian_centers %}
-            <tr>
-                <td>
-                    <input class="checkBoxDelete" id="{{ equestrian_center.equestrianCenterId }}" type="checkbox">
-                </td>
-                <td>{{ equestrian_center.equestrianCenterId }}</td>
-                <td>{{ equestrian_center.equestrianCenterCapacity }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_equestrian_center_show', {'equestrianCenterId': equestrian_center.equestrianCenterId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_equestrian_center_edit', {'equestrianCenterId': equestrian_center.equestrianCenterId}) }}">edit</a>
-                    {{ include('world_of_ponies/equestrian_center/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
+        <a href="{{ path('world_of_ponies_equestrian_center_new') }}">Create new</a>
 
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(equestrian_centers) }}
-    </div>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Selected</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'equestrianCenterId' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_equestrian_center_index', {
+                            'sortBy'                        : 'equestrianCenterId',
+                            'order'                         : order ,
+                            'equestrianCenterId'            : equestrianCenterId ,
+                            'equestrianCenterCapacity'      : equestrianCenterCapacity ,
+                        }) }}"
+                        >
+                            EquestrianCenterId
+                        </a>
+                    </th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'equestrianCenterCapacity' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_equestrian_center_index', {
+                            'sortBy'                        : 'equestrianCenterCapacity',
+                            'order'                         : order ,
+                            'equestrianCenterId'            : equestrianCenterId ,
+                            'equestrianCenterCapacity'      : equestrianCenterCapacity ,
+                        }) }}"
+                        >
+                            EquestrianCenterCapacity
+                        </a>
+                    </th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for equestrian_center in equestrian_centers %}
+                <tr>
+                    <td>
+                        <input class="checkBoxDelete" id="{{ equestrian_center.equestrianCenterId }}" type="checkbox">
+                    </td>
+                    <td>{{ equestrian_center.equestrianCenterId }}</td>
+                    <td>{{ equestrian_center.equestrianCenterCapacity }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_equestrian_center_show', {'equestrianCenterId': equestrian_center.equestrianCenterId}) }}">show</a>
+                        <a href="{{ path('world_of_ponies_equestrian_center_edit', {'equestrianCenterId': equestrian_center.equestrianCenterId}) }}">edit</a>
+                        {{ include('world_of_ponies/equestrian_center/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="button" class="btn_delete_selected" value="Delete Selected">
 
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(equestrian_centers) }}
+        </div>
+
+    {% endif %}
 {% endblock %}

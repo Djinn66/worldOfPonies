@@ -3,92 +3,95 @@
 {% block title %}Infrastructure index{% endblock %}
 
 {% block body %}
-    <h1>Infrastructure index</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    <form action="{{ path('world_of_ponies_infrastructure_index', { 'infrastructureName': 'infrastructureName' }) }}" >
-        Infrastructure Type :
-        <input type="text" value = "{{ infrastructureType }}" name="infrastructureType">
-        <input type="submit" value="Rechercher">
-    </form>
-    
-    <a href="{{ path('world_of_ponies_infrastructure_new') }}">Create new</a>
+        <h1>Infrastructure index</h1>
 
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'infrastructureId' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_infrastructure_index', {
-                        'sortBy'                 : 'infrastructureId',
-                        'order'                  : order ,
-                        'infrastructureType'     : infrastructureType ,
-                    }) }}"
-                    >
-                        InfrastructureId
-                    </a>
-                </th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'infrastructureType' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_infrastructure_index', {
-                        'sortBy'                 : 'infrastructureType',
-                        'order'                  : order ,
-                        'infrastructureType'     : infrastructureType ,
-                    }) }}"
-                    >
-                        InfrastructureType
-                    </a>
-                </th>
-                <th>InfrastructureLvl</th>
-                <th>InfrastructureDescription</th>
-                <th>InfrastructureFamily</th>
-                <th>InfrastructurePrice</th>
-                <th>InfrastructureRessource</th>
-                <th>InfrastructureItemCapacity</th>
-                <th>InfrastructureHorseCapacity</th>
-                <th>InfrastructureCleaninessDegree</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for infrastructure in infrastructures %}
-            <tr>
-                <td>
-                    <input class="checkBoxDelete" id="{{ infrastructure.infrastructureId }}" type="checkbox">
-                </td>
-                <td>{{ infrastructure.infrastructureId }}</td>
-                <td>{{ infrastructure.infrastructureType }}</td>
-                <td>{{ infrastructure.infrastructureLvl }}</td>
-                <td>{{ infrastructure.infrastructureDescription }}</td>
-                <td>{{ infrastructure.infrastructureFamily }}</td>
-                <td>{{ infrastructure.infrastructurePrice }}</td>
-                <td>{{ infrastructure.infrastructureRessource }}</td>
-                <td>{{ infrastructure.infrastructureItemCapacity }}</td>
-                <td>{{ infrastructure.infrastructureHorseCapacity }}</td>
-                <td>{{ infrastructure.infrastructureCleaninessDegree }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_infrastructure_show', {'infrastructureId': infrastructure.infrastructureId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_infrastructure_edit', {'infrastructureId': infrastructure.infrastructureId}) }}">edit</a>
-                    {{ include('world_of_ponies/infrastructure/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
+        <form action="{{ path('world_of_ponies_infrastructure_index', { 'infrastructureName': 'infrastructureName' }) }}" >
+            Infrastructure Type :
+            <input type="text" value = "{{ infrastructureType }}" name="infrastructureType">
+            <input type="submit" value="Rechercher">
+        </form>
 
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(infrastructures) }}
-    </div>
-    
+        <a href="{{ path('world_of_ponies_infrastructure_new') }}">Create new</a>
+
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Selected</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'infrastructureId' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_infrastructure_index', {
+                            'sortBy'                 : 'infrastructureId',
+                            'order'                  : order ,
+                            'infrastructureType'     : infrastructureType ,
+                        }) }}"
+                        >
+                            InfrastructureId
+                        </a>
+                    </th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'infrastructureType' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_infrastructure_index', {
+                            'sortBy'                 : 'infrastructureType',
+                            'order'                  : order ,
+                            'infrastructureType'     : infrastructureType ,
+                        }) }}"
+                        >
+                            InfrastructureType
+                        </a>
+                    </th>
+                    <th>InfrastructureLvl</th>
+                    <th>InfrastructureDescription</th>
+                    <th>InfrastructureFamily</th>
+                    <th>InfrastructurePrice</th>
+                    <th>InfrastructureRessource</th>
+                    <th>InfrastructureItemCapacity</th>
+                    <th>InfrastructureHorseCapacity</th>
+                    <th>InfrastructureCleaninessDegree</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for infrastructure in infrastructures %}
+                <tr>
+                    <td>
+                        <input class="checkBoxDelete" id="{{ infrastructure.infrastructureId }}" type="checkbox">
+                    </td>
+                    <td>{{ infrastructure.infrastructureId }}</td>
+                    <td>{{ infrastructure.infrastructureType }}</td>
+                    <td>{{ infrastructure.infrastructureLvl }}</td>
+                    <td>{{ infrastructure.infrastructureDescription }}</td>
+                    <td>{{ infrastructure.infrastructureFamily }}</td>
+                    <td>{{ infrastructure.infrastructurePrice }}</td>
+                    <td>{{ infrastructure.infrastructureRessource }}</td>
+                    <td>{{ infrastructure.infrastructureItemCapacity }}</td>
+                    <td>{{ infrastructure.infrastructureHorseCapacity }}</td>
+                    <td>{{ infrastructure.infrastructureCleaninessDegree }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_infrastructure_show', {'infrastructureId': infrastructure.infrastructureId}) }}">show</a>
+                        <a href="{{ path('world_of_ponies_infrastructure_edit', {'infrastructureId': infrastructure.infrastructureId}) }}">edit</a>
+                        {{ include('world_of_ponies/infrastructure/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="11">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="button" class="btn_delete_selected" value="Delete Selected">
+
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(infrastructures) }}
+        </div>
+
+    {% endif %}
 {% endblock %}

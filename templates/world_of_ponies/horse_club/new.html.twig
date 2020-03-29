@@ -3,9 +3,12 @@
 {% block title %}New HorseClub{% endblock %}
 
 {% block body %}
-    <h1>Create new HorseClub</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    {{ include('world_of_ponies/horse_club/_form.html.twig') }}
+        <h1>Create new HorseClub</h1>
 
-    <a href="{{ path('world_of_ponies_horse_club_index') }}">back to list</a>
+        {{ include('world_of_ponies/horse_club/_form.html.twig') }}
+
+        <a href="{{ path('world_of_ponies_horse_club_index') }}">back to list</a>
+    {% endif %}
 {% endblock %}

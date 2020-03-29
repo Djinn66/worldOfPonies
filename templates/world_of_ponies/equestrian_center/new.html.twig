@@ -3,9 +3,11 @@
 {% block title %}New EquestrianCenter{% endblock %}
 
 {% block body %}
-    <h1>Create new EquestrianCenter</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
+        <h1>Create new EquestrianCenter</h1>
 
-    {{ include('world_of_ponies/equestrian_center/_form.html.twig') }}
+        {{ include('world_of_ponies/equestrian_center/_form.html.twig') }}
 
-    <a href="{{ path('world_of_ponies_equestrian_center_index') }}">back to list</a>
+        <a href="{{ path('world_of_ponies_equestrian_center_index') }}">back to list</a>
+    {% endif %}
 {% endblock %}

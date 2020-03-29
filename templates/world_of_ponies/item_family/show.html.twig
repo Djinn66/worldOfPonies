@@ -3,24 +3,28 @@
 {% block title %}ItemFamily{% endblock %}
 
 {% block body %}
-    <h1>ItemFamily</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>ItemFamilyId</th>
-                <td>{{ item_family.itemFamilyId }}</td>
-            </tr>
-            <tr>
-                <th>ItemFamilyLabel</th>
-                <td>{{ item_family.itemFamilyLabel }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <h1>ItemFamily</h1>
 
-    <a href="{{ path('world_of_ponies_item_family_index') }}">back to list</a>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>ItemFamilyId</th>
+                    <td>{{ item_family.itemFamilyId }}</td>
+                </tr>
+                <tr>
+                    <th>ItemFamilyLabel</th>
+                    <td>{{ item_family.itemFamilyLabel }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('world_of_ponies_item_family_edit', {'itemFamilyId': item_family.itemFamilyId}) }}">edit</a>
+        <a href="{{ path('world_of_ponies_item_family_index') }}">back to list</a>
 
-    {{ include('world_of_ponies/item_family/_delete_form.html.twig') }}
+        <a href="{{ path('world_of_ponies_item_family_edit', {'itemFamilyId': item_family.itemFamilyId}) }}">edit</a>
+
+        {{ include('world_of_ponies/item_family/_delete_form.html.twig') }}
+
+    {% endif %}
 {% endblock %}

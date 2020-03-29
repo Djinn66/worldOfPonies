@@ -3,9 +3,11 @@
 {% block title %}New AutomaticTask{% endblock %}
 
 {% block body %}
-    <h1>Create new AutomaticTask</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
+        <h1>Create new AutomaticTask</h1>
 
-    {{ include('world_of_ponies/automatic_task/_form.html.twig') }}
+        {{ include('world_of_ponies/automatic_task/_form.html.twig') }}
 
-    <a href="{{ path('world_of_ponies_automatic_task_index') }}">back to list</a>
+        <a href="{{ path('world_of_ponies_automatic_task_index') }}">back to list</a>
+    {% endif %}
 {% endblock %}

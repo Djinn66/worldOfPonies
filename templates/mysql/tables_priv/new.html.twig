@@ -3,9 +3,11 @@
 {% block title %}New TablesPriv{% endblock %}
 
 {% block body %}
-    <h1>Create new TablesPriv</h1>
+    {% if is_granted('ROLE_USERADMIN') %}
+        <h1>Create new TablesPriv</h1>
 
-    {{ include('mysql_tables_priv/_form.html.twig') }}
+        {{ include('mysql_tables_priv/_form.html.twig') }}
 
-    <a href="{{ path('mysql_tables_priv_index') }}">back to list</a>
+        <a href="{{ path('mysql_tables_priv_index') }}">back to list</a>
+    {% endif %}
 {% endblock %}

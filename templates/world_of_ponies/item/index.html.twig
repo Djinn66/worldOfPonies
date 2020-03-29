@@ -3,80 +3,83 @@
 {% block title %}Item index{% endblock %}
 
 {% block body %}
-    <h1>Item index</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    <form action="{{ path('world_of_ponies_item_index', { 'itemDescription': 'itemDescription' }) }}" >
-        Item Description :
-        <input type="text" value = "{{ itemDescription }}" name="itemDescription">
-        <input type="submit" value="Rechercher">
-    </form>
+        <h1>Item index</h1>
 
-    <a href="{{ path('world_of_ponies_item_new') }}">Create new</a>
+        <form action="{{ path('world_of_ponies_item_index', { 'itemDescription': 'itemDescription' }) }}" >
+            Item Description :
+            <input type="text" value = "{{ itemDescription }}" name="itemDescription">
+            <input type="submit" value="Rechercher">
+        </form>
 
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'itemId' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_item_index', {
-                        'sortBy'                 : 'itemId',
-                        'order'                  : order ,
-                        'itemDescription'        : itemDescription ,
-                    }) }}"
-                    >
-                        ItemId
-                    </a>
-                </th>
-                <th>ItemLvl</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'itemDescription' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_item_index', {
-                        'sortBy'                 : 'itemDescription',
-                        'order'                  : order ,
-                        'itemDescription'        : itemDescription ,
-                    }) }}"
-                    >
-                        ItemDescription
-                    </a>
-                </th>
-                <th>ItemPrice</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for item in items %}
-            <tr>
-                <td>
-                    <input class="checkBoxDelete" id="{{ item.itemId }}" type="checkbox">
-                </td>
-                <td>{{ item.itemId }}</td>
-                <td>{{ item.itemLvl }}</td>
-                <td>{{ item.itemDescription }}</td>
-                <td>{{ item.itemPrice }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_item_show', {'itemId': item.itemId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_item_edit', {'itemId': item.itemId}) }}">edit</a>
-                    {{ include('world_of_ponies/item/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
+        <a href="{{ path('world_of_ponies_item_new') }}">Create new</a>
 
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(items) }}
-    </div>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Selected</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'itemId' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_item_index', {
+                            'sortBy'                 : 'itemId',
+                            'order'                  : order ,
+                            'itemDescription'        : itemDescription ,
+                        }) }}"
+                        >
+                            ItemId
+                        </a>
+                    </th>
+                    <th>ItemLvl</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'itemDescription' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_item_index', {
+                            'sortBy'                 : 'itemDescription',
+                            'order'                  : order ,
+                            'itemDescription'        : itemDescription ,
+                        }) }}"
+                        >
+                            ItemDescription
+                        </a>
+                    </th>
+                    <th>ItemPrice</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>
+                        <input class="checkBoxDelete" id="{{ item.itemId }}" type="checkbox">
+                    </td>
+                    <td>{{ item.itemId }}</td>
+                    <td>{{ item.itemLvl }}</td>
+                    <td>{{ item.itemDescription }}</td>
+                    <td>{{ item.itemPrice }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_item_show', {'itemId': item.itemId}) }}">show</a>
+                        <a href="{{ path('world_of_ponies_item_edit', {'itemId': item.itemId}) }}">edit</a>
+                        {{ include('world_of_ponies/item/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="button" class="btn_delete_selected" value="Delete Selected">
 
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(items) }}
+        </div>
+
+    {% endif %}
 {% endblock %}

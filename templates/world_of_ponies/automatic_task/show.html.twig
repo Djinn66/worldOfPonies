@@ -3,28 +3,31 @@
 {% block title %}AutomaticTask{% endblock %}
 
 {% block body %}
-    <h1>AutomaticTask</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>TaskId</th>
-                <td>{{ automatic_task.taskId }}</td>
-            </tr>
-            <tr>
-                <th>TaskToDo</th>
-                <td>{{ automatic_task.taskToDo }}</td>
-            </tr>
-            <tr>
-                <th>TaskFrequency</th>
-                <td>{{ automatic_task.taskFrequency }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <h1>AutomaticTask</h1>
 
-    <a href="{{ path('world_of_ponies_automatic_task_index') }}">back to list</a>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>TaskId</th>
+                    <td>{{ automatic_task.taskId }}</td>
+                </tr>
+                <tr>
+                    <th>TaskToDo</th>
+                    <td>{{ automatic_task.taskToDo }}</td>
+                </tr>
+                <tr>
+                    <th>TaskFrequency</th>
+                    <td>{{ automatic_task.taskFrequency }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('world_of_ponies_automatic_task_edit', {'taskId': automatic_task.taskId}) }}">edit</a>
+        <a href="{{ path('world_of_ponies_automatic_task_index') }}">back to list</a>
 
-    {{ include('world_of_ponies/automatic_task/_delete_form.html.twig') }}
+        <a href="{{ path('world_of_ponies_automatic_task_edit', {'taskId': automatic_task.taskId}) }}">edit</a>
+
+        {{ include('world_of_ponies/automatic_task/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

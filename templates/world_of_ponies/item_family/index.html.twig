@@ -3,63 +3,66 @@
 {% block title %}ItemFamily index{% endblock %}
 
 {% block body %}
-    <h1>ItemFamily index</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') %}
 
-    <form action="{{ path('world_of_ponies_item_family_index', { 'itemFamilyLabel': 'itemFamilyLabel' }) }}" >
-        Item Family Label :
-        <input type="text" value = "{{ itemFamilyLabel }}" name="itemFamilyLabel">
-        <input type="submit" value="Rechercher">
-    </form>
-    
-    <a href="{{ path('world_of_ponies_item_family_new') }}">Create new</a>
+        <h1>ItemFamily index</h1>
 
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'itemFamilyId' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_item_family_index', {
-                        'sortBy'                 : 'itemFamilyId',
-                        'order'                  : order ,
-                        'itemFamilyLabel'        : itemFamilyLabel ,
-                    }) }}"
-                    >
-                        ItemFamilyId
-                    </a>
-                </th>
-                <th>ItemFamilyLabel</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for item_family in item_families %}
-            <tr>
-                <td>
-                    <input class="checkBoxDelete" id="{{ item_family.itemFamilyId }}" type="checkbox">
-                </td>
-                <td>{{ item_family.itemFamilyId }}</td>
-                <td>{{ item_family.itemFamilyLabel }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_item_family_show', {'itemFamilyId': item_family.itemFamilyId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_item_family_edit', {'itemFamilyId': item_family.itemFamilyId}) }}">edit</a>
-                    {{ include('world_of_ponies/item_family/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
+        <form action="{{ path('world_of_ponies_item_family_index', { 'itemFamilyLabel': 'itemFamilyLabel' }) }}" >
+            Item Family Label :
+            <input type="text" value = "{{ itemFamilyLabel }}" name="itemFamilyLabel">
+            <input type="submit" value="Rechercher">
+        </form>
 
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(item_families) }}
-    </div>
-    
+        <a href="{{ path('world_of_ponies_item_family_new') }}">Create new</a>
+
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Selected</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'itemFamilyId' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_item_family_index', {
+                            'sortBy'                 : 'itemFamilyId',
+                            'order'                  : order ,
+                            'itemFamilyLabel'        : itemFamilyLabel ,
+                        }) }}"
+                        >
+                            ItemFamilyId
+                        </a>
+                    </th>
+                    <th>ItemFamilyLabel</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item_family in item_families %}
+                <tr>
+                    <td>
+                        <input class="checkBoxDelete" id="{{ item_family.itemFamilyId }}" type="checkbox">
+                    </td>
+                    <td>{{ item_family.itemFamilyId }}</td>
+                    <td>{{ item_family.itemFamilyLabel }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_item_family_show', {'itemFamilyId': item_family.itemFamilyId}) }}">show</a>
+                        <a href="{{ path('world_of_ponies_item_family_edit', {'itemFamilyId': item_family.itemFamilyId}) }}">edit</a>
+                        {{ include('world_of_ponies/item_family/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="button" class="btn_delete_selected" value="Delete Selected">
+
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(item_families) }}
+        </div>
+
+    {% endif %}
 {% endblock %}
