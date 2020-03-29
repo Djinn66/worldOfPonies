@@ -3,7 +3,7 @@
 {% block title %}New Newspaper{% endblock %}
 
 {% block body %}
-    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_EDITOR') %}
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_EDITOR') or is_granted('ROLE_NEWSREADER') or is_granted('ROLE_SUPERUSER')) %}
         <h1>Create new Newspaper</h1>
 
         {{ include('world_of_ponies/newspaper/_form.html.twig') }}

@@ -3,7 +3,7 @@
 {% block title %}New Player{% endblock %}
 
 {% block body %}
-    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_ADMIN')) %}
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERUSER')) %}
         <h1>Create new Player</h1>
 
         {{ include('world_of_ponies/player/_form.html.twig') }}

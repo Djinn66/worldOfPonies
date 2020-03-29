@@ -3,7 +3,7 @@
 {% block title %}Newspaper index{% endblock %}
 
 {% block body %}
-    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_EDITOR') or is_granted('ROLE_NEWSREADER')) %}
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_EDITOR') or is_granted('ROLE_NEWSREADER') or is_granted('ROLE_SUPERUSER')) %}
 
         <h1>Newspaper index</h1>
 

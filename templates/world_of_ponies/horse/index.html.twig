@@ -3,7 +3,7 @@
 {% block title %}Horse index{% endblock %}
 
 {% block body %}
-    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SPECIALIST')) %}
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SPECIALIST') or is_granted('ROLE_SUPERUSER')) %}
 
         <h1>Horse index</h1>
 
@@ -62,7 +62,9 @@
                     <td>
                         <a href="{{ path('world_of_ponies_horse_show', {'horseId': horse.horseId}) }}">show</a>
                         <a href="{{ path('world_of_ponies_horse_edit', {'horseId': horse.horseId}) }}">edit</a>
-                        {{ include('world_of_ponies/horse/_delete_form.html.twig') }}
+                        {% if not (is_granted('ROLE_SPECIALIST')) %}
+                            {{ include('world_of_ponies/horse/_delete_form.html.twig') }}
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}

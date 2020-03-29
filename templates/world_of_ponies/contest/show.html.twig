@@ -3,7 +3,7 @@
 {% block title %}Contest{% endblock %}
 
 {% block body %}
-    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_CONTESTADMIN') %}
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_CONTESTADMIN') or is_granted('ROLE_SUPERUSER')) %}
         <h1>Contest</h1>
 
         <table class="table">

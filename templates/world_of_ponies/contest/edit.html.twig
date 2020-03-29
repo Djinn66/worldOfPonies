@@ -3,7 +3,7 @@
 {% block title %}Edit Contest{% endblock %}
 
 {% block body %}
-    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SPECIALIST')) %}
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_CONTESTADMIN') or is_granted('ROLE_SUPERUSER')) %}
         <h1>Edit Contest</h1>
 
         {% if not is_granted('ROLE_NEWSREADER') %}

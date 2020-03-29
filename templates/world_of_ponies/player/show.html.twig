@@ -3,7 +3,7 @@
 {% block title %}Player{% endblock %}
 
 {% block body %}
-    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_ADMIN')) %}
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPERUSER')) %}
 
         <h1>Player</h1>
 
