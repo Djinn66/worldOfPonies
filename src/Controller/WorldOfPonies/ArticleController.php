@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/worldofponies/article")
- * @IsGranted("ROLE_PROGRAMMER","ROLE_SUPERUSER")
+ * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
  */
 class ArticleController extends AbstractController
 {
