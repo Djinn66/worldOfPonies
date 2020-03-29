@@ -62,7 +62,6 @@ class ContestController extends AbstractController
 
     /**
      * @Route("/new", name="world_of_ponies_contest_new", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_CONTESTADMIN"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN')")
      */
     public function new(Request $request): Response
