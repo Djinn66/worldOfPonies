@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/worldofponies/horse_club")
- * @IsGranted("ROLE_PROGRAMMER")
+ * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
  */
 class HorseClubController extends AbstractController
 {

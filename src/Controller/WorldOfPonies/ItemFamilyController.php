@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/worldofponies/item_family")
- * @IsGranted("ROLE_PROGRAMMER")
+ * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
  */
 class ItemFamilyController extends AbstractController
 {

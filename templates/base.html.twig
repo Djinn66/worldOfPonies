@@ -28,8 +28,11 @@
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                 <h2>Navigation</h2>
                 <ul>
-                    <li><a href={{ path('mysql_tables_priv_index') }}>Privilèges (tables)</a></li>
-                    <li><a href={{ path('mysql_db_index') }}>Privilèges (DB)</a></li>
+                    {% if is_granted('ROLE_USERADMIN') %}
+                        <li><a href={{ path('mysql_tables_priv_index') }}>Privilèges (tables)</a></li>
+                        <li><a href={{ path('mysql_db_index') }}>Privilèges (DB)</a></li>
+                    {% endif %}
+                    {% if is_granted('ROLE_PROGRAMMER') %}
                     <li><a href={{ path('world_of_ponies_advertisement_index') }}>Advertisement</a></li>
                     <li><a href={{ path('world_of_ponies_article_index') }}>Article</a></li>
                     <li><a href={{ path('world_of_ponies_automatic_task_index') }}>Automatic Task</a></li>
@@ -44,6 +47,7 @@
                     <li><a href={{ path('world_of_ponies_newspaper_index') }}>Newspaper</a></li>
                     <li><a href={{ path('world_of_ponies_player_index') }}>Player</a></li>
                     <li><a href={{ path('world_of_ponies_transaction_index') }}>Transaction</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         {% endif %}

@@ -15,13 +15,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/worldofponies/newspaper")
- * @IsGranted({"ROLE_PROGRAMMER","ROLE_EDITOR","ROLE_NEWSREADER"})
+ * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR","ROLE_NEWSREADER"})
  */
 class NewspaperController extends AbstractController
 {
     /**
      * @Route("/", name="world_of_ponies_newspaper_index", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_EDITOR","ROLE_NEWSREADER"})
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR","ROLE_NEWSREADER"})
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
@@ -58,7 +58,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/new", name="world_of_ponies_newspaper_new", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_EDITOR"})
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR"})
      */
     public function new(Request $request): Response
     {
@@ -82,7 +82,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/{newspaperId}", name="world_of_ponies_newspaper_show", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_EDITOR","ROLE_NEWSREADER"})
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR","ROLE_NEWSREADER"})
      */
     public function show(Newspaper $newspaper): Response
     {
@@ -93,7 +93,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/{newspaperId}/edit", name="world_of_ponies_newspaper_edit", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_EDITOR"})
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR"})
      */
     public function edit(Request $request, Newspaper $newspaper): Response
     {
@@ -114,7 +114,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/{newspaperId}", name="world_of_ponies_newspaper_delete", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_EDITOR"})
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR"})
      */
     public function delete(Request $request, Newspaper $newspaper): Response
     {
@@ -129,7 +129,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/", name="world_of_ponies_newspaper_delete_selected", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_EDITOR"})
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR"})
      */
     public function deleteSelected(Request $request): Response
     {

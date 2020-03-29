@@ -14,13 +14,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/worldofponies/transaction")
- * @IsGranted("ROLE_SUPERUSER")
+ * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
  */
 class TransactionController extends AbstractController
 {
     /**
      * @Route("/", name="world_of_ponies_transaction_index", methods={"GET"})
-     * @IsGranted("ROLE_PROGRAMMER")
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {

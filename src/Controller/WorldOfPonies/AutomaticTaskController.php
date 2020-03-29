@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/worldofponies/automatic_task")
- * @IsGranted("ROLE_PROGRAMMER")
+ * @IsGranted("ROLE_PROGRAMMER","ROLE_SUPERUSER")
  */
 class AutomaticTaskController extends AbstractController
 {

@@ -15,13 +15,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/worldofponies/horse")
- * @IsGranted({"ROLE_PROGRAMMER","ROLE_SPECIALIST"})
+ * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_SPECIALIST"})
  */
 class HorseController extends AbstractController
 {
     /**
      * @Route("/", name="world_of_ponies_horse_index", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SPECIALIST"})
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_SPECIALIST"})
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
@@ -58,7 +58,7 @@ class HorseController extends AbstractController
 
     /**
      * @Route("/new", name="world_of_ponies_horse_new", methods={"GET","POST"})
-     * @IsGranted("ROLE_PROGRAMMER")
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
      */
     public function new(Request $request): Response
     {
@@ -82,7 +82,7 @@ class HorseController extends AbstractController
 
     /**
      * @Route("/{horseId}", name="world_of_ponies_horse_show", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SPECIALIST"})
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_SPECIALIST"})
      */
     public function show(Horse $horse): Response
     {
@@ -93,7 +93,7 @@ class HorseController extends AbstractController
 
     /**
      * @Route("/{horseId}/edit", name="world_of_ponies_horse_edit", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SPECIALIST"})
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_SPECIALIST"})
      */
     public function edit(Request $request, Horse $horse): Response
     {
@@ -114,7 +114,7 @@ class HorseController extends AbstractController
 
     /**
      * @Route("/{horseId}", name="world_of_ponies_horse_delete", methods={"DELETE"})
-     * @IsGranted("ROLE_PROGRAMMER")
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
      */
     public function delete(Request $request, Horse $horse): Response
     {
@@ -129,7 +129,7 @@ class HorseController extends AbstractController
 
     /**
      * @Route("/", name="world_of_ponies_horse_delete_selected", methods={"DELETE"})
-     * @IsGranted("ROLE_PROGRAMMER")
+     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
      */
     public function deleteSelected(Request $request): Response
     {
