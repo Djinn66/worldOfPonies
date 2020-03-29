@@ -9,14 +9,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/worldofponies/transaction")
+ * @IsGranted("ROLE_SUPERUSER")
  */
 class TransactionController extends AbstractController
 {
     /**
      * @Route("/", name="world_of_ponies_transaction_index", methods={"GET"})
+     * @IsGranted("ROLE_PROGRAMMER")
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
