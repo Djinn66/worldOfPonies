@@ -10,12 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 /**
  * @Route("/worldofponies/player")
- * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_ADMIN"})
+ * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
  */
 class PlayerController extends AbstractController
 {
@@ -66,7 +65,7 @@ class PlayerController extends AbstractController
 
     /**
      * @Route("/new", name="world_of_ponies_player_new", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
+     *  * @Security("is_granted('ROLE_SUPERUSER') or is_granted('ROLE_PROGRAMMER')")
      */
     public function new(Request $request): Response
     {

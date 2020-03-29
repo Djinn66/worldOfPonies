@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/worldofponies/contest")
- * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_CONTESTADMIN","ROLE_NEWSREADER"})
+ * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_NEWSREADER')")
  */
 class ContestController extends AbstractController
 {

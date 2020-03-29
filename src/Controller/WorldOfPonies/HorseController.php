@@ -58,7 +58,7 @@ class HorseController extends AbstractController
 
     /**
      * @Route("/new", name="world_of_ponies_horse_new", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
+     *  * @Security("is_granted('ROLE_SUPERUSER') or is_granted('ROLE_PROGRAMMER')")
      */
     public function new(Request $request): Response
     {
@@ -114,7 +114,7 @@ class HorseController extends AbstractController
 
     /**
      * @Route("/{horseId}", name="world_of_ponies_horse_delete", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
+     *  * @Security("is_granted('ROLE_SUPERUSER') or is_granted('ROLE_PROGRAMMER')")
      */
     public function delete(Request $request, Horse $horse): Response
     {
@@ -129,7 +129,7 @@ class HorseController extends AbstractController
 
     /**
      * @Route("/", name="world_of_ponies_horse_delete_selected", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER"})
+     *  * @Security("is_granted('ROLE_SUPERUSER') or is_granted('ROLE_PROGRAMMER')")
      */
     public function deleteSelected(Request $request): Response
     {

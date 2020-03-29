@@ -10,12 +10,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 /**
  * @Route("/worldofponies/newspaper")
- * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR","ROLE_NEWSREADER"})
+ * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_NEWSREADER')")
  */
 class NewspaperController extends AbstractController
 {
