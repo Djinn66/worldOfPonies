@@ -39,6 +39,17 @@
 
     <!-- Use any element to open the sidenav -->
         <span class="btn btn-action btn-info customButton" onclick="openNav()">Menu</span>
+        <div class="loggedInText">
+            <p>
+                {% if app.user  %}
+                    You're logged in as {{ app.user.username }}
+                    <button class="btn btn-action btn-warning logoutButton mt-4"><a href={{ path ('app_logout') }}>Logout</a></button>
+                {% else %}
+                    You're not logged in
+                    <button class="btn btn-action btn-warning logoutButton mt-4"><a class="font-weight-bold" href={{ path ('app_login') }}>Login</a></button>
+                {%endif%}
+            </p>
+        </div>
 
         <main id="main">
             {% block body %}{% endblock %}
