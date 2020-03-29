@@ -21,7 +21,7 @@ class ContestController extends AbstractController
 {
     /**
      * @Route("/", name="world_of_ponies_contest_index", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_CONTESTADMIN","ROLE_NEWSREADER"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN') or is_granted('ROLE_NEWSREADER')")
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
@@ -63,6 +63,7 @@ class ContestController extends AbstractController
     /**
      * @Route("/new", name="world_of_ponies_contest_new", methods={"GET","POST"})
      * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_CONTESTADMIN"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN')")
      */
     public function new(Request $request): Response
     {
@@ -86,7 +87,7 @@ class ContestController extends AbstractController
 
     /**
      * @Route("/{contestId}", name="world_of_ponies_contest_show", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_CONTESTADMIN","ROLE_NEWSREADER"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN') or is_granted('ROLE_NEWSREADER')")
      */
     public function show(Contest $contest): Response
     {
@@ -97,7 +98,7 @@ class ContestController extends AbstractController
 
     /**
      * @Route("/{contestId}/edit", name="world_of_ponies_contest_edit", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_CONTESTADMIN"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN')")
      */
     public function edit(Request $request, Contest $contest): Response
     {
@@ -118,7 +119,7 @@ class ContestController extends AbstractController
 
     /**
      * @Route("/{contestId}", name="world_of_ponies_contest_delete", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_CONTESTADMIN"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN')")
      */
     public function delete(Request $request, Contest $contest): Response
     {
@@ -133,7 +134,7 @@ class ContestController extends AbstractController
 
     /**
      * @Route("/", name="world_of_ponies_contest_delete_selected", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_CONTESTADMIN"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN')")
      */
     public function deleteSelected(Request $request): Response
     {

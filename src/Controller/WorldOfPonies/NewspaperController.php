@@ -20,7 +20,7 @@ class NewspaperController extends AbstractController
 {
     /**
      * @Route("/", name="world_of_ponies_newspaper_index", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR","ROLE_NEWSREADER"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR') or is_granted('ROLE_NEWSREADER')")
      */
     public function index(PaginatorInterface $paginator, Request $request): Response
     {
@@ -57,7 +57,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/new", name="world_of_ponies_newspaper_new", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR')")
      */
     public function new(Request $request): Response
     {
@@ -81,7 +81,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/{newspaperId}", name="world_of_ponies_newspaper_show", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR","ROLE_NEWSREADER"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR') or is_granted('ROLE_NEWSREADER')")
      */
     public function show(Newspaper $newspaper): Response
     {
@@ -92,7 +92,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/{newspaperId}/edit", name="world_of_ponies_newspaper_edit", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR')")
      */
     public function edit(Request $request, Newspaper $newspaper): Response
     {
@@ -113,7 +113,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/{newspaperId}", name="world_of_ponies_newspaper_delete", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR')")
      */
     public function delete(Request $request, Newspaper $newspaper): Response
     {
@@ -128,7 +128,7 @@ class NewspaperController extends AbstractController
 
     /**
      * @Route("/", name="world_of_ponies_newspaper_delete_selected", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_EDITOR"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR')")
      */
     public function deleteSelected(Request $request): Response
     {
