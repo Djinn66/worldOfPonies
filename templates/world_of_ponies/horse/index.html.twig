@@ -3,106 +3,80 @@
 {% block title %}Horse index{% endblock %}
 
 {% block body %}
-    <h1>Horse index</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SPECIALIST')) %}
 
-    <form action="{{ path('world_of_ponies_horse_index', { 'horseName': 'horseName' }) }}" >
-        Horse Name :
-        <input type="text" value = "{{ horseName }}" name="horseName">
-        <input type="submit" value="Rechercher">
-    </form>
+        <h1>Horse index</h1>
 
-    <a href="{{ path('world_of_ponies_horse_new') }}">Create new</a>
+        <form action="{{ path('world_of_ponies_horse_index', { 'horseName': 'horseName' }) }}" >
+            Horse Name :
+            <input type="text" value = "{{ horseName }}" name="horseName">
+            <input type="submit" value="Rechercher">
+        </form>
 
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'horseId' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_horse_index', {
-                        'sortBy'                 : 'horseId',
-                        'order'                  : order ,
-                        'horseName'              : horseName ,
-                    }) }}"
-                    >
-                        HorseId
-                    </a>
-                </th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'horseName' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_horse_index', {
-                        'sortBy'                 : 'horseName',
-                        'order'                  : order ,
-                        'horseName'              : horseName ,
-                    }) }}"
-                    >
-                        HorseName
-                    </a>
-                </th>
-                <th>HorseDiseaseResistance</th>
-                <th>HorseHygieneResistance</th>
-                <th>HorseRecovery</th>
-                <th>HorseStamina</th>
-                <th>HorseJumpheight</th>
-                <th>HorseSpeed</th>
-                <th>HorseSociability</th>
-                <th>HorseIntelligence</th>
-                <th>HorseTemper</th>
-                <th>HorseHealthState</th>
-                <th>HorseMoralState</th>
-                <th>HorseStressState</th>
-                <th>HorseTirednessState</th>
-                <th>HorseHungerState</th>
-                <th>HorseCleaninessState</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for horse in horses %}
-            <tr>
-                <td>
-                    <input class="checkBoxDelete" id="{{  horse.horseId  }}" type="checkbox">
-                </td>
-                <td>{{ horse.horseId }}</td>
-                <td>{{ horse.horseName }}</td>
-                <td>{{ horse.horseDiseaseResistance }}</td>
-                <td>{{ horse.horseHygieneResistance }}</td>
-                <td>{{ horse.horseRecovery }}</td>
-                <td>{{ horse.horseStamina }}</td>
-                <td>{{ horse.horseJumpheight }}</td>
-                <td>{{ horse.horseSpeed }}</td>
-                <td>{{ horse.horseSociability }}</td>
-                <td>{{ horse.horseIntelligence }}</td>
-                <td>{{ horse.horseTemper }}</td>
-                <td>{{ horse.horseHealthState }}</td>
-                <td>{{ horse.horseMoralState }}</td>
-                <td>{{ horse.horseStressState }}</td>
-                <td>{{ horse.horseTirednessState }}</td>
-                <td>{{ horse.horseHungerState }}</td>
-                <td>{{ horse.horseCleaninessState }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_horse_show', {'horseId': horse.horseId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_horse_edit', {'horseId': horse.horseId}) }}">edit</a>
-                    {{ include('world_of_ponies/horse/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="18">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
+        <a href="{{ path('world_of_ponies_horse_new') }}">Create new</a>
 
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(horses) }}
-    </div>
-    
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Selected</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'horseId' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_horse_index', {
+                            'sortBy'                 : 'horseId',
+                            'order'                  : order ,
+                            'horseName'              : horseName ,
+                        }) }}"
+                        >
+                            HorseId
+                        </a>
+                    </th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'horseName' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_horse_index', {
+                            'sortBy'                 : 'horseName',
+                            'order'                  : order ,
+                            'horseName'              : horseName ,
+                        }) }}"
+                        >
+                            HorseName
+                        </a>
+                    </th>
+
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for horse in horses %}
+                <tr>
+                    <td>
+                        <input class="checkBoxDelete" id="{{  horse.horseId  }}" type="checkbox">
+                    </td>
+                    <td>{{ horse.horseId }}</td>
+                    <td>{{ horse.horseName }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_horse_show', {'horseId': horse.horseId}) }}">show</a>
+                        <a href="{{ path('world_of_ponies_horse_edit', {'horseId': horse.horseId}) }}">edit</a>
+                        {{ include('world_of_ponies/horse/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="18">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="button" class="btn_delete_selected" value="Delete Selected">
+
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(horses) }}
+        </div>
+
+    {% endif %}
 {% endblock %}

@@ -3,82 +3,96 @@
 {% block title %}Contest index{% endblock %}
 
 {% block body %}
-    <h1>Contest index</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_CONTESTADMIN') or is_granted('ROLE_NEWSREADER')) %}
 
-    <form action="{{ path('world_of_ponies_contest_index', { 'contestId': 'contestId' }) }}" >
-        Contest ID :
-        <input type="number" value = "{{ contestId }}" name="contestId">
-        <input type="submit" value="Rechercher">
-    </form>
+        <h1>Contest index</h1>
 
-    <a href="{{ path('world_of_ponies_contest_new') }}">Create new</a>
+        <form action="{{ path('world_of_ponies_contest_index', { 'contestId': 'contestId' }) }}" >
+            Contest ID :
+            <input type="number" value = "{{ contestId }}" name="contestId">
+            <input type="submit" value="Rechercher">
+        </form>
 
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'contestId' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_contest_index', {
-                        'sortBy'            : 'contestId',
-                        'order'             : order ,
-                        'contestId'         : contestId ,
-                        'price'             : price ,
-                    }) }}"
-                    >
-                        ContestId
-                    </a>
-                </th>
-                <th>StartDate</th>
-                <th>EndDate</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'price' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_contest_index', {
-                        'sortBy'            : 'price',
-                        'order'             : order ,
-                        'contestId'         : contestId ,
-                        'price'             : price ,
-                    }) }}"
-                    >
-                        Price
-                    </a>
-                </th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for contest in contests %}
-            <tr>
-                <td>
-                    <input class="checkBoxDelete" id="{{ contest.contestId }}" type="checkbox">
-                </td>
-                <td>{{ contest.contestId }}</td>
-                <td>{{ contest.startDate ? contest.startDate|date('Y-m-d') : '' }}</td>
-                <td>{{ contest.endDate ? contest.endDate|date('Y-m-d') : '' }}</td>
-                <td>{{ contest.price }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_contest_show', {'contestId': contest.contestId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_contest_edit', {'contestId': contest.contestId}) }}">edit</a>
-                    {{ include('world_of_ponies/contest/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
+        {% if not is_granted('ROLE_NEWSREADER') %}
+            <a href="{{ path('world_of_ponies_contest_new') }}">Create new</a>
+        {% endif %}
 
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(contests) }}
-    </div>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    {% if not is_granted('ROLE_NEWSREADER') %}
+                        <th>Selected</th>
+                    {% endif %}
+                    <th><a href="{% if order == 'ASC' and sortBy == 'contestId' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_contest_index', {
+                            'sortBy'            : 'contestId',
+                            'order'             : order ,
+                            'contestId'         : contestId ,
+                            'price'             : price ,
+                        }) }}"
+                        >
+                            ContestId
+                        </a>
+                    </th>
+                    <th>StartDate</th>
+                    <th>EndDate</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'price' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_contest_index', {
+                            'sortBy'            : 'price',
+                            'order'             : order ,
+                            'contestId'         : contestId ,
+                            'price'             : price ,
+                        }) }}"
+                        >
+                            Price
+                        </a>
+                    </th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for contest in contests %}
+                <tr>
+                    {% if not is_granted('ROLE_NEWSREADER') %}
+                        <td>
+                            <input class="checkBoxDelete" id="{{ contest.contestId }}" type="checkbox">
+                        </td>
+                    {% endif %}
+                    <td>{{ contest.contestId }}</td>
+                    <td>{{ contest.startDate ? contest.startDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ contest.endDate ? contest.endDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ contest.price }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_contest_show', {'contestId': contest.contestId}) }}">show</a>
+                        {% if not is_granted('ROLE_NEWSREADER') %}
+                            <a href="{{ path('world_of_ponies_contest_edit', {'contestId': contest.contestId}) }}">edit</a>
+                            {{ include('world_of_ponies/contest/_delete_form.html.twig') }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
+        {% if not is_granted('ROLE_NEWSREADER') %}
+            <input type="button" class="btn_delete_selected" value="Delete Selected">
+        {% endif %}
+
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(contests) }}
+        </div>
+
+    {% endif %}
 {% endblock %}

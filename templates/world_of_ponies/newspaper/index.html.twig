@@ -3,65 +3,79 @@
 {% block title %}Newspaper index{% endblock %}
 
 {% block body %}
-    <h1>Newspaper index</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_EDITOR') or is_granted('ROLE_NEWSREADER')) %}
 
-    <form action="{{ path('world_of_ponies_newspaper_index', { 'newspaperId': 'newspaperId' }) }}" >
-        Newspaper Id :
-        <input type="number" value = "{{ newspaperId }}" name="newspaperId">
-        <input type="submit" value="Rechercher">
-    </form>
-    
-    <a href="{{ path('world_of_ponies_newspaper_new') }}">Create new</a>
+        <h1>Newspaper index</h1>
 
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'newspaperId' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_newspaper_index', {
-                        'sortBy'                 : 'newspaperId',
-                        'order'                  : order ,
-                        'newspaperId'           : newspaperId ,
-                    }) }}"
-                    >
-                        NewspaperId
-                    </a>
-                </th>
-                <th>Weatherforecast</th>
-                <th>ReleaseDate</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for newspaper in newspapers %}
-            <tr>
-                <td>
-                    <input class="checkBoxDelete" id="{{ newspaper.newspaperId }}" type="checkbox">
-                </td>
-                <td>{{ newspaper.newspaperId }}</td>
-                <td>{{ newspaper.weatherforecast }}</td>
-                <td>{{ newspaper.releaseDate ? newspaper.releaseDate|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_newspaper_show', {'newspaperId': newspaper.newspaperId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_newspaper_edit', {'newspaperId': newspaper.newspaperId}) }}">edit</a>
-                    {{ include('world_of_ponies/newspaper/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
+        <form action="{{ path('world_of_ponies_newspaper_index', { 'newspaperId': 'newspaperId' }) }}" >
+            Newspaper Id :
+            <input type="number" value = "{{ newspaperId }}" name="newspaperId">
+            <input type="submit" value="Rechercher">
+        </form>
 
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(newspapers) }}
-    </div>
-    
+        {% if not is_granted('ROLE_NEWSREADER') %}
+            <a href="{{ path('world_of_ponies_newspaper_new') }}">Create new</a>
+        {% endif %}
+
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    {% if not is_granted('ROLE_NEWSREADER') %}
+                        <th>Selected</th>
+                    {% endif %}
+                    <th><a href="{% if order == 'ASC' and sortBy == 'newspaperId' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_newspaper_index', {
+                            'sortBy'                 : 'newspaperId',
+                            'order'                  : order ,
+                            'newspaperId'           : newspaperId ,
+                        }) }}"
+                        >
+                            NewspaperId
+                        </a>
+                    </th>
+                    <th>Weatherforecast</th>
+                    <th>ReleaseDate</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for newspaper in newspapers %}
+                <tr>
+                    {% if not is_granted('ROLE_NEWSREADER') %}
+                        <td>
+                            <input class="checkBoxDelete" id="{{ newspaper.newspaperId }}" type="checkbox">
+                        </td>
+                    {% endif %}
+                    <td>{{ newspaper.newspaperId }}</td>
+                    <td>{{ newspaper.weatherforecast }}</td>
+                    <td>{{ newspaper.releaseDate ? newspaper.releaseDate|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_newspaper_show', {'newspaperId': newspaper.newspaperId}) }}">show</a>
+                        {% if not is_granted('ROLE_NEWSREADER') %}
+                            <a href="{{ path('world_of_ponies_newspaper_edit', {'newspaperId': newspaper.newspaperId}) }}">edit</a>
+                            {{ include('world_of_ponies/newspaper/_delete_form.html.twig') }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% if not is_granted('ROLE_NEWSREADER') %}
+            <input type="button" class="btn_delete_selected" value="Delete Selected">
+        {% endif %}
+
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(newspapers) }}
+        </div>
+
+    {% endif %}
 {% endblock %}

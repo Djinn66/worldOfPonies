@@ -3,129 +3,111 @@
 {% block title %}Player index{% endblock %}
 
 {% block body %}
-    <h1>Player index</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_ADMIN')) %}
 
-    <form action="{{ path('world_of_ponies_player_index', { 'playerUsername': 'playerUsername' }) }}" >
-        Username :
-        <input type="text" value = "{{ playerUsername }}" name="playerUsername">
-        Firstname :
-        <input type="text" value = "{{ playerFirstname | capitalize }}" name="playerFirstname">
-        Lastname :
-        <input type="text" value = "{{ playerLastname | capitalize}}" name="playerLastname">
-        <input type="submit" value="Rechercher">
-    </form>
+        <h1>Player index</h1>
 
-    <a href="{{ path('world_of_ponies_player_new') }}">Create new</a>
+        <form action="{{ path('world_of_ponies_player_index', { 'playerUsername': 'playerUsername' }) }}" >
+            Username :
+            <input type="text" value = "{{ playerUsername }}" name="playerUsername">
+            Firstname :
+            <input type="text" value = "{{ playerFirstname | capitalize }}" name="playerFirstname">
+            Lastname :
+            <input type="text" value = "{{ playerLastname | capitalize}}" name="playerLastname">
+            <input type="submit" value="Rechercher">
+        </form>
 
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC'and sortBy == 'playerUsername' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_player_index', {
-                                'sortBy'            : 'playerUsername',
-                                'order'             : order ,
-                                'playerUsername'    : playerUsername ,
-                                'playerFirstname'   : playerFirstname,
-                                'playerLastname'    : playerLastname,
+        <a href="{{ path('world_of_ponies_player_new') }}">Create new</a>
 
-                            }) }}"
-                    >
-                        Username
-                    </a>
-                </th>
-                <th>Email</th>
-                <th>Pw</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'playerFirstname' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_player_index', {
-                        'sortBy'            : 'playerFirstname',
-                        'order'             : order ,
-                        'playerUsername'    : playerUsername ,
-                        'playerFirstname'   : playerFirstname,
-                        'playerLastname'    : playerLastname,
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Selected</th>
+                    <th><a href="{% if order == 'ASC'and sortBy == 'playerUsername' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_player_index', {
+                                    'sortBy'            : 'playerUsername',
+                                    'order'             : order ,
+                                    'playerUsername'    : playerUsername ,
+                                    'playerFirstname'   : playerFirstname,
+                                    'playerLastname'    : playerLastname,
+                                }) }}"
+                        >
+                            Username
+                        </a>
+                    </th>
+                    <th>Email</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'playerFirstname' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_player_index', {
+                            'sortBy'            : 'playerFirstname',
+                            'order'             : order ,
+                            'playerUsername'    : playerUsername ,
+                            'playerFirstname'   : playerFirstname,
+                            'playerLastname'    : playerLastname,
+                        }) }}"
+                        >
+                            Firstname
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{% if order == 'ASC' and sortBy == 'playerLastname' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_player_index', {
+                            'sortBy'            : 'playerLastname',
+                            'order'             : order ,
+                            'playerUsername'    : playerUsername ,
+                            'playerFirstname'   : playerFirstname,
+                            'playerLastname'    : playerLastname,
+                        }) }}"
+                        >
+                            Lastname
+                        </a>
+                    </th>
+                    <th>Funds</th>
+                    <th>InscriptionDate</th>
+                    <th>LastconnectionDate</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for player in players %}
+                <tr><td>
+                        <input class="checkBoxDelete" id="{{ player.playerId }}" type="checkbox">
+                    </td>
+                    <td>{{ player.playerUsername }}</td>
+                    <td>{{ player.playerEmail }}</td>
+                    <td>{{ player.playerFirstname }}</td>
+                    <td>{{ player.playerLastname }}</td>
+                    <td>{{ player.playerFunds }}</td>
+                    <td>{{ player.playerInscriptionDate ? player.playerInscriptionDate|date('Y-m-d') : '' }}</td>
+                    <td>{{ player.playerLastconnectionDate ? player.playerLastconnectionDate|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_player_show', {'playerId': player.playerId}) }}">show</a>
+                        <a href="{{ path('world_of_ponies_player_edit', {'playerId': player.playerId}) }}">edit</a>
+                        {{ include('world_of_ponies/player/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="18">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="button" class="btn_delete_selected" value="Delete Selected">
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(players) }}
+        </div>
 
-                    }) }}"
-                    >
-                        Firstname
-                    </a>
-                </th>
-                <th>
-                    <a href="{% if order == 'ASC' and sortBy == 'playerLastname' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_player_index', {
-                        'sortBy'            : 'playerLastname',
-                        'order'             : order ,
-                        'playerUsername'    : playerUsername ,
-                        'playerFirstname'   : playerFirstname,
-                        'playerLastname'    : playerLastname,
-
-                    }) }}"
-                    >
-                        Lastname
-                    </a>
-                </th>
-                <th>Gender</th>
-                <th>BirthDate</th>
-                <th>Phonenumber</th>
-                <th>Address</th>
-                <th>Avatar</th>
-                <th>Description</th>
-                <th>Website</th>
-                <th>Funds</th>
-                <th>Ip</th>
-                <th>InscriptionDate</th>
-                <th>LastconnectionDate</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for player in players %}
-            <tr><td>
-                    <input class="checkBoxDelete" id="{{ player.playerId }}" type="checkbox">
-                </td>
-                <td>{{ player.playerUsername }}</td>
-                <td>{{ player.playerEmail }}</td>
-                <td>{{ player.playerPwd }}</td>
-                <td>{{ player.playerFirstname }}</td>
-                <td>{{ player.playerLastname }}</td>
-                <td>{{ player.playerGender }}</td>
-                <td>{{ player.playerBirthDate ? player.playerBirthDate|date('Y-m-d') : '' }}</td>
-                <td>{{ player.playerPhonenumber }}</td>
-                <td>{{ player.playerAddress }}</td>
-                <td>{{ player.playerAvatar }}</td>
-                <td>{{ player.playerDescription }}</td>
-                <td>{{ player.playerWebsite }}</td>
-                <td>{{ player.playerFunds }}</td>
-                <td>{{ player.playerIp }}</td>
-                <td>{{ player.playerInscriptionDate ? player.playerInscriptionDate|date('Y-m-d') : '' }}</td>
-                <td>{{ player.playerLastconnectionDate ? player.playerLastconnectionDate|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_player_show', {'playerId': player.playerId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_player_edit', {'playerId': player.playerId}) }}">edit</a>
-                    {{ include('world_of_ponies/player/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="18">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(players) }}
-    </div>
-
+    {% endif %}
 {% endblock %}

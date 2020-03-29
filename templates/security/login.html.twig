@@ -3,38 +3,40 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-    <form class="d-flex flex-column mt-5" method="post">
-        {% if ( error is defined ) and (error) %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
+    {% if not app.user %}
+        <form class="d-flex flex-column mt-5" method="post">
+            {% if ( error is defined ) and (error) %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-        <h1 class="h3 mb-3 font-weight-normal d-flex justify-content-center">Please sign in</h1>
-        <div class="row justify-content-center align-content-around">
-            <div class="col-4">
-                <label for="inputUser">User</label>
-                <input
-                        type="text"
-                        value=
-                            {% if ( last_username is defined ) and (last_username)  %}
-                                "{{ last_username }}"
-                            {% else %}
-                                ""
-                            {% endif %}
-                        name="user"
-                        id="inputUser"
-                        class="form-control"
-                        required autofocus
-                >
-                <label for="inputPassword">Password</label>
-                <input type="password" name="password" id="inputPassword" class="form-control">
+            <h1 class="h3 mb-3 font-weight-normal d-flex justify-content-center">Please sign in</h1>
+            <div class="row justify-content-center align-content-around">
+                <div class="col-4">
+                    <label for="inputUser">User</label>
+                    <input
+                            type="text"
+                            value=
+                                {% if ( last_username is defined ) and (last_username)  %}
+                                    "{{ last_username }}"
+                                {% else %}
+                                    ""
+                                {% endif %}
+                            name="user"
+                            id="inputUser"
+                            class="form-control"
+                            required autofocus
+                    >
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control">
 
-                <input type="hidden" name="_csrf_token"
-                       value="{{ csrf_token('authenticate') }}"
-                >
-                <button class="mt-5 btn btn-lg btn-primary" type="submit">
-                    Sign in
-                </button>
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                    <button class="mt-5 btn btn-lg btn-primary" type="submit">
+                        Sign in
+                    </button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    {% endif %}
 {% endblock %}

@@ -3,28 +3,33 @@
 {% block title %}Newspaper{% endblock %}
 
 {% block body %}
-    <h1>Newspaper</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_EDITOR') or is_granted('ROLE_NEWSREADER')) %}
+        <h1>Newspaper</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>NewspaperId</th>
-                <td>{{ newspaper.newspaperId }}</td>
-            </tr>
-            <tr>
-                <th>Weatherforecast</th>
-                <td>{{ newspaper.weatherforecast }}</td>
-            </tr>
-            <tr>
-                <th>ReleaseDate</th>
-                <td>{{ newspaper.releaseDate ? newspaper.releaseDate|date('Y-m-d') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>NewspaperId</th>
+                    <td>{{ newspaper.newspaperId }}</td>
+                </tr>
+                <tr>
+                    <th>Weatherforecast</th>
+                    <td>{{ newspaper.weatherforecast }}</td>
+                </tr>
+                <tr>
+                    <th>ReleaseDate</th>
+                    <td>{{ newspaper.releaseDate ? newspaper.releaseDate|date('Y-m-d') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('world_of_ponies_newspaper_index') }}">back to list</a>
+        <a href="{{ path('world_of_ponies_newspaper_index') }}">back to list</a>
 
-    <a href="{{ path('world_of_ponies_newspaper_edit', {'newspaperId': newspaper.newspaperId}) }}">edit</a>
+        {% if not is_granted('ROLE_NEWSREADER') %}
+            <a href="{{ path('world_of_ponies_newspaper_edit', {'newspaperId': newspaper.newspaperId}) }}">edit</a>
 
-    {{ include('world_of_ponies/newspaper/_delete_form.html.twig') }}
+            {{ include('world_of_ponies/newspaper/_delete_form.html.twig') }}
+        {% endif %}
+
+    {% endif %}
 {% endblock %}

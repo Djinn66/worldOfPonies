@@ -3,9 +3,11 @@
 {% block title %}New Newspaper{% endblock %}
 
 {% block body %}
-    <h1>Create new Newspaper</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_EDITOR') %}
+        <h1>Create new Newspaper</h1>
 
-    {{ include('world_of_ponies/newspaper/_form.html.twig') }}
+        {{ include('world_of_ponies/newspaper/_form.html.twig') }}
 
-    <a href="{{ path('world_of_ponies_newspaper_index') }}">back to list</a>
+        <a href="{{ path('world_of_ponies_newspaper_index') }}">back to list</a>
+    {% endif %}
 {% endblock %}

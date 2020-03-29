@@ -3,9 +3,11 @@
 {% block title %}New Contest{% endblock %}
 
 {% block body %}
-    <h1>Create new Contest</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SPECIALIST')) %}
+        <h1>Create new Contest</h1>
 
-    {{ include('world_of_ponies/contest/_form.html.twig') }}
+        {{ include('world_of_ponies/contest/_form.html.twig') }}
 
-    <a href="{{ path('world_of_ponies_contest_index') }}">back to list</a>
+        <a href="{{ path('world_of_ponies_contest_index') }}">back to list</a>
+    {% endif %}
 {% endblock %}

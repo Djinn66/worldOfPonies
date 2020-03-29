@@ -3,9 +3,12 @@
 {% block title %}New Horse{% endblock %}
 
 {% block body %}
-    <h1>Create new Horse</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SPECIALIST')) %}
 
-    {{ include('world_of_ponies/horse/_form.html.twig') }}
+        <h1>Create new Horse</h1>
 
-    <a href="{{ path('world_of_ponies_horse_index') }}">back to list</a>
+        {{ include('world_of_ponies/horse/_form.html.twig') }}
+
+        <a href="{{ path('world_of_ponies_horse_index') }}">back to list</a>
+    {% endif %}
 {% endblock %}

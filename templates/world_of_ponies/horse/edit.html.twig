@@ -3,11 +3,14 @@
 {% block title %}Edit Horse{% endblock %}
 
 {% block body %}
-    <h1>Edit Horse</h1>
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SPECIALIST')) %}
 
-    {{ include('world_of_ponies/horse/_form.html.twig', {'button_label': 'Update'}) }}
+        <h1>Edit Horse</h1>
 
-    <a href="{{ path('world_of_ponies_horse_index') }}">back to list</a>
+        {{ include('world_of_ponies/horse/_form.html.twig', {'button_label': 'Update'}) }}
 
-    {{ include('world_of_ponies/horse/_delete_form.html.twig') }}
+        <a href="{{ path('world_of_ponies_horse_index') }}">back to list</a>
+
+        {{ include('world_of_ponies/horse/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

@@ -3,62 +3,66 @@
 {% block title %}Advertisement index{% endblock %}
 
 {% block body %}
-    <h1>Advertisement index</h1>
+    {% if is_granted('ROLE_PROGRAMMER')%}
 
-    <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
+        <h1>Advertisement index</h1>
 
-    <form action="{{ path('world_of_ponies_advertisement_index', { 'advertisementId': 'advertisementId' }) }}" >
-        Advertisement Id :
-        <input type="number" value = "{{ advertisementId }}" name="advertisementId">
-        <input type="submit" value="Rechercher">
-    </form>
-    <table class="table table-hover table-dark">
-        <thead>
-            <tr>
-                <th>Selected</th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'advertisementId' %}
-                                    {% set order = 'DESC' %}
-                             {% else %}
-                                    {% set order = 'ASC' %}
-                             {% endif %}
-                             {{ path('world_of_ponies_advertisement_index', {
-                        'sortBy'            : 'advertisementId',
-                        'order'             : order ,
-                        'advertisementId'    : advertisementId,
-                    }) }}"
-                    >
-                        AdvertisementId
-                    </a>
-                <th>AdvertisementContent</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for advertisement in advertisements %}
-            <tr>
-                <td>
-                    <input class="checkBoxDelete" id="{{ advertisement.advertisementId }}" type="checkbox">
-                </td>
-                <td>{{ advertisement.advertisementId }}</td>
-                <td>{{ advertisement.advertisementContent }}</td>
-                <td>
-                    <a href="{{ path('world_of_ponies_advertisement_show', {'advertisementId': advertisement.advertisementId}) }}">show</a>
-                    <a href="{{ path('world_of_ponies_advertisement_edit', {'advertisementId': advertisement.advertisementId}) }}">edit</a>
-                    {{ include('world_of_ponies/advertisement/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
 
-    <div class="d-flex justify-content-center pagination">
-        {{ knp_pagination_render(advertisements) }}
-    </div>
+        <form action="{{ path('world_of_ponies_advertisement_index', { 'advertisementId': 'advertisementId' }) }}" >
+            Advertisement Id :
+            <input type="number" value = "{{ advertisementId }}" name="advertisementId">
+            <input type="submit" value="Rechercher">
+        </form>
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Selected</th>
+                    <th><a href="{% if order == 'ASC' and sortBy == 'advertisementId' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('world_of_ponies_advertisement_index', {
+                            'sortBy'            : 'advertisementId',
+                            'order'             : order ,
+                            'advertisementId'    : advertisementId,
+                        }) }}"
+                        >
+                            AdvertisementId
+                        </a>
+                    <th>AdvertisementContent</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for advertisement in advertisements %}
+                <tr>
+                    <td>
+                        <input class="checkBoxDelete" id="{{ advertisement.advertisementId }}" type="checkbox">
+                    </td>
+                    <td>{{ advertisement.advertisementId }}</td>
+                    <td>{{ advertisement.advertisementContent }}</td>
+                    <td>
+                        <a href="{{ path('world_of_ponies_advertisement_show', {'advertisementId': advertisement.advertisementId}) }}">show</a>
+                        <a href="{{ path('world_of_ponies_advertisement_edit', {'advertisementId': advertisement.advertisementId}) }}">edit</a>
+                        {{ include('world_of_ponies/advertisement/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <input type="button" class="btn_delete_selected" value="Delete Selected">
-    <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(advertisements) }}
+        </div>
+
+        <input type="button" class="btn_delete_selected" value="Delete Selected">
+        <a href="{{ path('world_of_ponies_advertisement_new') }}">Create new</a>
+
+    {% endif %}
 {% endblock %}
