@@ -3,7 +3,7 @@
 {% block title %}Transaction index{% endblock %}
 
 {% block body %}
-    {% if (is_granted('ROLE_PROGRAMMER') %}
+    {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER')) %}
 
         <h1>Transaction index</h1>
 
