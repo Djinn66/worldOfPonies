@@ -85,7 +85,13 @@
                 <td>{{ tables_priv.tableName }}</td>
                 <td>{{ tables_priv.grantor }}</td>
                 <td>{{ tables_priv.timestamp ? tables_priv.timestamp|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tables_priv.tablePriv }}</td>
+                <td>{% set tables=tables_priv.tablePriv|split(',') %}
+                    <ul>
+                        {% for priv in tables %}
+                              <li>{{ priv }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
                 <td>{{ tables_priv.columnPriv }}</td>
                 <td>
                     <a href="{{ path('mysql_tables_priv_show', {'host': tables_priv.host}) }}">show</a>

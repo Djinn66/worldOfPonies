@@ -4,6 +4,7 @@ namespace App\Form\Mysql;
 
 use App\Entity\Mysql\Db;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -11,11 +12,19 @@ class DbType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $db = new Db();
         $builder
             ->add('host')
             ->add('db')
             ->add('user')
-            ->add('selectPriv')
+            ->add('allPrivileges',ChoiceType::class,[
+                    'choices'=> $db->allPrivileges,
+                    'multiple'=>true,
+                    'expanded'=>false,
+                    'required'=> false
+                ]
+            )
+            /*->add('selectPriv')
             ->add('insertPriv')
             ->add('updatePriv')
             ->add('deletePriv')
@@ -33,7 +42,7 @@ class DbType extends AbstractType
             ->add('alterRoutinePriv')
             ->add('executePriv')
             ->add('eventPriv')
-            ->add('triggerPriv')
+            ->add('triggerPriv')*/
         ;
     }
 

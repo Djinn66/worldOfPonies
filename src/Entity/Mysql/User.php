@@ -1022,7 +1022,6 @@ class User implements UserInterface, \Serializable
         }
         return $this ;
     }
-
     /**
      * fonction qui reset les privilèges (reset = -1)
      */

@@ -54,6 +54,9 @@
         <tbody>
         {% for breed in breeds %}
             <tr>
+                <td>
+                    <input class="checkBoxDelete" id="{{ breed.breedId }}" type="checkbox">
+                </td>
                 <td>{{ breed.breedId }}</td>
                 <td>{{ breed.breedName }}</td>
                 <td>{{ breed.breedDescription }}</td>
@@ -70,6 +73,7 @@
         {% endfor %}
         </tbody>
     </table>
+    <input type="button" class="btn_delete_selected" value="Delete Selected">
 
     <div class="d-flex justify-content-center pagination">
         {{ knp_pagination_render(breeds) }}
