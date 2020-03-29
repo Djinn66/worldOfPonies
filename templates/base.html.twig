@@ -48,6 +48,27 @@
                         <li><a href={{ path('world_of_ponies_player_index') }}>Player</a></li>
                         <li><a href={{ path('world_of_ponies_transaction_index') }}>Transaction</a></li>
                     {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN')  %}
+                        <li><a href={{ path('world_of_ponies_player_index') }}>Player</a></li>
+                    {% endif %}
+
+                    {% if is_granted('ROLE_SPECIALIST')  %}
+                        <li><a href={{ path('world_of_ponies_horse_index') }}>Horse</a></li>
+                    {% endif %}
+
+                    {% if (is_granted('ROLE_NEWSREADER') or is_granted('ROLE_CONTESTADMIN') or is_granted('ROLE_EDITOR')) %}
+
+                        {% if not is_granted('ROLE_EDITOR')  %}
+                            <li><a href={{ path('world_of_ponies_contest_index') }}>Contest</a></li>
+                        {% endif %}
+
+                        {% if not is_granted('ROLE_CONTESTADMIN')  %}
+                            <li><a href={{ path('world_of_ponies_newspaper_index') }}>Newspaper</a></li>
+                        {% endif %}
+
+                    {% endif %}
+
                 </ul>
             </nav>
         {% endif %}
