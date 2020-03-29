@@ -20,7 +20,7 @@ class PlayerController extends AbstractController
 {
     /**
      * @Route("/", name="world_of_ponies_player_index", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_ADMIN"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
     public function index(PaginatorInterface $paginator,Request $request): Response
     {
@@ -65,7 +65,7 @@ class PlayerController extends AbstractController
 
     /**
      * @Route("/new", name="world_of_ponies_player_new", methods={"GET","POST"})
-     *  * @Security("is_granted('ROLE_SUPERUSER') or is_granted('ROLE_PROGRAMMER')")
+     * @Security("is_granted('ROLE_SUPERUSER') or is_granted('ROLE_PROGRAMMER')")
      */
     public function new(Request $request): Response
     {
@@ -89,7 +89,7 @@ class PlayerController extends AbstractController
 
     /**
      * @Route("/{playerId}", name="world_of_ponies_player_show", methods={"GET"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_ADMIN"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
     public function show(Player $player): Response
     {
@@ -100,7 +100,7 @@ class PlayerController extends AbstractController
 
     /**
      * @Route("/{playerId}/edit", name="world_of_ponies_player_edit", methods={"GET","POST"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_ADMIN"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
     public function edit(Request $request, Player $player): Response
     {
@@ -121,7 +121,7 @@ class PlayerController extends AbstractController
 
     /**
      * @Route("/{playerId}", name="world_of_ponies_player_delete", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_ADMIN"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
     public function delete(Request $request, Player $player): Response
     {
@@ -136,7 +136,7 @@ class PlayerController extends AbstractController
 
     /**
      * @Route("/", name="world_of_ponies_player_delete_selected", methods={"DELETE"})
-     * @IsGranted({"ROLE_PROGRAMMER","ROLE_SUPERUSER","ROLE_ADMIN"})
+     * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
     public function deleteSelected(Request $request): Response
     {
