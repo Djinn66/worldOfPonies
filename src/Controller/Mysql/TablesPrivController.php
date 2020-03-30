@@ -42,7 +42,8 @@ class TablesPrivController extends AbstractController
         if($user !="")
             $criteria += ['user' => $user];
 
-        $tables_privs =  $this->getDoctrine()
+        if($this->getUser()->getUsername()!= null){
+            $tables_privs =  $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
             ->getRepository(TablesPriv::class)
             ->findBy($criteria, $orderBy);
 
@@ -60,6 +61,7 @@ class TablesPrivController extends AbstractController
             'sortBy' => $sortBy,
             'tables_privs' => $pagination,
         ]);
+        }else return $this->redirectToRoute('app_login');
 
     }
 
@@ -73,7 +75,7 @@ class TablesPrivController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($tablesPriv);
             $entityManager->flush();
 
@@ -87,25 +89,43 @@ class TablesPrivController extends AbstractController
     }
 
     /**
-     * @Route("/{host}", name="mysql_tables_priv_show", methods={"GET"})
+     * @Route("/show", name="mysql_tables_priv_show", methods={"GET"})
      */
-    public function show(TablesPriv $tablesPriv): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(TablesPriv::class);
+        $tablesPriv = $repository->find(
+            array(
+                'host'=>$request->query->get('host'),
+                'user'=>$request->query->get('user'),
+                'db'=>$request->query->get('db'),
+                'tableName'=>$request->query->get('tableName'),
+            ));
         return $this->render('mysql/tables_priv/show.html.twig', [
             'tables_priv' => $tablesPriv,
         ]);
     }
 
     /**
-     * @Route("/{host}/edit", name="mysql_tables_priv_edit", methods={"GET","POST"})
+     * @Route("/edit", name="mysql_tables_priv_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, TablesPriv $tablesPriv): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(TablesPriv::class);
+        $tablesPriv = $repository->find(
+            array(
+                'host'=>$request->query->get('host'),
+                'user'=>$request->query->get('user'),
+                'db'=>$request->query->get('db'),
+                'tableName'=>$request->query->get('tableName'),
+            ));
         $form = $this->createForm(TablesPrivType::class, $tablesPriv);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('mysql_tables_priv_index');
         }
@@ -117,16 +137,25 @@ class TablesPrivController extends AbstractController
     }
 
     /**
-     * @Route("/{host}", name="mysql_tables_priv_delete", methods={"DELETE"})
+     * @Route("/delete", name="mysql_tables_priv_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, TablesPriv $tablesPriv): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(TablesPriv::class);
+        $tablesPriv = $repository->find(
+            array(
+                'host'=>$request->query->get('host'),
+                'db'=>$request->query->get('db'),
+                'user'=>$request->query->get('user')
+            ));
         if ($this->isCsrfTokenValid('delete'.$tablesPriv->getHost(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($tablesPriv);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('mysql_tables_priv_index');
     }
+
 }

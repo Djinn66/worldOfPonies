@@ -87,8 +87,8 @@
                         </ul>
                     </td>
                     <td>
-                        <a href="{{ path('mysql_db_show', {'host': db.host}) }}">show</a>
-                        <a href="{{ path('mysql_db_edit', {'host': db.host}) }}">edit</a>
+                        <a href="{{ path('mysql_db_show', {'host': db.host,'db':db.db,'user':db.user}) }}">show</a>
+                        <a href="{{ path('mysql_db_edit', {'host': db.host,'db':db.db,'user':db.user}) }}">edit</a>
                         {{ include('mysql/db/_delete_form.html.twig') }}
                     </td>
                 </tr>

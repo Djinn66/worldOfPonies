@@ -96,8 +96,8 @@
                     </td>
                     <td>{{ tables_priv.columnPriv }}</td>
                     <td>
-                        <a href="{{ path('mysql_tables_priv_show', {'host': tables_priv.host}) }}">show</a>
-                        <a href="{{ path('mysql_tables_priv_edit', {'host': tables_priv.host}) }}">edit</a>
+                        <a href="{{ path('mysql_tables_priv_show', {'host': tables_priv.host,'db':tables_priv.db,'user':tables_priv.user,'tableName':tables_priv.tableName}) }}">show</a>
+                        <a href="{{ path('mysql_tables_priv_edit', {'host': tables_priv.host,'db':tables_priv.db,'user':tables_priv.user,'tableName':tables_priv.tableName}) }}">edit</a>
                         {{ include('mysql/tables_priv/_delete_form.html.twig') }}
                     </td>
                 </tr>
