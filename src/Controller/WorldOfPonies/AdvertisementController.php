@@ -64,7 +64,7 @@ class AdvertisementController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($advertisement);
             $entityManager->flush();
 
@@ -82,7 +82,8 @@ class AdvertisementController extends AbstractController
      */
     public function show(Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager()->getRepository(Advertisement::class);
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Advertisement::class);
         $advertisement = $repository->find(
             array(
                 'advertisementId'=>$request->query->get('advertisementId')
@@ -145,10 +146,8 @@ class AdvertisementController extends AbstractController
      */
     public function deleteSelected(Request $request): Response
     {
-        //return $this->json($request->request->get('_token'));
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
             $advertisement = $this->getDoctrine()->getRepository(Advertisement::class)->find($id);
             if(isset($advertisement)){
                 $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
@@ -158,7 +157,6 @@ class AdvertisementController extends AbstractController
 
         }
 
-        //return $this->redirectToRoute('world_of_ponies_player_index');
         return $this->json( "deleted");
     }
 }
