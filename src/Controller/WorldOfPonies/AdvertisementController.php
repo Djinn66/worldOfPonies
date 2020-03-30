@@ -54,7 +54,7 @@ class AdvertisementController extends AbstractController
                 'sortBy' => $sortBy,
                 'advertisements' => $pagination,
             ]);
-        }else return $this->redirectToRoute('app_login');
+        
     }
 
     /**
