@@ -36,6 +36,7 @@ class ItemController extends AbstractController
             $criteria += ['itemDescription' => $itemDescription];
 
         $items =  $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
             ->getRepository(Item::class)
             ->findBy($criteria, $orderBy);
 
@@ -64,7 +65,7 @@ class ItemController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($item);
             $entityManager->flush();
 
@@ -78,25 +79,39 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/{itemId}", name="world_of_ponies_item_show", methods={"GET"})
+     * @Route("/show", name="world_of_ponies_item_show", methods={"GET"})
      */
-    public function show(Item $item): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Item::class);
+        $item = $repository->find(
+            array(
+                'itemId'=>$request->query->get('itemId')
+            ));
+
         return $this->render('world_of_ponies/item/show.html.twig', [
             'item' => $item,
         ]);
     }
 
     /**
-     * @Route("/{itemId}/edit", name="world_of_ponies_item_edit", methods={"GET","POST"})
+     * @Route("/edit", name="world_of_ponies_item_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Item $item): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Item::class);
+        $item = $repository->find(
+            array(
+                'itemId'=>$request->query->get('itemId')
+            ));
+
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager('worldofponies')->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('world_of_ponies_item_index');
         }
@@ -108,12 +123,19 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/{itemId}", name="world_of_ponies_item_delete", methods={"DELETE"})
+     * @Route("/delete", name="world_of_ponies_item_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Item $item): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Item::class);
+        $item = $repository->find(
+            array(
+                'itemId'=>$request->query->get('itemId')
+            ));
+
         if ($this->isCsrfTokenValid('delete'.$item->getItemId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($item);
             $entityManager->flush();
         }
@@ -126,20 +148,21 @@ class ItemController extends AbstractController
      */
     public function deleteSelected(Request $request): Response
     {
-        //return $this->json($request->request->get('_token'));
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $player = $this->getDoctrine()->getRepository(Item::class)->find($id);
-            if(isset($player)){
-                $entityManager = $this->getDoctrine()->getManager('worldofponies');
-                $entityManager->remove($player);
+            $item = $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(Item::class)
+                ->find($id);
+
+            if(isset($item)){
+                $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
+                $entityManager->remove($item);
                 $entityManager->flush();
             } else return $this->json( "already");
 
         }
 
-        //return $this->redirectToRoute('world_of_ponies_player_index');
         return $this->json( "deleted");
     }
 }

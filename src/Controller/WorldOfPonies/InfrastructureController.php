@@ -35,12 +35,12 @@ class InfrastructureController extends AbstractController
         if($infrastructureType !="")
             $criteria += ['infrastructureType' => $infrastructureType];
 
-        $infrastructure =  $this->getDoctrine()
+        $infrastructures =  $this->getDoctrine()
             ->getRepository(Infrastructure::class)
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
-            $infrastructure,
+            $infrastructures,
             $request->query->getInt('page',1),
             6
         );
@@ -64,7 +64,7 @@ class InfrastructureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($infrastructure);
             $entityManager->flush();
 
@@ -78,25 +78,39 @@ class InfrastructureController extends AbstractController
     }
 
     /**
-     * @Route("/{infrastructureId}", name="world_of_ponies_infrastructure_show", methods={"GET"})
+     * @Route("/show", name="world_of_ponies_infrastructure_show", methods={"GET"})
      */
-    public function show(Infrastructure $infrastructure): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Infrastructure::class);
+        $infrastructure = $repository->find(
+            array(
+                'infrastructureId'=>$request->query->get('infrastructureId')
+            ));
+
         return $this->render('world_of_ponies/infrastructure/show.html.twig', [
             'infrastructure' => $infrastructure,
         ]);
     }
 
     /**
-     * @Route("/{infrastructureId}/edit", name="world_of_ponies_infrastructure_edit", methods={"GET","POST"})
+     * @Route("/edit", name="world_of_ponies_infrastructure_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Infrastructure $infrastructure): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Infrastructure::class);
+        $infrastructure = $repository->find(
+            array(
+                'infrastructureId'=>$request->query->get('infrastructureId')
+            ));
+
         $form = $this->createForm(InfrastructureType::class, $infrastructure);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager('worldofponies')->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('world_of_ponies_infrastructure_index');
         }
@@ -108,12 +122,19 @@ class InfrastructureController extends AbstractController
     }
 
     /**
-     * @Route("/{infrastructureId}", name="world_of_ponies_infrastructure_delete", methods={"DELETE"})
+     * @Route("/delete", name="world_of_ponies_infrastructure_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Infrastructure $infrastructure): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Infrastructure::class);
+        $infrastructure = $repository->find(
+            array(
+                'infrastructureId'=>$request->query->get('infrastructureId')
+            ));
+
         if ($this->isCsrfTokenValid('delete'.$infrastructure->getInfrastructureId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($infrastructure);
             $entityManager->flush();
         }
@@ -126,20 +147,21 @@ class InfrastructureController extends AbstractController
      */
     public function deleteSelected(Request $request): Response
     {
-        //return $this->json($request->request->get('_token'));
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $player = $this->getDoctrine()->getRepository(Infrastructure::class)->find($id);
-            if(isset($player)){
-                $entityManager = $this->getDoctrine()->getManager('worldofponies');
-                $entityManager->remove($player);
+            $infrastructure = $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(Infrastructure::class)
+                ->find($id);
+
+            if(isset($infrastructure)){
+                $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
+                $entityManager->remove($infrastructure);
                 $entityManager->flush();
             } else return $this->json( "already");
 
         }
 
-        //return $this->redirectToRoute('world_of_ponies_player_index');
         return $this->json( "deleted");
     }
 }

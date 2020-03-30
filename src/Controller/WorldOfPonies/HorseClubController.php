@@ -39,6 +39,7 @@ class HorseClubController extends AbstractController
             $criteria += ['horseClubCapacity' => $horseClubCapacity];
 
         $horse_clubs =  $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
             ->getRepository(HorseClub::class)
             ->findBy($criteria, $orderBy);
 
@@ -68,7 +69,7 @@ class HorseClubController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($horseClub);
             $entityManager->flush();
 
@@ -82,25 +83,39 @@ class HorseClubController extends AbstractController
     }
 
     /**
-     * @Route("/{$horseClubId}", name="world_of_ponies_horse_club_show", methods={"GET"})
+     * @Route("/show", name="world_of_ponies_horse_club_show", methods={"GET"})
      */
-    public function show(HorseClub $horseClub): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(HorseClub::class);
+        $horseClub = $repository->find(
+            array(
+                'articleId'=>$request->query->get('$horseClubId')
+            ));
+
         return $this->render('world_of_ponies/horse_club/show.html.twig', [
             'horse_club' => $horseClub,
         ]);
     }
 
     /**
-     * @Route("/{$horseClubId}/edit", name="world_of_ponies_horse_club_edit", methods={"GET","POST"})
+     * @Route("/edit", name="world_of_ponies_horse_club_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, HorseClub $horseClub): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(HorseClub::class);
+        $horseClub = $repository->find(
+            array(
+                'horseClubId'=>$request->query->get('horseClubId')
+            ));
+
         $form = $this->createForm(HorseClubType::class, $horseClub);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager('worldofponies')->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('world_of_ponies_horse_club_index');
         }
@@ -112,12 +127,19 @@ class HorseClubController extends AbstractController
     }
 
     /**
-     * @Route("/{$horseClubId}", name="world_of_ponies_horse_club_delete", methods={"DELETE"})
+     * @Route("/delete", name="world_of_ponies_horse_club_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, HorseClub $horseClub): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(HorseClub::class);
+        $horseClub = $repository->find(
+            array(
+                'horseClubId'=>$request->query->get('horseClubId')
+            ));
+
         if ($this->isCsrfTokenValid('delete'.$horseClub->getHorseClubId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($horseClub);
             $entityManager->flush();
         }
@@ -130,20 +152,21 @@ class HorseClubController extends AbstractController
      */
     public function deleteSelected(Request $request): Response
     {
-        //return $this->json($request->request->get('_token'));
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $player = $this->getDoctrine()->getRepository(HorseClub::class)->find($id);
-            if(isset($player)){
-                $entityManager = $this->getDoctrine()->getManager('worldofponies');
-                $entityManager->remove($player);
+            $horseClub = $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(HorseClub::class)
+                ->find($id);
+
+            if(isset($horseClub)){
+                $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
+                $entityManager->remove($horseClub);
                 $entityManager->flush();
             } else return $this->json( "already");
 
         }
 
-        //return $this->redirectToRoute('world_of_ponies_player_index');
         return $this->json( "deleted");
     }
 }

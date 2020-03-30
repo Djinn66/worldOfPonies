@@ -39,6 +39,7 @@ class BreedController extends AbstractController
             $criteria += ['breedName' => $breedName];
 
         $breeds =  $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
             ->getRepository(Breed::class)
             ->findBy($criteria, $orderBy);
 
@@ -68,7 +69,7 @@ class BreedController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($breed);
             $entityManager->flush();
 
@@ -82,25 +83,40 @@ class BreedController extends AbstractController
     }
 
     /**
-     * @Route("/{breedId}", name="world_of_ponies_breed_show", methods={"GET"})
+     * @Route("/show", name="world_of_ponies_breed_show", methods={"GET"})
      */
-    public function show(Breed $breed): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Breed::class);
+        $breed = $repository->find(
+            array(
+                'breedId'=>$request->query->get('breedId')
+            ));
+
         return $this->render('world_of_ponies/breed/show.html.twig', [
             'breed' => $breed,
         ]);
     }
 
     /**
-     * @Route("/{breedId}/edit", name="world_of_ponies_breed_edit", methods={"GET","POST"})
+     * @Route("/edit", name="world_of_ponies_breed_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Breed $breed): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Breed::class);
+        $breed = $repository->find(
+            array(
+                '$breedId'=>$request->query->get('$breedId')
+            ));
+
         $form = $this->createForm(BreedType::class, $breed);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager('worldofponies')->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('world_of_ponies_breed_index');
         }
@@ -112,12 +128,19 @@ class BreedController extends AbstractController
     }
 
     /**
-     * @Route("/{breedId}", name="world_of_ponies_breed_delete", methods={"DELETE"})
+     * @Route("/delete", name="world_of_ponies_breed_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Breed $breed): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Breed::class);
+        $breed = $repository->find(
+            array(
+                '$breedId'=>$request->query->get('$breedId')
+            ));
+
         if ($this->isCsrfTokenValid('delete'.$breed->getBreedId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($breed);
             $entityManager->flush();
         }
@@ -130,20 +153,21 @@ class BreedController extends AbstractController
      */
     public function deleteSelected(Request $request): Response
     {
-        //return $this->json($request->request->get('_token'));
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $player = $this->getDoctrine()->getRepository(Breed::class)->find($id);
-            if(isset($player)){
-                $entityManager = $this->getDoctrine()->getManager('worldofponies');
-                $entityManager->remove($player);
+            $breed = $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(Breed::class)
+                ->find($id);
+
+            if(isset($breed)){
+                $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
+                $entityManager->remove($breed);
                 $entityManager->flush();
             } else return $this->json( "already");
 
         }
 
-        //return $this->redirectToRoute('world_of_ponies_player_index');
         return $this->json( "deleted");
     }
 }
