@@ -78,25 +78,37 @@ class AdvertisementController extends AbstractController
     }
 
     /**
-     * @Route("/{advertisementId}", name="world_of_ponies_advertisement_show", methods={"GET"})
+     * @Route("/show", name="world_of_ponies_advertisement_show", methods={"GET"})
      */
-    public function show(Advertisement $advertisement): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager()->getRepository(Advertisement::class);
+        $advertisement = $repository->find(
+            array(
+                'advertisementId'=>$request->query->get('advertisementId')
+            ));
+
         return $this->render('world_of_ponies/advertisement/show.html.twig', [
             'advertisement' => $advertisement,
         ]);
     }
 
     /**
-     * @Route("/{advertisementId}/edit", name="world_of_ponies_advertisement_edit", methods={"GET","POST"})
+     * @Route("/edit", name="world_of_ponies_advertisement_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Advertisement $advertisement): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Advertisement::class);
+        $advertisement = $repository->find(
+            array(
+                'advertisementId'=>$request->query->get('advertisementId')
+            ));
         $form = $this->createForm(AdvertisementType::class, $advertisement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('world_of_ponies_advertisement_index');
         }
@@ -108,12 +120,19 @@ class AdvertisementController extends AbstractController
     }
 
     /**
-     * @Route("/{advertisementId}", name="world_of_ponies_advertisement_delete", methods={"DELETE"})
+     * @Route("/delete", name="world_of_ponies_advertisement_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Advertisement $advertisement): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Advertisement::class);
+        $advertisement = $repository->find(
+            array(
+                'advertisementId'=>$request->query->get('advertisementId')
+            ));
+
         if ($this->isCsrfTokenValid('delete'.$advertisement->getAdvertisementId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($advertisement);
             $entityManager->flush();
         }
@@ -130,10 +149,10 @@ class AdvertisementController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $player = $this->getDoctrine()->getRepository(Advertisement::class)->find($id);
-            if(isset($player)){
-                $entityManager = $this->getDoctrine()->getManager('worldofponies');
-                $entityManager->remove($player);
+            $advertisement = $this->getDoctrine()->getRepository(Advertisement::class)->find($id);
+            if(isset($advertisement)){
+                $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
+                $entityManager->remove($advertisement);
                 $entityManager->flush();
             } else return $this->json( "already");
 

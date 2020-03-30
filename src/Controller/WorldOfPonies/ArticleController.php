@@ -2,6 +2,7 @@
 
 namespace App\Controller\WorldOfPonies;
 
+use App\Entity\Mysql\User;
 use App\Entity\WorldOfPonies\Article;
 use App\Form\WorldOfPonies\ArticleType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -21,7 +22,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/", name="world_of_ponies_article_index", methods={"GET"})
      */
-    public function index(PaginatorInterface $paginator, Request $request): Response
+    public function index(PaginatorInterface $paginator, Request $request, User $user): Response
     {
         $title = $request->query->get('title');
         $articleId = $request->query->get('articleId');

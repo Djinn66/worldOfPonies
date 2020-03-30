@@ -14,12 +14,80 @@ doctrine:
                     varbinary: string
                     tinyblob: text
 
-            worldofponies:
-                # configure these for your database server
-                url: '%env(DATABASE_URL)%'
+            ROLE_SUPERUSER:
+                #configure these for your database server
+                url: '%env(DATABASE_SUPERUSER_URL)%'
                 driver: 'pdo_mysql'
                 server_version: '5.6'
                 charset: utf8
+
+            ROLE_USERADMIN:
+                #configure these for your database server
+                url: '%env(DATABASE_USERADMIN_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
+                mapping_types:
+                    enum: string
+                    set: string
+                    varbinary: string
+                    tinyblob: text
+
+            ROLE_OPTIMISER:
+                #configure these for your database server
+                url: '%env(DATABASE_OPTIMISER_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
+
+            ROLE_PROGRAMMER:
+                #configure these for your database server
+                url: '%env(DATABASE_PROGRAMMER_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
+
+            ROLE_ADMIN:
+                #configure these for your database server
+                url: '%env(DATABASE_ADMIN_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
+
+            ROLE_SPECIALIST:
+                #configure these for your database server
+                url: '%env(DATABASE_SPECIALIST_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
+
+            ROLE_CONTESTADMIN:
+                #configure these for your database server
+                url: '%env(DATABASE_CONTESTADMIN_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
+
+            ROLE_EDITOR:
+                #configure these for your database server
+                url: '%env(DATABASE_EDITOR_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
+
+            ROLE_NEWSREADER:
+                #configure these for your database server
+                url: '%env(DATABASE_NEWSREADER_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
+
+#            worldofponies:
+#                # configure these for your database server
+#                url: '%env(DATABASE_URL)%'
+#                driver: 'pdo_mysql'
+#                server_version: '5.6'
+#                charset: utf8
 
     orm:
         default_entity_manager: default
@@ -34,13 +102,107 @@ doctrine:
                         prefix: 'App\Entity\Mysql'
                         alias: Mysql
 
-            worldofponies:
-                connection: worldofponies
+            ROLE_SUPERUSER:
+                connection: ROLE_SUPERUSER
                 mappings:
-                    WorldOfPonies:
+                    admin:
                         is_bundle: false
                         type: annotation
                         dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
-                        prefix: 'App\Entity\WorldOfPonies'
-                        alias: WorldOfPonies
+                        prefix: 'App\Entity\'
+                        alias: ROLE_SUPERUSER
+
+            ROLE_USERADMIN:
+                connection: ROLE_USERADMIN
+                mappings:
+                    admin:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Mysql'
+                        prefix: 'App\Entity\'
+                        alias: ROLE_USERADMIN
+
+            ROLE_OPTIMISER:
+                connection: ROLE_OPTIMISER
+                mappings:
+                    admin:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+                        prefix: 'App\Entity\'
+                        alias: ROLE_OPTIMISER
+
+            ROLE_PROGRAMMER:
+                connection: ROLE_PROGRAMMER
+                mappings:
+                    admin:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+                        prefix: 'App\Entity\'
+                        alias: ROLE_PROGRAMMER
+
+            ROLE_ADMIN:
+                connection: ROLE_ADMIN
+                mappings:
+                    admin:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+                        prefix: 'App\Entity\'
+                        alias: ROLE_ADMIN
+
+            ROLE_SPECIALIST:
+                connection: ROLE_SPECIALIST
+                mappings:
+                    admin:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+                        prefix: 'App\Entity\'
+                        alias: ROLE_SPECIALIST
+
+            ROLE_CONTESTADMIN:
+                connection: ROLE_SPECIALIST
+                mappings:
+                    admin:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+                        prefix: 'App\Entity\'
+                        alias: ROLE_SPECIALIST
+
+            ROLE_EDITOR:
+                connection: ROLE_SPECIALIST
+                mappings:
+                    admin:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+                        prefix: 'App\Entity\'
+                        alias: ROLE_SPECIALIST
+
+
+
+            ROLE_NEWSREADER:
+                connection: ROLE_NEWSREADER
+                mappings:
+                    admin:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+                        prefix: 'App\Entity\'
+                        alias: ROLE_NEWSREADER
+
+
+
+#            worldofponies:
+#                connection: worldofponies
+#                mappings:
+#                    WorldOfPonies:
+#                        is_bundle: false
+#                        type: annotation
+#                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+#                        prefix: 'App\Entity\WorldOfPonies'
+#                        alias: WorldOfPonies
 

@@ -42,24 +42,26 @@ class DbController extends AbstractController
         if($user !="")
             $criteria += ['user' => $user];
 
-        $dbs =  $this->getDoctrine()
-            ->getRepository(Db::class)
-            ->findBy($criteria,$orderBy);
+        if($this->getUser()->getUsername()!= null){
+            $dbs =  $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(Db::class)
+                ->findBy($criteria,$orderBy);
+            $pagination = $paginator->paginate(
+                $dbs,
+                $request->query->getInt('page',1),
+                6
+            );
 
-        $pagination = $paginator->paginate(
-            $dbs,
-            $request->query->getInt('page',1),
-            6
-        );
+            return $this->render('mysql/db/index.html.twig', [
+                'host' => $host,
+                'db' => $db,
+                'user' => $user,
+                'order' => $order,
+                'sortBy' => $sortBy,
+                'dbs' => $pagination,
+            ]);
 
-        return $this->render('mysql/db/index.html.twig', [
-            'host' => $host,
-            'db' => $db,
-            'user' => $user,
-            'order' => $order,
-            'sortBy' => $sortBy,
-            'dbs' => $pagination,
-        ]);
+        }else return $this->redirectToRoute('app_login');
 
     }
 
@@ -73,7 +75,7 @@ class DbController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($db);
             $entityManager->flush();
 
@@ -105,7 +107,7 @@ class DbController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('mysql_db_index');
         }
@@ -122,7 +124,7 @@ class DbController extends AbstractController
     public function delete(Request $request, Db $db): Response
     {
         if ($this->isCsrfTokenValid('delete'.$db->getHost(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($db);
             $entityManager->flush();
         }
