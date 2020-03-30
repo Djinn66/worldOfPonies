@@ -109,7 +109,7 @@ class BreedController extends AbstractController
             ->getRepository(Breed::class);
         $breed = $repository->find(
             array(
-                '$breedId'=>$request->query->get('$breedId')
+                'breedId'=>$request->query->get('breedId')
             ));
 
         $form = $this->createForm(BreedType::class, $breed);
@@ -136,7 +136,7 @@ class BreedController extends AbstractController
             ->getRepository(Breed::class);
         $breed = $repository->find(
             array(
-                '$breedId'=>$request->query->get('$breedId')
+                'breedId'=>$request->query->get('breedId')
             ));
 
         if ($this->isCsrfTokenValid('delete'.$breed->getBreedId(), $request->request->get('_token'))) {
