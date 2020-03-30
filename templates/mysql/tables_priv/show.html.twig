@@ -46,7 +46,7 @@
 
         <a href="{{ path('mysql_tables_priv_index') }}">back to list</a>
 
-        <a href="{{ path('mysql_tables_priv_edit', {'host': tables_priv.host}) }}">edit</a>
+        <a href="{{ path('mysql_tables_priv_edit', {'host': tables_priv.host,'db':tables_priv.db,'user':tables_priv.user,'tableName':tables_priv.tableName}) }}">edit</a>
 
         {{ include('mysql/tables_priv/_delete_form.html.twig') }}
 

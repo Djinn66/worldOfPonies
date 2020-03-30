@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 /**
@@ -36,22 +37,25 @@ class AdvertisementController extends AbstractController
         if($advertisementId !="")
             $criteria += ['advertisementId' => $advertisementId];
 
-        $advertisements =  $this->getDoctrine()
-            ->getRepository(Advertisement::class)
-            ->findBy($criteria, $orderBy);
+        if($this->getUser()->getUsername()!= null){
+            $advertisements =  $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(Advertisement::class)
+                ->findBy($criteria, $orderBy);
 
-        $pagination = $paginator->paginate(
-            $advertisements,
-            $request->query->getInt('page',1),
-            6
-        );
+            $pagination = $paginator->paginate(
+                $advertisements,
+                $request->query->getInt('page',1),
+                6
+            );
 
-        return $this->render('world_of_ponies/advertisement/index.html.twig', [
-            'advertisementId' => $advertisementId,
-            'order' => $order,
-            'sortBy' => $sortBy,
-            'advertisements' => $pagination,
-        ]);
+            return $this->render('world_of_ponies/advertisement/index.html.twig', [
+                'advertisementId' => $advertisementId,
+                'order' => $order,
+                'sortBy' => $sortBy,
+                'advertisements' => $pagination,
+            ]);
+        }else return $this->redirectToRoute('app_login');
     }
 
     /**

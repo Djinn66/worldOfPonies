@@ -163,24 +163,24 @@ doctrine:
                         alias: ROLE_SPECIALIST
 
             ROLE_CONTESTADMIN:
-                connection: ROLE_SPECIALIST
+                connection: ROLE_CONTESTADMIN
                 mappings:
                     admin:
                         is_bundle: false
                         type: annotation
                         dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
                         prefix: 'App\Entity\'
-                        alias: ROLE_SPECIALIST
+                        alias: ROLE_CONTESTADMIN
 
             ROLE_EDITOR:
-                connection: ROLE_SPECIALIST
+                connection: ROLE_EDITOR
                 mappings:
                     admin:
                         is_bundle: false
                         type: annotation
                         dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
                         prefix: 'App\Entity\'
-                        alias: ROLE_SPECIALIST
+                        alias: ROLE_EDITOR
 
 
 
