@@ -89,20 +89,36 @@ class DbController extends AbstractController
     }
 
     /**
-     * @Route("/{host}", name="mysql_db_show", methods={"GET"})
+     * @Route("/show", name="mysql_db_show", methods={"GET"})
      */
-    public function show(Db $db): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Db::class);
+        $db = $repository->find(
+            array(
+                'host'=>$request->query->get('host'),
+                'user'=>$request->query->get('user'),
+                'db'=>$request->query->get('db'),
+            ));
         return $this->render('mysql/db/show.html.twig', [
             'db' => $db,
         ]);
     }
 
     /**
-     * @Route("/{host}/edit", name="mysql_db_edit", methods={"GET","POST"})
+     * @Route("/edit", name="mysql_db_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Db $db): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Db::class);
+        $db = $repository->find(
+            array(
+                'host'=>$request->query->get('host'),
+                'user'=>$request->query->get('user'),
+                'db'=>$request->query->get('db'),
+            ));
         $form = $this->createForm(DbType::class, $db);
         $form->handleRequest($request);
 
@@ -119,10 +135,18 @@ class DbController extends AbstractController
     }
 
     /**
-     * @Route("/{host}", name="mysql_db_delete", methods={"DELETE"})
+     * @Route("/delete", name="mysql_db_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Db $db): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Db::class);
+        $db = $repository->find(
+            array(
+                'host'=>$request->query->get('host'),
+                'user'=>$request->query->get('user'),
+                'db'=>$request->query->get('db'),
+            ));
         if ($this->isCsrfTokenValid('delete'.$db->getHost(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($db);

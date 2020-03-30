@@ -43,9 +43,10 @@ class TablesPrivController extends AbstractController
             $criteria += ['user' => $user];
 
         if($this->getUser()->getUsername()!= null){
-            $tables_privs =  $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(TablesPriv::class)
-            ->findBy($criteria, $orderBy);
+            $tables_privs =  $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(TablesPriv::class)
+                ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
             $tables_privs,
