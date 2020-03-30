@@ -39,6 +39,7 @@ class AutomaticTaskController extends AbstractController
             $criteria += ['taskToDo' => $taskToDo];
 
         $automaticTasks =  $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
             ->getRepository(AutomaticTask::class)
             ->findBy($criteria, $orderBy);
 
@@ -68,7 +69,7 @@ class AutomaticTaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($automaticTask);
             $entityManager->flush();
 
@@ -82,25 +83,40 @@ class AutomaticTaskController extends AbstractController
     }
 
     /**
-     * @Route("/{taskId}", name="world_of_ponies_automatic_task_show", methods={"GET"})
+     * @Route("/show", name="world_of_ponies_automatic_task_show", methods={"GET"})
      */
-    public function show(AutomaticTask $automaticTask): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(AutomaticTask::class);
+        $automaticTask = $repository->find(
+            array(
+                'taskId'=>$request->query->get('taskId')
+            ));
+
         return $this->render('world_of_ponies/automatic_task/show.html.twig', [
             'automatic_task' => $automaticTask,
         ]);
     }
 
     /**
-     * @Route("/{taskId}/edit", name="world_of_ponies_automatic_task_edit", methods={"GET","POST"})
+     * @Route("/edit", name="world_of_ponies_automatic_task_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, AutomaticTask $automaticTask): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(AutomaticTask::class);
+        $automaticTask = $repository->find(
+            array(
+                'taskId'=>$request->query->get('taskId')
+            ));
+
         $form = $this->createForm(AutomaticTaskType::class, $automaticTask);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager('worldofponies')->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('world_of_ponies_automatic_task_index');
         }
@@ -112,12 +128,20 @@ class AutomaticTaskController extends AbstractController
     }
 
     /**
-     * @Route("/{taskId}", name="world_of_ponies_automatic_task_delete", methods={"DELETE"})
+     * @Route("/delete", name="world_of_ponies_automatic_task_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, AutomaticTask $automaticTask): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(AutomaticTask::class);
+        $automaticTask = $repository->find(
+            array(
+                'taskId'=>$request->query->get('taskId')
+            ));
+
         if ($this->isCsrfTokenValid('delete'.$automaticTask->getTaskId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($automaticTask);
             $entityManager->flush();
         }
@@ -130,20 +154,21 @@ class AutomaticTaskController extends AbstractController
      */
     public function deleteSelected(Request $request): Response
     {
-        //return $this->json($request->request->get('_token'));
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $player = $this->getDoctrine()->getRepository(AutomaticTask::class)->find($id);
-            if(isset($player)){
-                $entityManager = $this->getDoctrine()->getManager('worldofponies');
-                $entityManager->remove($player);
+            $automaticTask = $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(AutomaticTask::class)
+                ->find($id);
+
+            if(isset($automaticTask)){
+                $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
+                $entityManager->remove($automaticTask);
                 $entityManager->flush();
             } else return $this->json( "already");
 
         }
 
-        //return $this->redirectToRoute('world_of_ponies_player_index');
         return $this->json( "deleted");
     }
 }

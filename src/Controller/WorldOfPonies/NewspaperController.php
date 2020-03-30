@@ -37,6 +37,7 @@ class NewspaperController extends AbstractController
             $criteria += ['newspaperId' => $newspaperId];
 
         $newspapers =  $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
             ->getRepository(Newspaper::class)
             ->findBy($criteria, $orderBy);
 
@@ -66,7 +67,7 @@ class NewspaperController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($newspaper);
             $entityManager->flush();
 
@@ -80,27 +81,41 @@ class NewspaperController extends AbstractController
     }
 
     /**
-     * @Route("/{newspaperId}", name="world_of_ponies_newspaper_show", methods={"GET"})
+     * @Route("/show", name="world_of_ponies_newspaper_show", methods={"GET"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR') or is_granted('ROLE_NEWSREADER')")
      */
-    public function show(Newspaper $newspaper): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Newspaper::class);
+        $newspaper = $repository->find(
+            array(
+                'newspaperId'=>$request->query->get('newspaperId')
+            ));
+
         return $this->render('world_of_ponies/newspaper/show.html.twig', [
             'newspaper' => $newspaper,
         ]);
     }
 
     /**
-     * @Route("/{newspaperId}/edit", name="world_of_ponies_newspaper_edit", methods={"GET","POST"})
+     * @Route("/edit", name="world_of_ponies_newspaper_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR')")
      */
-    public function edit(Request $request, Newspaper $newspaper): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Newspaper::class);
+        $newspaper = $repository->find(
+            array(
+                'newspaperId'=>$request->query->get('newspaperId')
+            ));
+
         $form = $this->createForm(NewspaperType::class, $newspaper);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager('worldofponies')->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('world_of_ponies_newspaper_index');
         }
@@ -112,13 +127,20 @@ class NewspaperController extends AbstractController
     }
 
     /**
-     * @Route("/{newspaperId}", name="world_of_ponies_newspaper_delete", methods={"DELETE"})
+     * @Route("/delete", name="world_of_ponies_newspaper_delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR')")
      */
-    public function delete(Request $request, Newspaper $newspaper): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Newspaper::class);
+        $newspaper = $repository->find(
+            array(
+                'newspaperId'=>$request->query->get('newspaperId')
+            ));
+
         if ($this->isCsrfTokenValid('delete'.$newspaper->getNewspaperId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($newspaper);
             $entityManager->flush();
         }
@@ -132,20 +154,21 @@ class NewspaperController extends AbstractController
      */
     public function deleteSelected(Request $request): Response
     {
-        //return $this->json($request->request->get('_token'));
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $player = $this->getDoctrine()->getRepository(Newspaper::class)->find($id);
-            if(isset($player)){
-                $entityManager = $this->getDoctrine()->getManager('worldofponies');
-                $entityManager->remove($player);
+            $newspaper = $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(Article::class)
+                ->find($id);
+
+            if(isset($newspaper)){
+                $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
+                $entityManager->remove($newspaper);
                 $entityManager->flush();
             } else return $this->json( "already");
 
         }
 
-        //return $this->redirectToRoute('world_of_ponies_player_index');
         return $this->json( "deleted");
     }
 }

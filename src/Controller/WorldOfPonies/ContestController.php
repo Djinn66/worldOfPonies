@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 
 /**
@@ -41,6 +40,7 @@ class ContestController extends AbstractController
             $criteria += ['price' => $price];
 
         $contests =  $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
             ->getRepository(Contest::class)
             ->findBy($criteria, $orderBy);
 
@@ -71,7 +71,7 @@ class ContestController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($contest);
             $entityManager->flush();
 
@@ -85,27 +85,41 @@ class ContestController extends AbstractController
     }
 
     /**
-     * @Route("/{contestId}", name="world_of_ponies_contest_show", methods={"GET"})
+     * @Route("/show", name="world_of_ponies_contest_show", methods={"GET"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN') or is_granted('ROLE_NEWSREADER')")
      */
-    public function show(Contest $contest): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Contest::class);
+        $contest = $repository->find(
+            array(
+                'contestId'=>$request->query->get('contestId')
+            ));
+
         return $this->render('world_of_ponies/contest/show.html.twig', [
             'contest' => $contest,
         ]);
     }
 
     /**
-     * @Route("/{contestId}/edit", name="world_of_ponies_contest_edit", methods={"GET","POST"})
+     * @Route("/edit", name="world_of_ponies_contest_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN')")
      */
-    public function edit(Request $request, Contest $contest): Response
+    public function edit(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Contest::class);
+        $contest = $repository->find(
+            array(
+                'contestId'=>$request->query->get('contestId')
+            ));
+
         $form = $this->createForm(ContestType::class, $contest);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager('worldofponies')->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('world_of_ponies_contest_index');
         }
@@ -117,13 +131,20 @@ class ContestController extends AbstractController
     }
 
     /**
-     * @Route("/{contestId}", name="world_of_ponies_contest_delete", methods={"DELETE"})
+     * @Route("/delete", name="world_of_ponies_contest_delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN')")
      */
-    public function delete(Request $request, Contest $contest): Response
+    public function delete(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Contest::class);
+        $contest = $repository->find(
+            array(
+                'contestId'=>$request->query->get('contestId')
+            ));
+
         if ($this->isCsrfTokenValid('delete'.$contest->getContestId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($contest);
             $entityManager->flush();
         }
@@ -137,20 +158,21 @@ class ContestController extends AbstractController
      */
     public function deleteSelected(Request $request): Response
     {
-        //return $this->json($request->request->get('_token'));
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $player = $this->getDoctrine()->getRepository(Contest::class)->find($id);
-            if(isset($player)){
-                $entityManager = $this->getDoctrine()->getManager('worldofponies');
-                $entityManager->remove($player);
+            $contest = $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(Contest::class)
+                ->find($id);
+
+            if(isset($contest)){
+                $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
+                $entityManager->remove($contest);
                 $entityManager->flush();
             } else return $this->json( "already");
 
         }
 
-        //return $this->redirectToRoute('world_of_ponies_player_index');
         return $this->json( "deleted");
     }
 }

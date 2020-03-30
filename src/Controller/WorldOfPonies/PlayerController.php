@@ -43,6 +43,7 @@ class PlayerController extends AbstractController
             $criteria += ['playerLastname' => $playerLastname];
 
         $players =  $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
             ->getRepository(Player::class)
             ->findBy($criteria,$orderBy);
 
@@ -74,7 +75,7 @@ class PlayerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->persist($player);
             $entityManager->flush();
 
@@ -88,27 +89,41 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @Route("/{playerId}", name="world_of_ponies_player_show", methods={"GET"})
+     * @Route("/show", name="world_of_ponies_player_show", methods={"GET"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
-    public function show(Player $player): Response
+    public function show(Request $request): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Player::class);
+        $player = $repository->find(
+            array(
+                'playerId'=>$request->query->get('playerId')
+            ));
+
         return $this->render('world_of_ponies/player/show.html.twig', [
             'player' => $player,
         ]);
     }
 
     /**
-     * @Route("/{playerId}/edit", name="world_of_ponies_player_edit", methods={"GET","POST"})
+     * @Route("/edit", name="world_of_ponies_player_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
     public function edit(Request $request, Player $player): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Player::class);
+        $player = $repository->find(
+            array(
+                'playerId'=>$request->query->get('playerId')
+            ));
+
         $form = $this->createForm(PlayerType::class, $player);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager('worldofponies')->flush();
+            $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])->flush();
 
             return $this->redirectToRoute('world_of_ponies_player_index');
         }
@@ -120,13 +135,20 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @Route("/{playerId}", name="world_of_ponies_player_delete", methods={"DELETE"})
+     * @Route("/delete", name="world_of_ponies_player_delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
     public function delete(Request $request, Player $player): Response
     {
+        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Player::class);
+        $player = $repository->find(
+            array(
+                'playerId'=>$request->query->get('playerId')
+            ));
+
         if ($this->isCsrfTokenValid('delete'.$player->getPlayerId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager('worldofponies');
+            $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($player);
             $entityManager->flush();
         }
@@ -141,20 +163,21 @@ class PlayerController extends AbstractController
     public function deleteSelected(Request $request): Response
     {
 
-        //return $this->json($request->request->get('_token'));
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            //if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
-            $player = $this->getDoctrine()->getRepository(Player::class)->find($id);
+            $player = $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(Player::class)
+                ->find($id);
+
             if(isset($player)){
-                $entityManager = $this->getDoctrine()->getManager('worldofponies');
+                $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
                 $entityManager->remove($player);
                 $entityManager->flush();
             } else return $this->json( "already");
 
         }
 
-        //return $this->redirectToRoute('world_of_ponies_player_index');
         return $this->json( "deleted");
     }
 }

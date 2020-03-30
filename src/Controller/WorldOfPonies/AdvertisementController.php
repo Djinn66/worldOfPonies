@@ -37,11 +37,10 @@ class AdvertisementController extends AbstractController
         if($advertisementId !="")
             $criteria += ['advertisementId' => $advertisementId];
 
-        if($this->getUser()->getUsername()!= null){
-            $advertisements =  $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Advertisement::class)
-                ->findBy($criteria, $orderBy);
+        $advertisements =  $this->getDoctrine()
+            ->getManager($this->getUser()->getRoles()[0])
+            ->getRepository(Advertisement::class)
+            ->findBy($criteria, $orderBy);
 
             $pagination = $paginator->paginate(
                 $advertisements,
@@ -152,13 +151,16 @@ class AdvertisementController extends AbstractController
     {
         $ids = $request->request->get('tab');
         foreach($ids as $id){
-            $advertisement = $this->getDoctrine()->getRepository(Advertisement::class)->find($id);
+            $advertisement = $this->getDoctrine()
+                ->getManager($this->getUser()->getRoles()[0])
+                ->getRepository(Advertisement::class)
+                ->find($id);
+
             if(isset($advertisement)){
                 $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
                 $entityManager->remove($advertisement);
                 $entityManager->flush();
             } else return $this->json( "already");
-
         }
 
         return $this->json( "deleted");
