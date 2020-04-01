@@ -110,7 +110,7 @@ class PlayerController extends AbstractController
      * @Route("/edit", name="world_of_ponies_player_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
-    public function edit(Request $request, Player $player): Response
+    public function edit(Request $request): Response
     {
         $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
             ->getRepository(Player::class);
@@ -138,7 +138,7 @@ class PlayerController extends AbstractController
      * @Route("/delete", name="world_of_ponies_player_delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
-    public function delete(Request $request, Player $player): Response
+    public function delete(Request $request): Response
     {
         $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
             ->getRepository(Player::class);
