@@ -37,8 +37,7 @@ class NewspaperController extends AbstractController
             $criteria += ['newspaperId' => $newspaperId];
 
         $newspapers =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Newspaper::class)
+            ->getRepository(Newspaper::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -81,36 +80,22 @@ class NewspaperController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_newspaper_show", methods={"GET"})
+     * @Route("/{newspaperId}", name="world_of_ponies_newspaper_show", methods={"GET"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR') or is_granted('ROLE_NEWSREADER')")
      */
-    public function show(Request $request): Response
+    public function show(Newspaper $newspaper): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Newspaper::class);
-        $newspaper = $repository->find(
-            array(
-                'newspaperId'=>$request->query->get('newspaperId')
-            ));
-
         return $this->render('world_of_ponies/newspaper/show.html.twig', [
             'newspaper' => $newspaper,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_newspaper_edit", methods={"GET","POST"})
+     * @Route("/edit/{newspaperId}", name="world_of_ponies_newspaper_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR')")
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, Newspaper $newspaper): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Newspaper::class);
-        $newspaper = $repository->find(
-            array(
-                'newspaperId'=>$request->query->get('newspaperId')
-            ));
-
         $form = $this->createForm(NewspaperType::class, $newspaper);
         $form->handleRequest($request);
 
@@ -127,18 +112,11 @@ class NewspaperController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_newspaper_delete", methods={"DELETE"})
+     * @Route("/{newspaperId}", name="world_of_ponies_newspaper_delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_EDITOR')")
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, Newspaper $newspaper): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Newspaper::class);
-        $newspaper = $repository->find(
-            array(
-                'newspaperId'=>$request->query->get('newspaperId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$newspaper->getNewspaperId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($newspaper);
@@ -157,8 +135,7 @@ class NewspaperController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $newspaper = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Article::class)
+                ->getRepository(Newspaper::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($newspaper)){

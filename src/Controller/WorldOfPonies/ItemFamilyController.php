@@ -36,8 +36,7 @@ class ItemFamilyController extends AbstractController
             $criteria += ['itemFamilyLabel' => $itemFamilyLabel];
 
         $item_families =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(ItemFamily::class)
+            ->getRepository(ItemFamily::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -79,34 +78,20 @@ class ItemFamilyController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_item_family_show", methods={"GET"})
+     * @Route("/{itemFamilyId}", name="world_of_ponies_item_family_show", methods={"GET"})
      */
-    public function show(Request $request): Response
+    public function show(ItemFamily $itemFamily): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(ItemFamily::class);
-        $itemFamily = $repository->find(
-            array(
-                'itemFamilyId'=>$request->query->get('itemFamilyId')
-            ));
-
         return $this->render('world_of_ponies/item_family/show.html.twig', [
             'item_family' => $itemFamily,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_item_family_edit", methods={"GET","POST"})
+     * @Route("/edit/{itemFamilyId}", name="world_of_ponies_item_family_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, ItemFamily $itemFamily): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(ItemFamily::class);
-        $itemFamily = $repository->find(
-            array(
-                'itemFamilyId'=>$request->query->get('itemFamilyId')
-            ));
-
         $form = $this->createForm(ItemFamilyType::class, $itemFamily);
         $form->handleRequest($request);
 
@@ -123,17 +108,10 @@ class ItemFamilyController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_item_family_delete", methods={"DELETE"})
+     * @Route("/{itemFamilyId}", name="world_of_ponies_item_family_delete", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, ItemFamily $itemFamily): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(ItemFamily::class);
-        $itemFamily = $repository->find(
-            array(
-                'itemFamilyId'=>$request->query->get('itemFamilyId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$itemFamily->getItemFamilyId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($itemFamily);
@@ -151,8 +129,7 @@ class ItemFamilyController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $itemFamily = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(ItemFamily::class)
+                ->getRepository(ItemFamily::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($itemFamily)){

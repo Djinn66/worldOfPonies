@@ -35,8 +35,7 @@ class TransactionController extends AbstractController
             $criteria += ['transactionLabel' => $transactionLabel];
 
         $transactions =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Transaction::class)
+            ->getRepository(Transaction::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -78,34 +77,20 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_transaction_show", methods={"GET"})
+     * @Route("/{transactionId}", name="world_of_ponies_transaction_show", methods={"GET"})
      */
-    public function show(Request $request): Response
+    public function show(Transaction $transaction): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Transaction::class);
-        $transaction = $repository->find(
-            array(
-                'transactionId'=>$request->query->get('transactionId')
-            ));
-
         return $this->render('world_of_ponies/transaction/show.html.twig', [
             'transaction' => $transaction,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_transaction_edit", methods={"GET","POST"})
+     * @Route("/edit/{transactionId}", name="world_of_ponies_transaction_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, Transaction $transaction): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Transaction::class);
-        $transaction = $repository->find(
-            array(
-                'transactionId'=>$request->query->get('transactionId')
-            ));
-
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
 
@@ -122,17 +107,10 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_transaction_delete", methods={"DELETE"})
+     * @Route("/{transactionId}", name="world_of_ponies_transaction_delete", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, Transaction $transaction): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Transaction::class);
-        $transaction = $repository->find(
-            array(
-                'transactionId'=>$request->query->get('transactionId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$transaction->getTransactionId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($transaction);
@@ -150,8 +128,7 @@ class TransactionController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $transaction = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Transaction::class)
+                ->getRepository(Transaction::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($transaction)){

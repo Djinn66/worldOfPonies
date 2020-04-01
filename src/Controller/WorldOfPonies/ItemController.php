@@ -36,8 +36,7 @@ class ItemController extends AbstractController
             $criteria += ['itemDescription' => $itemDescription];
 
         $items =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Item::class)
+            ->getRepository(Item::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -79,34 +78,20 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_item_show", methods={"GET"})
+     * @Route("/{itemId}", name="world_of_ponies_item_show", methods={"GET"})
      */
-    public function show(Request $request): Response
+    public function show(Item $item): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Item::class);
-        $item = $repository->find(
-            array(
-                'itemId'=>$request->query->get('itemId')
-            ));
-
         return $this->render('world_of_ponies/item/show.html.twig', [
             'item' => $item,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_item_edit", methods={"GET","POST"})
+     * @Route("/edit/{itemId}", name="world_of_ponies_item_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, Item $item): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Item::class);
-        $item = $repository->find(
-            array(
-                'itemId'=>$request->query->get('itemId')
-            ));
-
         $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
@@ -123,17 +108,10 @@ class ItemController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_item_delete", methods={"DELETE"})
+     * @Route("/{itemId}", name="world_of_ponies_item_delete", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, Item $item): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Item::class);
-        $item = $repository->find(
-            array(
-                'itemId'=>$request->query->get('itemId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$item->getItemId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($item);
@@ -151,8 +129,7 @@ class ItemController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $item = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Item::class)
+                ->getRepository(Item::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($item)){
