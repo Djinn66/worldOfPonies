@@ -36,7 +36,7 @@ class InfrastructureController extends AbstractController
             $criteria += ['infrastructureType' => $infrastructureType];
 
         $infrastructures =  $this->getDoctrine()
-            ->getRepository(Infrastructure::class)
+            ->getRepository(Infrastructure::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -78,34 +78,20 @@ class InfrastructureController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_infrastructure_show", methods={"GET"})
+     * @Route("/{infrastructureId}", name="world_of_ponies_infrastructure_show", methods={"GET"})
      */
-    public function show(Request $request): Response
+    public function show(Infrastructure $infrastructure): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Infrastructure::class);
-        $infrastructure = $repository->find(
-            array(
-                'infrastructureId'=>$request->query->get('infrastructureId')
-            ));
-
         return $this->render('world_of_ponies/infrastructure/show.html.twig', [
             'infrastructure' => $infrastructure,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_infrastructure_edit", methods={"GET","POST"})
+     * @Route("/edit/{infrastructureId}", name="world_of_ponies_infrastructure_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, Infrastructure $infrastructure): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Infrastructure::class);
-        $infrastructure = $repository->find(
-            array(
-                'infrastructureId'=>$request->query->get('infrastructureId')
-            ));
-
         $form = $this->createForm(InfrastructureType::class, $infrastructure);
         $form->handleRequest($request);
 
@@ -122,17 +108,10 @@ class InfrastructureController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_infrastructure_delete", methods={"DELETE"})
+     * @Route("/{infrastructureId}", name="world_of_ponies_infrastructure_delete", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, Infrastructure $infrastructure): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Infrastructure::class);
-        $infrastructure = $repository->find(
-            array(
-                'infrastructureId'=>$request->query->get('infrastructureId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$infrastructure->getInfrastructureId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($infrastructure);
@@ -150,8 +129,7 @@ class InfrastructureController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $infrastructure = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Infrastructure::class)
+                ->getRepository(Infrastructure::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($infrastructure)){

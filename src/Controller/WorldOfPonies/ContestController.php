@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * @Route("/worldofponies/contest")
- * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_NEWSREADER')")
+ * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN') or is_granted('ROLE_NEWSREADER')")
  */
 class ContestController extends AbstractController
 {
