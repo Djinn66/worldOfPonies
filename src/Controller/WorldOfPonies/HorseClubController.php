@@ -39,8 +39,7 @@ class HorseClubController extends AbstractController
             $criteria += ['horseClubCapacity' => $horseClubCapacity];
 
         $horse_clubs =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(HorseClub::class)
+            ->getRepository(HorseClub::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -83,34 +82,20 @@ class HorseClubController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_horse_club_show", methods={"GET"})
+     * @Route("/{$horseClubId}", name="world_of_ponies_horse_club_show", methods={"GET"})
      */
-    public function show(Request $request): Response
+    public function show(HorseClub $horseClub): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(HorseClub::class);
-        $horseClub = $repository->find(
-            array(
-                'articleId'=>$request->query->get('$horseClubId')
-            ));
-
         return $this->render('world_of_ponies/horse_club/show.html.twig', [
             'horse_club' => $horseClub,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_horse_club_edit", methods={"GET","POST"})
+     * @Route("/edit/{$horseClubId}", name="world_of_ponies_horse_club_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, HorseClub $horseClub): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(HorseClub::class);
-        $horseClub = $repository->find(
-            array(
-                'horseClubId'=>$request->query->get('horseClubId')
-            ));
-
         $form = $this->createForm(HorseClubType::class, $horseClub);
         $form->handleRequest($request);
 
@@ -127,17 +112,10 @@ class HorseClubController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_horse_club_delete", methods={"DELETE"})
+     * @Route("/{$horseClubId}", name="world_of_ponies_horse_club_delete", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, HorseClub $horseClub): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(HorseClub::class);
-        $horseClub = $repository->find(
-            array(
-                'horseClubId'=>$request->query->get('horseClubId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$horseClub->getHorseClubId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($horseClub);
@@ -155,8 +133,7 @@ class HorseClubController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $horseClub = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(HorseClub::class)
+                ->getRepository(HorseClub::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($horseClub)){

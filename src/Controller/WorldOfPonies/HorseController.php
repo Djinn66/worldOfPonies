@@ -37,8 +37,7 @@ class HorseController extends AbstractController
             $criteria += ['horseName' => $horseName];
 
         $horses =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Horse::class)
+            ->getRepository(Horse::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -81,36 +80,22 @@ class HorseController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_horse_show", methods={"GET"})
+     * @Route("/{horseId}", name="world_of_ponies_horse_show", methods={"GET"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_SPECIALIST')")
      */
-    public function show(Request $request): Response
+    public function show(Horse $horse): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Horse::class);
-        $horse = $repository->find(
-            array(
-                'horseId'=>$request->query->get('horseId')
-            ));
-
         return $this->render('world_of_ponies/horse/show.html.twig', [
             'horse' => $horse,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_horse_edit", methods={"GET","POST"})
+     * @Route("/edit/{horseId}", name="world_of_ponies_horse_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_SPECIALIST')")
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, Horse $horse): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Horse::class);
-        $horse = $repository->find(
-            array(
-                'horseId'=>$request->query->get('horseId')
-            ));
-
         $form = $this->createForm(HorseType::class, $horse);
         $form->handleRequest($request);
 
@@ -127,18 +112,11 @@ class HorseController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_horse_delete", methods={"DELETE"})
+     * @Route("/{horseId}", name="world_of_ponies_horse_delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_SUPERUSER') or is_granted('ROLE_PROGRAMMER')")
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, Horse $horse): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Horse::class);
-        $horse = $repository->find(
-            array(
-                'horseId'=>$request->query->get('horseId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$horse->getHorseId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($horse);
@@ -157,8 +135,7 @@ class HorseController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $horse = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Horse::class)
+                ->getRepository(Horse::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($horse)){

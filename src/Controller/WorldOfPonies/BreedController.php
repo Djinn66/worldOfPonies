@@ -83,35 +83,20 @@ class BreedController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_breed_show", methods={"GET"})
+     * @Route("/{breedId}", name="world_of_ponies_breed_show", methods={"GET"})
      */
-    public function show(Request $request): Response
+    public function show(Breed $breed): Response
     {
-        $repository = $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Breed::class);
-        $breed = $repository->find(
-            array(
-                'breedId'=>$request->query->get('breedId')
-            ));
-
         return $this->render('world_of_ponies/breed/show.html.twig', [
             'breed' => $breed,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_breed_edit", methods={"GET","POST"})
+     * @Route("/edit/{breedId}", name="world_of_ponies_breed_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, Breed $breed): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Breed::class);
-        $breed = $repository->find(
-            array(
-                'breedId'=>$request->query->get('breedId')
-            ));
-
         $form = $this->createForm(BreedType::class, $breed);
         $form->handleRequest($request);
 
@@ -128,17 +113,10 @@ class BreedController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_breed_delete", methods={"DELETE"})
+     * @Route("/{breedId}", name="world_of_ponies_breed_delete", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, Breed $breed): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Breed::class);
-        $breed = $repository->find(
-            array(
-                'breedId'=>$request->query->get('breedId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$breed->getBreedId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($breed);
@@ -156,8 +134,7 @@ class BreedController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $breed = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Breed::class)
+                ->getRepository(Breed::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($breed)){
