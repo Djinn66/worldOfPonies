@@ -39,8 +39,7 @@ class AutomaticTaskController extends AbstractController
             $criteria += ['taskToDo' => $taskToDo];
 
         $automaticTasks =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(AutomaticTask::class)
+            ->getRepository(AutomaticTask::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -83,35 +82,20 @@ class AutomaticTaskController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_automatic_task_show", methods={"GET"})
+     * @Route("/{taskId}", name="world_of_ponies_automatic_task_show", methods={"GET"})
      */
-    public function show(Request $request): Response
+    public function show(AutomaticTask $automaticTask): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(AutomaticTask::class);
-        $automaticTask = $repository->find(
-            array(
-                'taskId'=>$request->query->get('taskId')
-            ));
-
         return $this->render('world_of_ponies/automatic_task/show.html.twig', [
             'automatic_task' => $automaticTask,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_automatic_task_edit", methods={"GET","POST"})
+     * @Route("/edit/{taskId}", name="world_of_ponies_automatic_task_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, AutomaticTask $automaticTask): Response
     {
-        $repository = $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(AutomaticTask::class);
-        $automaticTask = $repository->find(
-            array(
-                'taskId'=>$request->query->get('taskId')
-            ));
-
         $form = $this->createForm(AutomaticTaskType::class, $automaticTask);
         $form->handleRequest($request);
 
@@ -128,18 +112,10 @@ class AutomaticTaskController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_automatic_task_delete", methods={"DELETE"})
+     * @Route("/{taskId}", name="world_of_ponies_automatic_task_delete", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, AutomaticTask $automaticTask): Response
     {
-        $repository = $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(AutomaticTask::class);
-        $automaticTask = $repository->find(
-            array(
-                'taskId'=>$request->query->get('taskId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$automaticTask->getTaskId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($automaticTask);
@@ -157,8 +133,7 @@ class AutomaticTaskController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $automaticTask = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(AutomaticTask::class)
+                ->getRepository(AutomaticTask::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($automaticTask)){

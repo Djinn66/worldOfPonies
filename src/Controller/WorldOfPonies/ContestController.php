@@ -40,8 +40,7 @@ class ContestController extends AbstractController
             $criteria += ['price' => $price];
 
         $contests =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Contest::class)
+            ->getRepository(Contest::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -85,36 +84,22 @@ class ContestController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_contest_show", methods={"GET"})
+     * @Route("/{contestId}", name="world_of_ponies_contest_show", methods={"GET"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN') or is_granted('ROLE_NEWSREADER')")
      */
-    public function show(Request $request): Response
+    public function show(Contest $contest): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Contest::class);
-        $contest = $repository->find(
-            array(
-                'contestId'=>$request->query->get('contestId')
-            ));
-
         return $this->render('world_of_ponies/contest/show.html.twig', [
             'contest' => $contest,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_contest_edit", methods={"GET","POST"})
+     * @Route("/edit/{contestId}", name="world_of_ponies_contest_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN')")
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, Contest $contest): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Contest::class);
-        $contest = $repository->find(
-            array(
-                'contestId'=>$request->query->get('contestId')
-            ));
-
         $form = $this->createForm(ContestType::class, $contest);
         $form->handleRequest($request);
 
@@ -131,18 +116,11 @@ class ContestController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_contest_delete", methods={"DELETE"})
+     * @Route("/{contestId}", name="world_of_ponies_contest_delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_CONTESTADMIN')")
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, Contest $contest): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Contest::class);
-        $contest = $repository->find(
-            array(
-                'contestId'=>$request->query->get('contestId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$contest->getContestId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($contest);
@@ -161,8 +139,7 @@ class ContestController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $contest = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Contest::class)
+                ->getRepository(Contest::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($contest)){

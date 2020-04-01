@@ -43,9 +43,8 @@ class PlayerController extends AbstractController
             $criteria += ['playerLastname' => $playerLastname];
 
         $players =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Player::class)
-            ->findBy($criteria,$orderBy);
+            ->getRepository(Player::class, $this->getUser()->getRoles()[0])
+            ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
             $players,
@@ -89,36 +88,22 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_player_show", methods={"GET"})
+     * @Route("/{playerId}", name="world_of_ponies_player_show", methods={"GET"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
-    public function show(Request $request): Response
+    public function show(Player $player): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Player::class);
-        $player = $repository->find(
-            array(
-                'playerId'=>$request->query->get('playerId')
-            ));
-
         return $this->render('world_of_ponies/player/show.html.twig', [
             'player' => $player,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_player_edit", methods={"GET","POST"})
+     * @Route("/edit/{playerId}", name="world_of_ponies_player_edit", methods={"GET","POST"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, Player $player): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Player::class);
-        $player = $repository->find(
-            array(
-                'playerId'=>$request->query->get('playerId')
-            ));
-
         $form = $this->createForm(PlayerType::class, $player);
         $form->handleRequest($request);
 
@@ -135,18 +120,11 @@ class PlayerController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_player_delete", methods={"DELETE"})
+     * @Route("/{playerId}", name="world_of_ponies_player_delete", methods={"DELETE"})
      * @Security("is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER') or is_granted('ROLE_ADMIN')")
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, Player $player): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Player::class);
-        $player = $repository->find(
-            array(
-                'playerId'=>$request->query->get('playerId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$player->getPlayerId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($player);
@@ -166,8 +144,7 @@ class PlayerController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $player = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Player::class)
+                ->getRepository(Player::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($player)){

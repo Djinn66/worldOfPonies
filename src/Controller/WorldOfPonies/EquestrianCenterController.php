@@ -39,8 +39,7 @@ class EquestrianCenterController extends AbstractController
             $criteria += ['equestrianCenterCapacity' => $equestrianCenterCapacity];
 
         $equestrian_centers =  $this->getDoctrine()
-            ->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(EquestrianCenter::class)
+            ->getRepository(EquestrianCenter::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -83,34 +82,20 @@ class EquestrianCenterController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_equestrian_center_show", methods={"GET"})
+     * @Route("/{equestrianCenterId}", name="world_of_ponies_equestrian_center_show", methods={"GET"})
      */
-    public function show(Request $request): Response
+    public function show(EquestrianCenter $equestrianCenter): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(EquestrianCenter::class);
-        $equestrianCenter = $repository->find(
-            array(
-                'equestrianCenterId'=>$request->query->get('equestrianCenterId')
-            ));
-
         return $this->render('world_of_ponies/equestrian_center/show.html.twig', [
             'equestrian_center' => $equestrianCenter,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_equestrian_center_edit", methods={"GET","POST"})
+     * @Route("/edit/{equestrianCenterId}", name="world_of_ponies_equestrian_center_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, EquestrianCenter $equestrianCenter): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(EquestrianCenter::class);
-        $equestrianCenter = $repository->find(
-            array(
-                'equestrianCenterId'=>$request->query->get('equestrianCenterId')
-            ));
-
         $form = $this->createForm(EquestrianCenterType::class, $equestrianCenter);
         $form->handleRequest($request);
 
@@ -127,17 +112,10 @@ class EquestrianCenterController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_equestrian_center_delete", methods={"DELETE"})
+     * @Route("/{equestrianCenterId}", name="world_of_ponies_equestrian_center_delete", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, EquestrianCenter $equestrianCenter): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(EquestrianCenter::class);
-        $equestrianCenter = $repository->find(
-            array(
-                'equestrianCenterId'=>$request->query->get('equestrianCenterId')
-            ));
-
         if ($this->isCsrfTokenValid('delete'.$equestrianCenter->getEquestrianCenterId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($equestrianCenter);
@@ -155,8 +133,7 @@ class EquestrianCenterController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $equestrianCenter = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(EquestrianCenter::class)
+                ->getRepository(EquestrianCenter::class,$this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($equestrianCenter)){

@@ -82,34 +82,20 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/show", name="world_of_ponies_article_show", methods={"GET"})
+     * @Route("/{articleId}", name="world_of_ponies_article_show", methods={"GET"})
      */
-    public function show(Request $request): Response
+    public function show(Article $article): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Article::class);
-        $article = $repository->find(
-            array(
-                'articleId'=>$request->query->get('articleId')
-            ));
-        
         return $this->render('world_of_ponies/article/show.html.twig', [
             'article' => $article,
         ]);
     }
 
     /**
-     * @Route("/edit", name="world_of_ponies_article_edit", methods={"GET","POST"})
+     * @Route("/edit/{articleId}", name="world_of_ponies_article_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request, Article $article): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Article::class);
-        $article = $repository->find(
-            array(
-                'articleId'=>$request->query->get('articleId')
-            ));
-
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -126,17 +112,10 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("/delete", name="world_of_ponies_article_delete", methods={"DELETE"})
+     * @Route("/{articleId}", name="world_of_ponies_article_delete", methods={"DELETE"})
      */
-    public function delete(Request $request): Response
+    public function delete(Request $request, Article $article): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Article::class);
-        $article = $repository->find(
-            array(
-                'articleId'=>$request->query->get('articleId')
-            ));
-        
         if ($this->isCsrfTokenValid('delete'.$article->getArticleId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
             $entityManager->remove($article);
@@ -153,8 +132,7 @@ class ArticleController extends AbstractController
         $ids = $request->request->get('tab');
         foreach($ids as $id){
             $article = $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Article::class)
+                ->getRepository(Article::class, $this->getUser()->getRoles()[0])
                 ->find($id);
 
             if(isset($article)){
