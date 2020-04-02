@@ -18,7 +18,7 @@ class InfrastructureFixtures extends Fixture implements DependentFixtureInterfac
         $equestriancenters = $manager->getRepository(EquestrianCenter::class)->findAll();
         $horseclubs = $manager->getRepository(HorseClub::class)->findAll();
 
-        for($i = 0 ; $i < 100; ++$i)
+        for($i = 0 ; $i < 100000; ++$i)
         {
             $infrastructure = new Infrastructure();
             $infrastructure

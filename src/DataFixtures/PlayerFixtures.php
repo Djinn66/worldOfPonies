@@ -12,7 +12,8 @@ class PlayerFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        for($i = 0 ; $i<100; $i++ )
+
+        for($i = 0 ; $i<1000000; $i++ )
         {
 
             $player = new Player();
@@ -37,10 +38,6 @@ class PlayerFixtures extends Fixture
 
             $manager->persist($player);
         }
-
-
-        // $product = new Product();
-        // $manager->persist($product);
 
         $manager->flush();
     }

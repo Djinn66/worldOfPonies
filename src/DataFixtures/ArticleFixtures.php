@@ -15,7 +15,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
         $newspapers = $manager->getRepository(Newspaper::class)->findAll();
-        for($i = 0 ; $i < 100; ++$i)
+        for($i = 0 ; $i < 100000; ++$i)
         {
             $horse = new Article();
             $horse

@@ -20,7 +20,7 @@ class HorseFixtures extends Fixture implements DependentFixtureInterface
         $infrastructures = $manager->getRepository(Infrastructure::class)->findAll();
         $breeds = $manager->getRepository(Breed::class)->findAll();
 
-        for($i = 0 ; $i < 100; ++$i)
+        for($i = 0 ; $i < 100000; ++$i)
         {
             $horse = new Horse();
             $horse

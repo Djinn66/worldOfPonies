@@ -12,7 +12,7 @@ class ItemFamilyFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
-        for($i = 0 ; $i<100; $i++ )
+        for($i = 0 ; $i<100000; $i++ )
         {
             $itemFamily = new ItemFamily();
             $itemFamily

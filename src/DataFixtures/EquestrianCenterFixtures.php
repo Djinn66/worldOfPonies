@@ -16,7 +16,7 @@ class EquestrianCenterFixtures extends Fixture implements DependentFixtureInterf
         $faker = Factory::create('fr_FR');
         $owner = $manager->getRepository(Player::class)->findAll();
 
-        for($i = 0 ; $i < 100; ++$i)
+        for($i = 0 ; $i < 100000; ++$i)
         {
             $equestrianCenter = new EquestrianCenter();
             $equestrianCenter

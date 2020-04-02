@@ -19,7 +19,7 @@ class NewspaperFixtures extends Fixture implements DependentFixtureInterface
         $players = $manager->getRepository(Player::class)->findAll();
         $advertisement = $manager->getRepository(Advertisement::class)->findAll();
 
-        for($i = 0 ; $i < 100; ++$i)
+        for($i = 0 ; $i < 100000; ++$i)
         {
             $newspaper = new Newspaper();
             $newspaper
@@ -27,7 +27,7 @@ class NewspaperFixtures extends Fixture implements DependentFixtureInterface
                 ->setWeatherforecast($faker->randomDigit)
                 ->setPlayer($faker->randomElement($players));
 
-            /*for($i =0; $i<5;$i++)
+            /*for($i = 0; $i < 100000; ++$i)
             {
                 $newspaper->addAdvertisement($faker->randomElement($advertisement));
             }*/

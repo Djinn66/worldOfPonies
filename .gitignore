@@ -9,3 +9,5 @@
 ###< symfony/framework-bundle ###
 
 composer.phar
+
+.idea/

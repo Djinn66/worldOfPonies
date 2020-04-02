@@ -20,7 +20,7 @@ class AutomaticTaskFixtures extends Fixture implements DependentFixtureInterface
         $equestrianCenters = $manager->getRepository(EquestrianCenter::class)->findAll();
         $players = $manager->getRepository(Player::class)->findAll();
 
-        for($i = 0 ; $i < 100; ++$i)
+        for($i = 0 ; $i < 100000; ++$i)
         {
             $automaticTask = new AutomaticTask();
             $automaticTask

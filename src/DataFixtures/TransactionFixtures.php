@@ -16,7 +16,7 @@ class TransactionFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $players = $manager->getRepository(Player::class)->findAll();
 
-        for($i = 0 ; $i<100; $i++ )
+        for($i = 0 ; $i<100000; $i++ )
         {
             $transaction = new Transaction();
             $transaction
@@ -26,7 +26,6 @@ class TransactionFixtures extends Fixture implements DependentFixtureInterface
 
             $manager->persist($transaction);
         }
-
 
         $manager->flush();
     }

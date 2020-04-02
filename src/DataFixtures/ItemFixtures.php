@@ -21,7 +21,7 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $contests = $manager->getRepository(Contest::class)->findAll();
         $itemFamilies = $manager->getRepository(ItemFamily::class)->findAll();
 
-        for($i = 0 ; $i < 100; ++$i)
+        for($i = 0 ; $i < 100000; ++$i)
         {
             $item = new Item();
             $item

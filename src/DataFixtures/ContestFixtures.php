@@ -22,7 +22,7 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
         $newspapers = $manager->getRepository(Newspaper::class)->findAll();
         $players = $manager->getRepository(Player::class)->findAll();
 
-        for($i = 0 ; $i < 100; ++$i)
+        for($i = 0 ; $i < 100000; ++$i)
         {
             $contest = new Contest();
             $contest
@@ -33,10 +33,10 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
                 ->setInfrastructure($faker->randomElement($infrastructures))
                 ->setNewspaper($faker->randomElement($newspapers));
 
-           /* for($i =0; $i<$faker->numberBetween(5,10);$i++)
+           for($i = 0; $i < $faker->numberBetween(5,10); ++$i)
             {
                 $contest->addPlayer($faker->unique()->randomElement($players));
-            }*/
+            }
 
             $manager->persist($contest);
         }
