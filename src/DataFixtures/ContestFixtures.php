@@ -35,7 +35,7 @@ class ContestFixtures extends Fixture implements DependentFixtureInterface
 
            for($i = 0; $i < $faker->numberBetween(5,10); ++$i)
             {
-                $contest->addPlayer($faker->unique()->randomElement($players));
+                $contest->addPlayer($faker->randomElement($players));
             }
 
             $manager->persist($contest);

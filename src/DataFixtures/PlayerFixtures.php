@@ -4,25 +4,24 @@ namespace App\DataFixtures;
 
 use App\Entity\WorldOfPonies\Player;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 
-class PlayerFixtures extends Fixture
+class PlayerFixtures extends Fixture implements FixtureGroupInterface
 {
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
-
-        for($i = 0 ; $i<1000000; $i++ )
-        {
+        for ($j = 0 ; $j < 1000000; $j++) {
+            $faker = Factory::create('fr_FR');
 
             $player = new Player();
-            $gender = $faker->randomElement($array = array ('M','F'));
+            $gender = $faker->randomElement($array = array('M', 'F'));
             $player
                 ->setPlayerUsername($faker->word)
                 ->setPlayerEmail($faker->email)
                 ->setPlayerPwd($faker->password)
-                ->setPlayerFirstname($faker->firstName($gender = ($gender=='M')?'male':'female'))
+                ->setPlayerFirstname($faker->firstName($gender = ($gender == 'M') ? 'male' : 'female'))
                 ->setPlayerLastname($faker->lastName)
                 ->setPlayerGender(strtoupper($gender))
                 ->setPlayerBirthDate(\DateTime::createFromFormat('Y-m-d', $faker->date($format = 'Y-m-d', $max = 'now')))
@@ -37,8 +36,13 @@ class PlayerFixtures extends Fixture
                 ->setPlayerLastconnectionDate(\DateTime::createFromFormat('Y-m-d', $faker->date($format = 'Y-m-d', $max = 'now')));
 
             $manager->persist($player);
-        }
 
-        $manager->flush();
+            $manager->flush();
+            echo "Player : ".$j."\r\n";
+        }
+    }
+    public static function getGroups(): array
+    {
+        return ['group1'];
     }
 }

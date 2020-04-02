@@ -14,27 +14,28 @@ class NewspaperFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
+        for ($j = 0 ; $j < 100; $j++) {
+            $faker = Factory::create('fr_FR');
 
-        $players = $manager->getRepository(Player::class)->findAll();
-        $advertisement = $manager->getRepository(Advertisement::class)->findAll();
+            $players = $manager->getRepository(Player::class)->findAll();
+            $advertisement = $manager->getRepository(Advertisement::class)->findAll();
 
-        for($i = 0 ; $i < 100000; ++$i)
-        {
-            $newspaper = new Newspaper();
-            $newspaper
-                ->setReleaseDate(\DateTime::createFromFormat('Y-m-d', $faker->date($format = 'Y-m-d', $max = 'now')))
-                ->setWeatherforecast($faker->randomDigit)
-                ->setPlayer($faker->randomElement($players));
+            for ($i = 0; $i < 1000; ++$i) {
+                $newspaper = new Newspaper();
+                $newspaper
+                    ->setReleaseDate(\DateTime::createFromFormat('Y-m-d', $faker->date($format = 'Y-m-d', $max = 'now')))
+                    ->setWeatherforecast($faker->randomDigit)
+                    ->setPlayer($faker->randomElement($players));
 
-            /*for($i = 0; $i < 100000; ++$i)
-            {
-                $newspaper->addAdvertisement($faker->randomElement($advertisement));
-            }*/
+                /*for($i = 0; $i < 5; ++$i)
+                {
+                    $newspaper->addAdvertisement($faker->randomElement($advertisement));
+                }*/
 
-            $manager->persist($newspaper);
+                $manager->persist($newspaper);
+            }
+            $manager->flush();
         }
-        $manager->flush();
     }
 
     /**

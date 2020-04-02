@@ -26,7 +26,7 @@ class InfrastructureFixtures extends Fixture implements DependentFixtureInterfac
                 ->setInfrastructureLvl($faker->randomDigit)
                 ->setInfrastructureDescription($faker->text(254))
                 ->setInfrastructureFamily($faker->word)
-                ->setInfrastructurePrice($faker->numberBetween(100,100000))
+                ->setInfrastructurePrice($faker->numberBetween(100,100))
                 ->setInfrastructureRessource($faker->randomDigit)
                 ->setInfrastructureItemCapacity($faker->randomDigit)
                 ->setInfrastructureCleaninessDegree($faker->randomDigit)

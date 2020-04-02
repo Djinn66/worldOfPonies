@@ -91,12 +91,12 @@ doctrine:
                 mapping_types:
                     point: string
 
-#            worldofponies:
-#                # configure these for your database server
-#                url: '%env(DATABASE_URL)%'
-#                driver: 'pdo_mysql'
-#                server_version: '5.6'
-#                charset: utf8
+            worldofponies:
+                # configure these for your database server
+                url: '%env(DATABASE_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
 
     orm:
         default_entity_manager: default
@@ -215,13 +215,13 @@ doctrine:
 
 
 
-#            worldofponies:
-#                connection: worldofponies
-#                mappings:
-#                    WorldOfPonies:
-#                        is_bundle: false
-#                        type: annotation
-#                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
-#                        prefix: 'App\Entity\WorldOfPonies'
-#                        alias: WorldOfPonies
+            worldofponies:
+                connection: worldofponies
+                mappings:
+                    WorldOfPonies:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+                        prefix: 'App\Entity\WorldOfPonies'
+                        alias: WorldOfPonies
 

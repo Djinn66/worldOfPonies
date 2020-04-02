@@ -16,12 +16,18 @@ class HorseClubFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create('fr_FR');
         $managers = $manager->getRepository(Player::class)->findAll();
 
+
         for($i = 0 ; $i < 100000; ++$i)
         {
             $horseClub = new HorseClub();
             $horseClub
                 ->setHorseClubCapacity($faker->randomDigit)
                 ->setManager($faker->randomElement($managers));
+
+            for($i = 0; $i < 7; ++$i)
+            {
+                $horseClub->addMember($faker->randomElement($managers));
+            }
 
             $manager->persist($horseClub);
         }
