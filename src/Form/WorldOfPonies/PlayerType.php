@@ -4,6 +4,7 @@ namespace App\Form\WorldOfPonies;
 
 use App\Entity\WorldOfPonies\Player;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +15,7 @@ class PlayerType extends AbstractType
         $builder
             ->add('playerUsername')
             ->add('playerEmail')
-            ->add('playerPwd')
+            //->add('playerPwd',PasswordType::class,['required'=> false])
             ->add('playerFirstname')
             ->add('playerLastname')
             ->add('playerGender')
