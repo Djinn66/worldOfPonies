@@ -28,6 +28,10 @@
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                 <h2>Navigation</h2>
                 <ul>
+                    {% if is_granted('ROLE_OPTIMISER') %}
+                        <li><a href={{ path('information_mysql_index') }}>Mysql</a></li>
+                        <li><a href={{ path('information_worldofponies_index') }}>World Of Ponies</a></li>
+                    {% endif %}
                     {% if is_granted('ROLE_USERADMIN') %}
                         <li><a href={{ path('user_index') }}>Privilèges globaux </a></li>
                         <li><a href={{ path('mysql_db_index') }}>Privilèges (DB)</a></li>

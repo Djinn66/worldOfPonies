@@ -1,95 +1,85 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Db index{% endblock %}
+{% block title %}Mysql Tables Optimiser{% endblock %}
 
 {% block body %}
-    {% if is_granted('ROLE_USERADMIN') %}
+    {% if is_granted('ROLE_OPTIMISER') %}
 
-        <h1>Db index</h1>
+        <h1>Mysql Optimiseur</h1>
 
-        <a href="{{ path('mysql_db_new') }}">Create new</a>
 
-        <form action="{{ path('mysql_db_index', { 'host': 'host', 'user' : 'user', 'db' : 'db' }) }}" >
-            Host:
-            <input type="text" value = "{{ host }}" name="host"><br>
-            Db:
-            <input type="text" value = "{{ db }}" name="db" ><br>
-            User:
-            <input type="text" value = "{{ user }}" name="user" ><br>
+        <form action="{{ path('information_mysql_index', { 'tableName': 'tableName', 'moteur' : 'moteur' }) }}" >
+            Nom:
+            <input type="text" value = "{{ tableName }}" name="tableName"><br>
+            Moteur :
+            <input type="text" value = "{{ moteur }}" name="moteur" ><br>
             <input type="submit" value="Rechercher">
         </form>
-
+        {% if message is not empty  %}
+            {% if message == "OK" %}
+            <div class="alert alert-success" role="alert">
+                    {% else %}
+            <div class="alert alert-danger" role="alert">
+                {% endif %}
+                {{ op | capitalize }} on {{ table }} : {{ message }}!
+            </div>
+        {% endif%}
         <table class="table table-hover table-dark">
             <thead>
             <tr>
-                <th><a href="{% if order == 'ASC' and sortBy == 'host' %}
+                <th>
+                    <a href="{% if order == 'ASC' and sortBy == 'TABLE_NAME' %}
                                         {% set order = 'DESC' %}
                                  {% else %}
                                         {% set order = 'ASC' %}
                                  {% endif %}
-                                 {{ path('mysql_db_index', {
-                        'sortBy'            : 'host',
+                                 {{ path('information_mysql_index', {
+                        'sortBy'            : 'TABLE_NAME',
                         'order'             : order ,
-                        'host'              : host ,
-                        'db'                : db ,
-                        'user'              : user,
+                        'tableName'              : tableName ,
+                        'moteur'                : moteur
                     }) }}"
-                    >
-                        Host
+                    >Nom
                     </a>
                 </th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'db' %}
+                <th>
+                    <a href="{% if order == 'ASC' and sortBy == 'ENGINE' %}
                                         {% set order = 'DESC' %}
                                  {% else %}
                                         {% set order = 'ASC' %}
                                  {% endif %}
-                                 {{ path('mysql_db_index', {
-                        'sortBy'            : 'db',
+                                 {{ path('information_mysql_index', {
+                        'sortBy'            : 'ENGINE',
                         'order'             : order ,
-                        'host'              : host ,
-                        'db'                : db ,
-                        'user'              : user,
+                        'tableName'              : tableName ,
+                        'moteur'                : moteur
                     }) }}"
-                    >
-                        Db
+                    >Moteur
                     </a>
                 </th>
-                <th><a href="{% if order == 'ASC' and sortBy == 'user' %}
-                                        {% set order = 'DESC' %}
-                                 {% else %}
-                                        {% set order = 'ASC' %}
-                                 {% endif %}
-                                 {{ path('mysql_db_index', {
-                        'sortBy'            : 'user',
-                        'order'             : order ,
-                        'host'              : host ,
-                        'db'                : db ,
-                        'user'              : user,
-                    }) }}"
-                    >
-                        User
-                    </a>
-                </th>
-                <th>Priv</th>
+                <th>Taille</th>
+                <th>Dernière vérification</th>
+                <th>Actions</th>
+
                 </tr>
             </thead>
             <tbody>
-            {% for db in dbs %}
-                <tr>
-                    <td>{{ db.host }}</td>
-                    <td>{{ db.db }}</td>
-                    <td>{{ db.user }}</td>
-                    <td>{% set privs=db.dBPriv|split(',') %}
-                        <ul >
-                            {% for priv in privs %}
-                                <li>{{ priv }}</li>
-                            {% endfor %}
-                        </ul>
-                    </td>
+            {% for table in tables %}
+                {% if table.CHECKSUM == NULL %}
+                    <tr class="bg-success">
+                {% else %}
+                    <tr class="bg-warning">
+                {% endif %}
+
+
+                    <td>{{ table.TABLE_NAME }}</td>
+                    <td>{{ table.ENGINE }}</td>
+                    <td>{{ table.DATA_LENGTH }}</td>
+                    <td>{{ table.CHECK_TIME }}</td>
                     <td>
-                        <a href="{{ path('mysql_db_show', {'host': db.host,'db':db.db,'user':db.user}) }}">show</a>
-                        <a href="{{ path('mysql_db_edit', {'host': db.host,'db':db.db,'user':db.user}) }}">edit</a>
-                        {{ include('mysql/db/_delete_form.html.twig') }}
+                        <a href="{{ path('information_repair_table', {'db' : 'mysql','tableName' : table.TABLE_NAME}) }}">Réparer</a>
+                        <a href="{{ path('information_optimize_table', {'db' : 'mysql','tableName' : table.TABLE_NAME}) }}">Optimiser</a>
+                        <a href="{{ path('information_check_table', {'db' : 'mysql','tableName' : table.TABLE_NAME}) }}">Vérifier</a>
                     </td>
                 </tr>
             {% else %}
@@ -101,7 +91,7 @@
         </table>
 
         <div class="d-flex justify-content-center pagination">
-            {{ knp_pagination_render(dbs) }}
+            {{ knp_pagination_render(tables) }}
         </div>
 
     {% endif %}

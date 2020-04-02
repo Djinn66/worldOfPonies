@@ -23,6 +23,7 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository, Request $request): Response
     {
+
         $host = $request->query->get('host');
         $user = $request->query->get('user');
         $sortBy = $request->query->get('sortBy');

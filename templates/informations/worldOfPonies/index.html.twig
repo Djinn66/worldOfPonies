@@ -1,11 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mysql Tables Optimiser{% endblock %}
+{% block title %}worldOfPonies Tables Optimiser{% endblock %}
 
 {% block body %}
     {% if is_granted('ROLE_OPTIMISER') %}
 
-        <h1>Mysql Optimiseur</h1>
+        <h1>worldOfPonies Optimiseur</h1>
+
 
 
         <form action="{{ path('information_mysql_index', { 'tableName': 'tableName', 'moteur' : 'moteur' }) }}" >
@@ -15,7 +16,15 @@
             <input type="text" value = "{{ moteur }}" name="moteur" ><br>
             <input type="submit" value="Rechercher">
         </form>
-
+        {% if message is not empty  %}
+                    {% if message == "OK" %}
+        <div class="alert alert-success" role="alert">
+            {% else %}
+            <div class="alert alert-danger" role="alert">
+                {% endif %}
+                {{ op | capitalize }} on {{ table }} : {{ message }}!
+            </div>
+            {% endif%}
         <table class="table table-hover table-dark">
             <thead>
             <tr>
@@ -69,10 +78,10 @@
                     <td>{{ table.DATA_LENGTH }}</td>
                     <td>{{ table.CHECK_TIME }}</td>
                     <td>
-{#                        <a href="{{ path('information_table_repair', {'db' : 'mysql','tableName' : table.TABLE_NAME}) }}">Réparer</a>#}
-{#                        <a href="{{ path('information_table_optimise', {'db' : 'mysql','tableName' : table.TABLE_NAME}) }}">Optimiser</a>#}
-{#                        <a href="{{ path('information_table_check', {'db' : 'mysql','tableName' : table.TABLE_NAME}) }}">Vérifier</a>#}
-{#                    #}</td>
+                        <a href="{{ path('information_repair_table', {'db' : 'worldOfPonies_db','tableName' : table.TABLE_NAME}) }}">Réparer</a>
+                        <a href="{{ path('information_optimize_table', {'db' : 'worldOfPonies_db','tableName' : table.TABLE_NAME}) }}">Optimiser</a>
+                        <a href="{{ path('information_check_table', {'db' : 'worldOfPonies_db','tableName' : table.TABLE_NAME}) }}">Vérifier</a>
+                    </td>
                 </tr>
             {% else %}
                 <tr>
