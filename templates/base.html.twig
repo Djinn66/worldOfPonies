@@ -29,8 +29,10 @@
                 <h2>Navigation</h2>
                 <ul>
                     {% if is_granted('ROLE_USERADMIN') %}
-                        <li><a href={{ path('mysql_tables_priv_index') }}>Privilèges (tables)</a></li>
+                        <li><a href={{ path('user_index') }}>Privilèges globaux </a></li>
                         <li><a href={{ path('mysql_db_index') }}>Privilèges (DB)</a></li>
+                        <li><a href={{ path('mysql_tables_priv_index') }}>Privilèges (tables)</a></li>
+                        <li><a href={{ path('mysql_columns_priv_index') }}>Privilèges (Colones) </a></li>
                     {% endif %}
                     {% if (is_granted('ROLE_PROGRAMMER') or is_granted('ROLE_SUPERUSER')) %}
                         <li><a href={{ path('world_of_ponies_advertisement_index') }}>Advertisement</a></li>

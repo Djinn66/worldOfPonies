@@ -82,6 +82,13 @@ doctrine:
                 server_version: '5.6'
                 charset: utf8
 
+            ROLE_INFORMATION:
+                #configure these for your database server
+                url: '%env(DATABASE_INFORMATION_URL)%'
+                driver: 'pdo_mysql'
+                server_version: '5.6'
+                charset: utf8
+
 #            worldofponies:
 #                # configure these for your database server
 #                url: '%env(DATABASE_URL)%'
@@ -193,6 +200,16 @@ doctrine:
                         dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
                         prefix: 'App\Entity\'
                         alias: ROLE_NEWSREADER
+
+            ROLE_INFORMATION:
+                connection: ROLE_INFORMATION
+                mappings:
+                    admin:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/WorldOfPonies'
+                        prefix: 'App\Entity\'
+                        alias: ROLE_INFORMATION
 
 
 

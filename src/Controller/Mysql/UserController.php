@@ -9,9 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/mysql/user")
+ * @IsGranted("ROLE_USERADMIN")
  */
 class UserController extends AbstractController
 {
@@ -63,27 +66,27 @@ class UserController extends AbstractController
         }
     }
 
-    /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('user_index');
-        }
-        return $this->render('mysql/user/new.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
-    }
+//    /**
+//     * @Route("/new", name="user_new", methods={"GET","POST"})
+//     */
+//    public function new(Request $request): Response
+//    {
+//        $user = new User();
+//        $form = $this->createForm(UserType::class, $user);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() && $form->isValid()) {
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->persist($user);
+//            $entityManager->flush();
+//
+//            return $this->redirectToRoute('user_index');
+//        }
+//        return $this->render('mysql/user/new.html.twig', [
+//            'user' => $user,
+//            'form' => $form->createView(),
+//        ]);
+//    }
 
     /**
      * @Route("/show", name="user_show", methods={"GET"})
@@ -99,11 +102,14 @@ class UserController extends AbstractController
 
     /**
      * @Route("/edit", name="user_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function edit(Request $request): Response
     {
         $repository = $this->getDoctrine()->getManager()->getRepository(User::class);
         $user = $repository->find(array('host'=>$request->query->get('host'),'user'=>$request->query->get('user')));
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -119,19 +125,19 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/delete", name="user_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request): Response
-    {
-        $repository = $this->getDoctrine()->getManager()->getRepository(User::class);
-        $user = $repository->find(array('host'=>$request->query->get('host'),'user'=>$request->query->get('user')));
-        if ($this->isCsrfTokenValid('delete'.$user->getHost(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('user_index');
-    }
+//    /**
+//     * @Route("/delete", name="user_delete", methods={"DELETE"})
+//     */
+//    public function delete(Request $request): Response
+//    {
+//        $repository = $this->getDoctrine()->getManager()->getRepository(User::class);
+//        $user = $repository->find(array('host'=>$request->query->get('host'),'user'=>$request->query->get('user')));
+//        if ($this->isCsrfTokenValid('delete'.$user->getHost(), $request->request->get('_token'))) {
+//            $entityManager = $this->getDoctrine()->getManager();
+//            $entityManager->remove($user);
+//            $entityManager->flush();
+//        }
+//
+//        return $this->redirectToRoute('user_index');
+//    }
 }

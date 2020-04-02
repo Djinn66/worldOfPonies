@@ -43,8 +43,8 @@ class DbController extends AbstractController
             $criteria += ['user' => $user];
 
         if($this->getUser()->getUsername()!= null){
-            $dbs =  $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(Db::class)
+            $dbs =  $this->getDoctrine()
+                ->getRepository(Db::class, $this->getUser()->getRoles()[0])
                 ->findBy($criteria,$orderBy);
             $pagination = $paginator->paginate(
                 $dbs,
@@ -93,8 +93,8 @@ class DbController extends AbstractController
      */
     public function show(Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Db::class);
+        $repository = $this->getDoctrine()
+            ->getRepository(Db::class, $this->getUser()->getRoles()[0]);
         $db = $repository->find(
             array(
                 'host'=>$request->query->get('host'),
@@ -111,8 +111,8 @@ class DbController extends AbstractController
      */
     public function edit(Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Db::class);
+        $repository = $this->getDoctrine()
+            ->getRepository(Db::class,$this->getUser()->getRoles()[0]);
         $db = $repository->find(
             array(
                 'host'=>$request->query->get('host'),
@@ -139,8 +139,8 @@ class DbController extends AbstractController
      */
     public function delete(Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(Db::class);
+        $repository = $this->getDoctrine()
+            ->getRepository(Db::class, $this->getUser()->getRoles()[0]);
         $db = $repository->find(
             array(
                 'host'=>$request->query->get('host'),

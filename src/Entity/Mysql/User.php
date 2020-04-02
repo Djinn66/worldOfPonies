@@ -375,7 +375,29 @@ class User implements UserInterface, \Serializable
         'createTablespacePriv'=>28
     ];
 
+    /**
+     * @var string
+     *
+     */
+    private $globalPriv = '';
+
+    /**
+     * @return string
+     */
+
     // getters & setters
+
+    public function getGlobalPriv(): string
+    {
+
+        $array = $this->getAllPrivileges();
+        foreach (array_keys($array) as $key) {
+            if ($array[$key] != -1) {
+                $this->globalPriv .= $key . ',';
+            }
+        }
+        return rtrim($this->globalPriv,",");
+    }
 
     public function getHost(): ?string
     {

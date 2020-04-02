@@ -1,13 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Edit User Global Privileges{% endblock %}
 
 {% block body %}
-    <h1>Edit User</h1>
+    {% if is_granted('ROLE_USERADMIN') %}
+        <h1>Edit User Global Privileges</h1>
 
-    {{ include('mysql/user/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('mysql/user/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('user_index') }}">back to list</a>
+        <a href="{{ path('user_index') }}">back to list</a>
 
-    {{ include('mysql/user/_delete_form.html.twig') }}
+        {{ include('mysql/user/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

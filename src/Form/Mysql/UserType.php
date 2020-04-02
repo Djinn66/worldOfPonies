@@ -6,6 +6,7 @@ use App\Entity\Mysql\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,9 +17,11 @@ class UserType extends AbstractType
     {
         $user = new User();
         $builder
-            ->add('host')
-            ->add('user')
-            ->add('password',PasswordType::class)
+            ->add('host',TextType::class,
+                ['disabled' => true])
+            ->add('user',TextType::class,
+                ['disabled' => true])
+            //->add('password',PasswordType::class)
             ->add('allPrivileges',ChoiceType::class,[
                     'choices'=> $user->allPrivileges,
                     'multiple'=>true,
@@ -27,17 +30,17 @@ class UserType extends AbstractType
                 ]
             )
             //->add('sslType')
-            ->add('sslCipher')
-            ->add('x509Issuer')
-            ->add('x509Subject')
-            ->add('maxQuestions')
-            ->add('maxUpdates')
-            ->add('maxConnections')
-            ->add('maxUserConnections')
+            //->add('sslCipher')
+            //->add('x509Issuer')
+            //->add('x509Subject')
+            //->add('maxQuestions')
+            //->add('maxUpdates')
+            //->add('maxConnections')
+            //->add('maxUserConnections')
             //->add('plugin')
             //->add('authenticationString')
-            ->add('passwordExpired')
-            ->add('isRole')
+            //->add('passwordExpired')
+            //->add('isRole')
             //->add('defaultRole')
             //->add('maxStatementTime')
         ;

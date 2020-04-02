@@ -5,10 +5,10 @@
       <paths name="SIBD">
         <serverdata>
           <mappings>
-            <mapping deploy="/worldOfPonies" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
           </mappings>
           <excludedPaths>
-            <excludedPath local="true" path="$PROJECT_DIR$/.env" />
+            <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
           </excludedPaths>
         </serverdata>
       </paths>

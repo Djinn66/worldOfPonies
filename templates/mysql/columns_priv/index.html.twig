@@ -6,32 +6,110 @@
     {% if is_granted('ROLE_USERADMIN') %}
         <h1>ColumnsPriv index</h1>
 
-        <table class="table">
+        <a href="{{ path('mysql_columns_priv_new') }}">Create new</a>
+
+        <form action="{{ path('mysql_columns_priv_index', { 'host': 'host', 'user' : 'user', 'db' : 'db', 'tableName' : 'tableName' }) }}" >
+            Host:
+            <input type="text" value = "{{ host }}" name="host"><br>
+            Db:
+            <input type="text" value = "{{ db }}" name="db" ><br>
+            User:
+            <input type="text" value = "{{ user }}" name="user" ><br>
+            TableName:
+            <input type="text" value = "{{ tableName }}" name="tableName" ><br>
+            <input type="submit" value="Rechercher">
+        </form>
+
+        <table class="table table-hover table-dark">
             <thead>
-                <tr>
-                    <th>Host</th>
-                    <th>Db</th>
-                    <th>User</th>
-                    <th>TableName</th>
-                    <th>ColumnName</th>
-                    <th>Timestamp</th>
-                    <th>ColumnPriv</th>
-                    <th>actions</th>
+            <tr>
+
+                <th><a href="{% if order == 'ASC' and sortBy == 'host' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('mysql_columns_priv_index', {
+                        'sortBy'            : 'host',
+                        'order'             : order ,
+                        'host'              : host ,
+                        'db'                : db ,
+                        'user'              : user,
+                        'tableName'         : tableName,
+                    }) }}"
+                    >
+                        Host
+                    </a>
+                </th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'db' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('mysql_columns_priv_index', {
+                        'sortBy'            : 'db',
+                        'order'             : order ,
+                        'host'              : host ,
+                        'db'                : db ,
+                        'user'              : user,
+                        'tableName'         : tableName,
+                    }) }}"
+                    >
+                        Db
+                    </a>
+                </th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'user' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('mysql_columns_priv_index', {
+                        'sortBy'            : 'user',
+                        'order'             : order ,
+                        'host'              : host ,
+                        'db'                : db ,
+                        'user'              : user,
+                        'tableName'         : tableName,
+                    }) }}"
+                    >
+                        User
+                    </a>
+                </th>
+                <th><a href="{% if order == 'ASC' and sortBy == 'tableName' %}
+                                        {% set order = 'DESC' %}
+                                 {% else %}
+                                        {% set order = 'ASC' %}
+                                 {% endif %}
+                                 {{ path('mysql_columns_priv_index', {
+                        'sortBy'            : 'user',
+                        'order'             : order ,
+                        'host'              : host ,
+                        'db'                : db ,
+                        'user'              : user,
+                        'tableName'         : tableName,
+                    }) }}"
+                    >
+                        TableName
+                    </a>
+                </th>
+                <th>ColumnName</th>
+                <th>ColumnPriv</th>
+                <th>actions</th>
                 </tr>
             </thead>
             <tbody>
-            {% for columns_priv in columns_privs %}
+            {% for columns_priv in columnsPrivs %}
                 <tr>
                     <td>{{ columns_priv.host }}</td>
                     <td>{{ columns_priv.db }}</td>
                     <td>{{ columns_priv.user }}</td>
                     <td>{{ columns_priv.tableName }}</td>
                     <td>{{ columns_priv.columnName }}</td>
-                    <td>{{ columns_priv.timestamp ? columns_priv.timestamp|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ columns_priv.columnPriv }}</td>
                     <td>
-                        <a href="{{ path('mysql_columns_priv_show', {'host': columns_priv.host}) }}">show</a>
-                        <a href="{{ path('mysql_columns_priv_edit', {'host': columns_priv.host}) }}">edit</a>
+                        <a href="{{ path('mysql_columns_priv_show', {'host': columns_priv.host,'db':columns_priv.db,'user':columns_priv.user, 'tableName':columns_priv.tableName, 'columnName':columns_priv.columnName}) }}">show</a>
+                        <a href="{{ path('mysql_columns_priv_edit', {'host': columns_priv.host,'db':columns_priv.db,'user':columns_priv.user, 'tableName':columns_priv.tableName, 'columnName':columns_priv.columnName}) }}">edit</a>
+                        {{ include('mysql/columns_priv/_delete_form.html.twig') }}
                     </td>
                 </tr>
             {% else %}
@@ -42,6 +120,9 @@
             </tbody>
         </table>
 
-        <a href="{{ path('mysql_columns_priv_new') }}">Create new</a>
+        <div class="d-flex justify-content-center pagination">
+            {{ knp_pagination_render(columnsPrivs) }}
+        </div>
+
     {% endif %}
 {% endblock %}

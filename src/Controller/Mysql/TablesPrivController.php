@@ -44,8 +44,7 @@ class TablesPrivController extends AbstractController
 
         if($this->getUser()->getUsername()!= null){
             $tables_privs =  $this->getDoctrine()
-                ->getManager($this->getUser()->getRoles()[0])
-                ->getRepository(TablesPriv::class)
+                ->getRepository(TablesPriv::class, $this->getUser()->getRoles()[0])
                 ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
@@ -113,8 +112,8 @@ class TablesPrivController extends AbstractController
      */
     public function edit(Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(TablesPriv::class);
+        $repository = $this->getDoctrine()
+            ->getRepository(TablesPriv::class, $this->getUser()->getRoles()[0]);
         $tablesPriv = $repository->find(
             array(
                 'host'=>$request->query->get('host'),
@@ -142,8 +141,8 @@ class TablesPrivController extends AbstractController
      */
     public function delete(Request $request): Response
     {
-        $repository = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0])
-            ->getRepository(TablesPriv::class);
+        $repository = $this->getDoctrine()
+            ->getRepository(TablesPriv::class, $this->getUser()->getRoles()[0]);
         $tablesPriv = $repository->find(
             array(
                 'host'=>$request->query->get('host'),
