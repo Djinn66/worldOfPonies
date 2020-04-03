@@ -46,7 +46,7 @@ class BreedController extends AbstractController
         $pagination = $paginator->paginate(
             $breeds,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/breed/index.html.twig', [

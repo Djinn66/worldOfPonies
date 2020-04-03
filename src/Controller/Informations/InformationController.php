@@ -30,9 +30,16 @@ class InformationController extends AbstractController
      */
     public function indexMysql(PaginatorInterface $paginator, Request $request): Response
     {
-        $table = $request->query->get('message')['Table'];
-        $message = $request->query->get('message')['Msg_text'];
-        $op = $request->query->get('message')['Op'];
+        $table = "";
+        $message = "";
+        $op = "";
+
+        if($request->query->has('message')){
+            $table = $request->query->get('message')['Table'];
+            $message = $request->query->get('message')['Msg_text'];
+            $op = $request->query->get('message')['Op'];
+        }
+
 
         $tableName = $request->query->get('tableName');
         $moteur = $request->query->get('moteur');
@@ -104,9 +111,15 @@ class InformationController extends AbstractController
     public function indexWorldOfPonies(PaginatorInterface $paginator, Request $request): Response
     {
 
-        $table = $request->query->get('message')['Table'];
-        $message = $request->query->get('message')['Msg_text'];
-        $op = $request->query->get('message')['Op'];
+        $table = "";
+        $message = "";
+        $op = "";
+
+        if($request->query->has('message')){
+            $table = $request->query->get('message')['Table'];
+            $message = $request->query->get('message')['Msg_text'];
+            $op = $request->query->get('message')['Op'];
+        }
 
 
         $tableName = $request->query->get('tableName');

@@ -43,7 +43,7 @@ class HorseController extends AbstractController
         $pagination = $paginator->paginate(
             $horses,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/horse/index.html.twig', [

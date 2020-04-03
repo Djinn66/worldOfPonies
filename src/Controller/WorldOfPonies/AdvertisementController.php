@@ -37,14 +37,14 @@ class AdvertisementController extends AbstractController
         if($advertisementId !="")
             $criteria += ['advertisementId' => $advertisementId];
 
-        $advertisements =  $this->getDoctrine()
-            ->getRepository(Advertisement::class, $this->getUser()->getRoles()[0])
-            ->findBy($criteria, $orderBy);
+        $advertisementsRepo =  $this->getDoctrine()
+            ->getRepository(Advertisement::class, $this->getUser()->getRoles()[0]);
+
 
             $pagination = $paginator->paginate(
-                $advertisements,
+                $advertisementsRepo->findBy($criteria, $orderBy),
                 $request->query->getInt('page',1),
-                6
+                30
             );
 
             return $this->render('world_of_ponies/advertisement/index.html.twig', [

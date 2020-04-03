@@ -42,14 +42,35 @@ class PlayerController extends AbstractController
         if($playerLastname !="")
             $criteria += ['playerLastname' => $playerLastname];
 
-        $players =  $this->getDoctrine()
+        /*$players =  $this->getDoctrine()
             ->getRepository(Player::class, $this->getUser()->getRoles()[0])
             ->findBy($criteria, $orderBy);
 
         $pagination = $paginator->paginate(
             $players,
             $request->query->getInt('page',1),
-            6
+            30
+        );*/
+        $em = $this->getDoctrine()->getManager($this->getUser()->getRoles()[0]);
+
+        // Get some repository of data, in our case we have an Appointments entity
+        $appointmentsRepository = $em->getRepository(Player::class);
+
+        // Find all the data on the Appointments table, filter your query as you need
+        $allAppointmentsQuery = $appointmentsRepository->createQueryBuilder('p')
+            //->where('p.player_id > :status')
+            //->setParameter('1')
+            ->getQuery();
+
+
+        // Paginate the results of the query
+        $pagination = $paginator->paginate(
+        // Doctrine Query, not results
+            $allAppointmentsQuery,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            30
         );
 
         return $this->render('world_of_ponies/player/index.html.twig', [

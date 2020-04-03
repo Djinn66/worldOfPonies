@@ -42,7 +42,7 @@ class InfrastructureController extends AbstractController
         $pagination = $paginator->paginate(
             $infrastructures,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/infrastructure/index.html.twig', [

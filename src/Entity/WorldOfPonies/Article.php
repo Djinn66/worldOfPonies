@@ -107,7 +107,7 @@ class Article
 
     public function __toString(): string
     {
-        return $this->getDescription();
+        return $this->getTitle();
     }
 
 }

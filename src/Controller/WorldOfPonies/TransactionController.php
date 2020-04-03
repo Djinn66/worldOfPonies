@@ -41,7 +41,7 @@ class TransactionController extends AbstractController
         $pagination = $paginator->paginate(
             $transactions,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/transaction/index.html.twig', [

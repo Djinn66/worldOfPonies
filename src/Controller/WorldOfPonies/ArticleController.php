@@ -46,7 +46,7 @@ class ArticleController extends AbstractController
         $pagination = $paginator->paginate(
             $articles,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/article/index.html.twig', [

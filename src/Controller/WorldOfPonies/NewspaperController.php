@@ -43,7 +43,7 @@ class NewspaperController extends AbstractController
         $pagination = $paginator->paginate(
             $newspapers,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/newspaper/index.html.twig', [

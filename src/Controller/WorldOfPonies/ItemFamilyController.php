@@ -42,7 +42,7 @@ class ItemFamilyController extends AbstractController
         $pagination = $paginator->paginate(
             $item_families,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/item_family/index.html.twig', [

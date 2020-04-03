@@ -45,7 +45,7 @@ class AutomaticTaskController extends AbstractController
         $pagination = $paginator->paginate(
             $automaticTasks,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/automatic_task/index.html.twig', [

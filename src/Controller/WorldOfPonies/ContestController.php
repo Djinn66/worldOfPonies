@@ -46,7 +46,7 @@ class ContestController extends AbstractController
         $pagination = $paginator->paginate(
             $contests,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/contest/index.html.twig', [

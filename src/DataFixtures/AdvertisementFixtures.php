@@ -13,7 +13,7 @@ class AdvertisementFixtures extends Fixture implements FixtureGroupInterface
 {
     public function load(ObjectManager $manager)
     {
-        for($i = 0 ; $i < 100000; ++$i)
+        for($i = 0 ; $i < 25000; ++$i)
         {
         $faker = Factory::create('fr_FR');
 

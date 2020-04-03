@@ -45,7 +45,7 @@ class EquestrianCenterController extends AbstractController
         $pagination = $paginator->paginate(
             $equestrian_centers,
             $request->query->getInt('page',1),
-            6
+            30
         );
 
         return $this->render('world_of_ponies/equestrian_center/index.html.twig', [
